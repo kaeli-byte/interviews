@@ -27,7 +27,7 @@ decisions:
   - Four personality options with descriptive labels
   - Empty text validation using existing isEmptyOrNonsense utility
 metrics:
-  duration_seconds: 120
+  duration_seconds: 180
   completed: 2026-03-21
 ---
 
@@ -141,3 +141,10 @@ grep -q "useDropzone" components/SetupScreen.tsx
 - [shadcn/ui Select](https://ui.shadcn.com/docs/components/select)
 - [shadcn/ui Alert](https://ui.shadcn.com/docs/components/alert)
 - Phase 01 RESEARCH.md (Pattern 2: Controlled Form State Lifting, Pattern 3: react-dropzone Integration)
+
+## Self-Check: PASSED
+
+- [x] SUMMARY.md exists at `.planning/phases/01-ui-extraction/01-03-SUMMARY.md`
+- [x] Task 1 commit 19bebf9 exists
+- [x] Task 2 commit 775ed91 exists
+- [x] Final commit 7b47025 captures execution results

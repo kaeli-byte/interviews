@@ -12,9 +12,9 @@
 - [ ] **INPT-04**: SetupScreen includes a personality selector for the AI interviewer with four choices: Warm/encouraging, Professional/neutral, Direct/challenging, and Coaching-focused.
 
 ### Processing
-- [ ] **PROC-01**: Uploaded files are parsed to extract raw text (either client-side or via a lightweight API route).
+- [x] **PROC-01**: Uploaded files are parsed to extract raw text (either client-side or via a lightweight API route).
 - [ ] **PROC-02**: Extracted text auto-populates the Resume and JD text areas, allowing the user to review and manually edit the parsed context before proceeding.
-- [ ] **PROC-03**: The app warns the user visually if file extraction yields basically no text (e.g., an image-only PDF).
+- [x] **PROC-03**: The app warns the user visually if file extraction yields basically no text (e.g., an image-only PDF).
 
 ### Integration
 - [ ] **INTG-01**: The Resume string, Job Description string, and Interviewer Personality selection are stored in the parent component's state (`MyCareerApp.tsx`).
@@ -39,9 +39,9 @@
 | INPT-02     | Phase 1 | Pending |
 | INPT-03     | Phase 1 | Pending |
 | INPT-04     | Phase 1 | Pending |
-| PROC-01     | Phase 1 | Pending |
+| PROC-01     | Phase 1 | Complete |
 | PROC-02     | Phase 1 | Pending |
-| PROC-03     | Phase 1 | Pending |
+| PROC-03     | Phase 1 | Complete |
 | INTG-01     | Phase 2 | Pending |
 | INTG-02     | Phase 2 | Pending |
 | INTG-03     | Phase 2 | Pending |

@@ -2,8 +2,8 @@
 phase: 01-ui-extraction
 plan: 03
 type: execute
-wave: 2
-depends_on: [01, 02]
+wave: 3
+depends_on: [01, 02, 04]
 files_modified: [components/SetupScreen.tsx]
 autonomous: true
 requirements: [INPT-01, INPT-02, INPT-03, PROC-02, PROC-03]
@@ -70,7 +70,7 @@ Output: Fully functional SetupScreen with paste areas, file upload, and personal
   <action>
     Rewrite SetupScreen.tsx to add:
 
-    1. **New props** (lifted state from MyCareerApp, to be added in Plan 04):
+    1. **New props** (lifted state from MyCareerApp per Plan 04):
        - resume: string
        - jobDescription: string
        - personality: string

@@ -1,4 +1,4 @@
-## Proposed Roadmap
+# Roadmap
 
 **2 phases** | **11 requirements mapped** | All v1 requirements covered ✓
 
@@ -18,6 +18,12 @@ Success criteria:
 3. Parsed text populates into the text areas so the user can edit it
 4. User receives an immediate warning if the document parsing returns empty or nonsense strings
 5. User can select 1 of 4 distinct AI personalities from a Dropdown/Radio group
+
+**Plans:** 4 plans
+- [ ] 01-ui-extraction-01-PLAN.md — Add shadcn/ui components (Textarea, Select, Alert)
+- [ ] 01-ui-extraction-02-PLAN.md — Create document parsing API route and validation utilities
+- [ ] 01-ui-extraction-03-PLAN.md — Expand SetupScreen with text areas, file dropzone, personality selector
+- [ ] 01-ui-extraction-04-PLAN.md — Lift resume, JD, personality state to MyCareerApp parent component
 
 **Phase 2: Prompt Engineering**
 Goal: Inject context and alter AI personality

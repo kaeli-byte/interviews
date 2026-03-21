@@ -4,7 +4,7 @@
 
 | # | Phase | Goal | Requirements | Success Criteria |
 |---|-------|------|--------------|------------------|
-| 1 | UI & Extraction | Expand SetupScreen UI and parse user files | INPT-01, INPT-02, INPT-03, INPT-04, PROC-01, PROC-02, PROC-03 | 5 |
+| 1 | UI & Extraction | 4/4 | Complete   | 2026-03-21 |
 | 2 | Prompt Engineering | Inject context and alter AI personality | INTG-01, INTG-02, INTG-03, INTG-04 | 4 |
 
 ### Phase Details
@@ -21,7 +21,7 @@ Success criteria:
 
 **Plans:** 4 plans
 - [x] 01-ui-extraction-01-PLAN.md — Add shadcn/ui components (Textarea, Select, Alert)
-- [ ] 01-ui-extraction-02-PLAN.md — Create document parsing API route and validation utilities
+- [x] 01-ui-extraction-02-PLAN.md — Create document parsing API route and validation utilities
 - [ ] 01-ui-extraction-03-PLAN.md — Expand SetupScreen with text areas, file dropzone, personality selector
 - [x] 01-ui-extraction-04-PLAN.md — Lift resume, JD, personality state to MyCareerApp parent component
 

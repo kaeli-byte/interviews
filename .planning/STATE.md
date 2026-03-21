@@ -2,14 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in-progress
-last_updated: "2026-03-21T02:13:32Z"
+status: completed
+last_updated: "2026-03-21T02:20:38.523Z"
 progress:
   total_phases: 1
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 2
-  current_plan: "01-ui-extraction-04"
+  completed_plans: 4
 ---
 
 ## Project Reference
@@ -32,3 +31,6 @@ See: `.planning/PROJECT.md` (updated 2026-03-21)
 - 50% special char ratio threshold for gibberish detection
 - Used Base UI primitives instead of Radix (project already uses @base-ui/react)
 - Created UI components manually when shadcn CLI hung
+- Used react-dropzone for file uploads (industry standard, accessible)
+- Inline FileDropzone component for reusability across resume/JD sections
+- Four personality options with descriptive labels (warm, professional, direct, coaching)

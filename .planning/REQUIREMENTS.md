@@ -6,14 +6,14 @@
 ## v1 Requirements
 
 ### Data Input 
-- [ ] **INPT-01**: SetupScreen includes a text area for pasting a Resume.
-- [ ] **INPT-02**: SetupScreen includes a text area for pasting a Job Description.
-- [ ] **INPT-03**: SetupScreen includes a file dropzone allowing users to upload PDF/Word files for their Resume/JD.
-- [ ] **INPT-04**: SetupScreen includes a personality selector for the AI interviewer with four choices: Warm/encouraging, Professional/neutral, Direct/challenging, and Coaching-focused.
+- [x] **INPT-01**: SetupScreen includes a text area for pasting a Resume.
+- [x] **INPT-02**: SetupScreen includes a text area for pasting a Job Description.
+- [x] **INPT-03**: SetupScreen includes a file dropzone allowing users to upload PDF/Word files for their Resume/JD.
+- [x] **INPT-04**: SetupScreen includes a personality selector for the AI interviewer with four choices: Warm/encouraging, Professional/neutral, Direct/challenging, and Coaching-focused.
 
 ### Processing
 - [x] **PROC-01**: Uploaded files are parsed to extract raw text (either client-side or via a lightweight API route).
-- [ ] **PROC-02**: Extracted text auto-populates the Resume and JD text areas, allowing the user to review and manually edit the parsed context before proceeding.
+- [x] **PROC-02**: Extracted text auto-populates the Resume and JD text areas, allowing the user to review and manually edit the parsed context before proceeding.
 - [x] **PROC-03**: The app warns the user visually if file extraction yields basically no text (e.g., an image-only PDF).
 
 ### Integration
@@ -35,12 +35,12 @@
 ## Traceability
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INPT-01     | Phase 1 | Pending |
-| INPT-02     | Phase 1 | Pending |
-| INPT-03     | Phase 1 | Pending |
-| INPT-04     | Phase 1 | Pending |
+| INPT-01     | Phase 1 | Complete |
+| INPT-02     | Phase 1 | Complete |
+| INPT-03     | Phase 1 | Complete |
+| INPT-04     | Phase 1 | Complete |
 | PROC-01     | Phase 1 | Complete |
-| PROC-02     | Phase 1 | Pending |
+| PROC-02     | Phase 1 | Complete |
 | PROC-03     | Phase 1 | Complete |
 | INTG-01     | Phase 1 | Complete |
 | INTG-02     | Phase 2 | Pending |

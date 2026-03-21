@@ -35,22 +35,22 @@
 ## Traceability
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INPT-01     |       | Pending |
-| INPT-02     |       | Pending |
-| INPT-03     |       | Pending |
-| INPT-04     |       | Pending |
-| PROC-01     |       | Pending |
-| PROC-02     |       | Pending |
-| PROC-03     |       | Pending |
-| INTG-01     |       | Pending |
-| INTG-02     |       | Pending |
-| INTG-03     |       | Pending |
-| INTG-04     |       | Pending |
+| INPT-01     | Phase 1 | Pending |
+| INPT-02     | Phase 1 | Pending |
+| INPT-03     | Phase 1 | Pending |
+| INPT-04     | Phase 1 | Pending |
+| PROC-01     | Phase 1 | Pending |
+| PROC-02     | Phase 1 | Pending |
+| PROC-03     | Phase 1 | Pending |
+| INTG-01     | Phase 2 | Pending |
+| INTG-02     | Phase 2 | Pending |
+| INTG-03     | Phase 2 | Pending |
+| INTG-04     | Phase 2 | Pending |
 
 **Coverage:**
 - v1 requirements: 11 total
-- Mapped to phases: 0
-- Unmapped: 11 ⚠️
+- Mapped to phases: 11
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-21*

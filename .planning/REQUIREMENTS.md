@@ -17,7 +17,7 @@
 - [x] **PROC-03**: The app warns the user visually if file extraction yields basically no text (e.g., an image-only PDF).
 
 ### Integration
-- [ ] **INTG-01**: The Resume string, Job Description string, and Interviewer Personality selection are stored in the parent component's state (`MyCareerApp.tsx`).
+- [x] **INTG-01**: The Resume string, Job Description string, and Interviewer Personality selection are stored in the parent component's state (`MyCareerApp.tsx`).
 - [ ] **INTG-02**: These values are passed into `geminiLiveClient.ts` as system instructions/context when the WebSocket connects.
 - [ ] **INTG-03**: The AI prompt strictly instructs the agent to use the provided Resume/JD to open with a personalized, friendly icebreaker question before diving into the main interview.
 - [ ] **INTG-04**: The AI prompt dynamically applies constraints based on the user's selected Personality to alter its tone and feedback style throughout the session.
@@ -42,7 +42,7 @@
 | PROC-01     | Phase 1 | Complete |
 | PROC-02     | Phase 1 | Pending |
 | PROC-03     | Phase 1 | Complete |
-| INTG-01     | Phase 2 | Pending |
+| INTG-01     | Phase 1 | Complete |
 | INTG-02     | Phase 2 | Pending |
 | INTG-03     | Phase 2 | Pending |
 | INTG-04     | Phase 2 | Pending |

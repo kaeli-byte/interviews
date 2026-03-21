@@ -23,7 +23,7 @@ Success criteria:
 - [x] 01-ui-extraction-01-PLAN.md — Add shadcn/ui components (Textarea, Select, Alert)
 - [ ] 01-ui-extraction-02-PLAN.md — Create document parsing API route and validation utilities
 - [ ] 01-ui-extraction-03-PLAN.md — Expand SetupScreen with text areas, file dropzone, personality selector
-- [ ] 01-ui-extraction-04-PLAN.md — Lift resume, JD, personality state to MyCareerApp parent component
+- [x] 01-ui-extraction-04-PLAN.md — Lift resume, JD, personality state to MyCareerApp parent component
 
 **Phase 2: Prompt Engineering**
 Goal: Inject context and alter AI personality

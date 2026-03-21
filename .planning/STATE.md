@@ -30,3 +30,5 @@ See: `.planning/PROJECT.md` (updated 2026-03-21)
 - Server-side parsing chosen over client-side to avoid bundle bloat
 - 20 character threshold for meaningful text validation
 - 50% special char ratio threshold for gibberish detection
+- Used Base UI primitives instead of Radix (project already uses @base-ui/react)
+- Created UI components manually when shadcn CLI hung

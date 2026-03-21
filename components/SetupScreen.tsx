@@ -21,7 +21,7 @@ interface SetupScreenProps {
   personality: string;
   onResumeChange: (text: string) => void;
   onJobDescriptionChange: (text: string) => void;
-  onPersonalityChange: (value: string) => void;
+  onPersonalityChange: (value: string | null) => void;
   onFileParsed: (type: 'resume' | 'jd', text: string) => void;
 }
 

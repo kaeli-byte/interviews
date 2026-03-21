@@ -90,8 +90,8 @@ export default function MyCareerApp() {
     setInterviewData(prev => ({ ...prev, jobDescription: text }));
   };
 
-  const handlePersonalityChange = (value: string) => {
-    setInterviewData(prev => ({ ...prev, personality: value }));
+  const handlePersonalityChange = (value: string | null) => {
+    setInterviewData(prev => ({ ...prev, personality: value || 'warm' }));
   };
 
   const handleFileParsed = (type: 'resume' | 'jd', text: string) => {

@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Externalize pdfjs-dist to avoid worker bundling issues
-  serverExternalPackages: ['pdfjs-dist'],
+  /* config options here */
 };
 
 export default nextConfig;

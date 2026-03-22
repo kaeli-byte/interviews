@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-// @ts-ignore - pdf-parse uses internal pdfjs-dist with worker issues in Next.js
-import pdf from 'pdf-parse'
+import pdfParse from 'pdf-parse'
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData()
@@ -28,8 +27,7 @@ export async function POST(request: NextRequest) {
     let text = ''
 
     if (file.type === 'application/pdf') {
-      // @ts-ignore - pdf-parse handles worker internally
-      const data = await pdf(buffer, { version: 'v2.0.943' })
+      const data = await pdfParse(buffer)
       text = data.text
     } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
       const mammoth = await import('mammoth')

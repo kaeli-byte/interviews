@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PDFParse } from 'pdf-parse'
-import { GlobalWorkerOptions } from 'pdfjs-dist'
-
-// Configure PDF.js worker - use CDN URL for Next.js dev server compatibility
-GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${GlobalWorkerOptions.version}/pdf.worker.min.js`
+// @ts-ignore - pdf-parse uses internal pdfjs-dist with worker issues in Next.js
+import pdf from 'pdf-parse'
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData()
@@ -31,9 +28,9 @@ export async function POST(request: NextRequest) {
     let text = ''
 
     if (file.type === 'application/pdf') {
-      const pdf = new PDFParse({ data: buffer })
-      const result = await pdf.getText()
-      text = result.text
+      // @ts-ignore - pdf-parse handles worker internally
+      const data = await pdf(buffer, { version: 'v2.0.943' })
+      text = data.text
     } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
       const mammoth = await import('mammoth')
       const result = await mammoth.extractRawText({ buffer })

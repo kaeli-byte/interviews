@@ -18,9 +18,9 @@
 
 ### Integration
 - [x] **INTG-01**: The Resume string, Job Description string, and Interviewer Personality selection are stored in the parent component's state (`MyCareerApp.tsx`).
-- [ ] **INTG-02**: These values are passed into `geminiLiveClient.ts` as system instructions/context when the WebSocket connects.
-- [ ] **INTG-03**: The AI prompt strictly instructs the agent to use the provided Resume/JD to open with a personalized, friendly icebreaker question before diving into the main interview.
-- [ ] **INTG-04**: The AI prompt dynamically applies constraints based on the user's selected Personality to alter its tone and feedback style throughout the session.
+- [x] **INTG-02**: These values are passed into `geminiLiveClient.ts` as system instructions/context when the WebSocket connects.
+- [x] **INTG-03**: The AI prompt strictly instructs the agent to use the provided Resume/JD to open with a personalized, friendly icebreaker question before diving into the main interview.
+- [x] **INTG-04**: The AI prompt dynamically applies constraints based on the user's selected Personality to alter its tone and feedback style throughout the session.
 
 ## v2 Requirements
 - Saving user profiles/resumes to a database so they don't have to upload it every time.
@@ -43,9 +43,9 @@
 | PROC-02     | Phase 1 | Complete |
 | PROC-03     | Phase 1 | Complete |
 | INTG-01     | Phase 1 | Complete |
-| INTG-02     | Phase 2 | In Progress |
-| INTG-03     | Phase 2 | In Progress |
-| INTG-04     | Phase 2 | In Progress |
+| INTG-02     | Phase 2 | Complete |
+| INTG-03     | Phase 2 | Complete |
+| INTG-04     | Phase 2 | Complete |
 
 **Coverage:**
 - v1 requirements: 11 total
@@ -54,4 +54,4 @@
 
 ---
 *Requirements defined: 2026-03-21*
-*Last updated: 2026-03-21 after initial definition*
+*Last updated: 2026-03-22 after Phase 2 completion*

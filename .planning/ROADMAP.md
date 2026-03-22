@@ -36,4 +36,4 @@ Success criteria:
 
 **Plans:** 2 plans
 - [x] 02-prompt-engineering-01-PLAN.md — Create personality presets and system instruction builder utilities
-- [ ] 02-prompt-engineering-02-PLAN.md — Wire context props through InterviewScreen to Gemini Live client
+- [x] 02-prompt-engineering-02-PLAN.md — Wire context props through InterviewScreen to Gemini Live client

@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PDFParse } from 'pdf-parse'
+import { GlobalWorkerOptions } from 'pdfjs-dist/legacy/build/pdf.mjs'
+
+// Configure PDF.js worker for Next.js Node.js runtime
+GlobalWorkerOptions.workerSrc = 'pdfjs-dist/legacy/build/pdf.worker.mjs'
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData()

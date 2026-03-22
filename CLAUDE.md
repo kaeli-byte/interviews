@@ -76,7 +76,12 @@ Use these entry points:
 Do not make direct repo edits outside a GSD workflow unless the user explicitly asks to bypass it.
 <!-- GSD:workflow-end -->
 
-
+## gstack
+Use /browse from gstack for all web browsing. Never use mcp__claude-in-chrome__* tools.
+Available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review,
+/design-consultation, /review, /ship, /browse, /qa, /qa-only, /design-review,
+/setup-browser-cookies, /retro, /investigate, /document-release, /codex, /careful,
+/freeze, /guard, /unfreeze, /gstack-upgrade.
 
 <!-- GSD:profile-start -->
 ## Developer Profile

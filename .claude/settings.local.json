@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm run:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(node:*)",
+      "WebFetch(domain:ai.google.dev)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(npm view:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(npm test:*)",
+      "Bash(npm list:*)",
+      "Bash(sed 's/\"\"\"\"lint\"\"\"\": \"\"\"\"eslint\"\"\"\"/\"\"\"\"lint\"\"\"\": \"\"\"\"eslint\"\"\"\",\\\\n    \"\"\"\"test\"\"\"\": \"\"\"\"vitest\"\"\"\"/')",
+      "Bash(npx tsc:*)",
+      "Bash(cat:*)",
+      "Bash(! grep:*)",
+      "Bash(grep -A5 \"step === ''''interview''''\" components/MyCareerApp.tsx)"
+    ]
+  }
+}

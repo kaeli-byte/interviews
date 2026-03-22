@@ -8,29 +8,29 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GeminiLiveClient } from '@/lib/geminiLiveClient';
 import { AudioRecorder } from '@/lib/audioRecorder';
 import { AudioStreamer } from '@/lib/audioStreamer';
+import { buildSystemInstruction } from '@/lib/promptBuilder';
 
 interface InterviewScreenProps {
   duration: number;
   onFinish: (transcript: string[], report: any) => void;
+  resume: string;
+  jobDescription: string;
+  personality: string;
 }
 
-const SYSTEM_INSTRUCTION = `
-You are a career coach helping a user build their professional brand. 
-Ask dynamic, adaptive questions about their experience, achievements, and goals.
-Help them articulate their unique value proposition.
-Be professional, encouraging, and focused.
-The goal is to gather enough information to create a comprehensive debrief.
-Keep the conversation moving and dive deeper into interesting projects or skills.
-When the user says they are done, or when the time is up, you should conclude gracefully.
-`;
-
-export default function InterviewScreen({ duration, onFinish }: InterviewScreenProps) {
+export default function InterviewScreen({
+  duration,
+  onFinish,
+  resume,
+  jobDescription,
+  personality
+}: InterviewScreenProps) {
   const [timeLeft, setTimeLeft] = useState(duration * 60);
   const [isRecording, setIsRecording] = useState(true);
   const [isConnecting, setIsConnecting] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<'connecting' | 'talking' | 'listening' | 'finished'>('connecting');
-  
+
   const clientRef = useRef<GeminiLiveClient | null>(null);
   const recorderRef = useRef<AudioRecorder | null>(null);
   const streamerRef = useRef<AudioStreamer | null>(null);
@@ -50,7 +50,7 @@ export default function InterviewScreen({ duration, onFinish }: InterviewScreenP
 
     // Use standard Gemini API for report generation (Step 5)
     // For now, pass the transcript to the next step
-    onFinish(transcriptRef.current, null); 
+    onFinish(transcriptRef.current, null);
   }, [onFinish]);
 
   useEffect(() => {
@@ -80,7 +80,7 @@ export default function InterviewScreen({ duration, onFinish }: InterviewScreenP
           streamerRef.current?.start();
           recorderRef.current?.start();
         }
-        
+
         const serverContent = msg.server_content || msg.serverContent;
         if (serverContent) {
           const modelTurn = serverContent.model_turn || serverContent.modelTurn;
@@ -96,9 +96,9 @@ export default function InterviewScreen({ duration, onFinish }: InterviewScreenP
               }
             });
           }
-          
+
           if (serverContent.turn_complete || serverContent.turnComplete) {
-             setStatus('listening');
+            setStatus('listening');
           }
 
           const inputTranscription = serverContent.input_transcription || serverContent.inputTranscription;
@@ -113,7 +113,14 @@ export default function InterviewScreen({ duration, onFinish }: InterviewScreenP
       }
     );
 
-    clientRef.current.connect(SYSTEM_INSTRUCTION);
+    // Build dynamic system instruction from context
+    const systemInstruction = buildSystemInstruction({
+      resume,
+      jobDescription,
+      personality: personality as 'warm' | 'professional' | 'direct' | 'coaching'
+    });
+
+    clientRef.current.connect(systemInstruction);
 
     const countdown = setInterval(() => {
       setTimeLeft(prev => {
@@ -133,7 +140,7 @@ export default function InterviewScreen({ duration, onFinish }: InterviewScreenP
       recorderRef.current?.stop();
       streamerRef.current?.stop();
     };
-  }, []);
+  }, [resume, jobDescription, personality]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -167,19 +174,19 @@ export default function InterviewScreen({ duration, onFinish }: InterviewScreenP
         </div>
         <CardTitle className="text-xl font-bold">Interviewing MyCareer AI</CardTitle>
         <CardDescription>
-          {status === 'listening' ? 'AI is listening to you...' : 
-           status === 'talking' ? 'AI is speaking...' : 
-           isConnecting ? 'Preparing your session...' : 'Session complete'}
+          {status === 'listening' ? 'AI is listening to you...' :
+            status === 'talking' ? 'AI is speaking...' :
+              isConnecting ? 'Preparing your session...' : 'Session complete'}
         </CardDescription>
       </CardHeader>
-      
+
       <CardContent className="flex flex-col items-center justify-center py-12">
         <div className="relative">
           <AnimatePresence>
             {!isConnecting && (
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ 
+                animate={{
                   scale: status === 'talking' || status === 'listening' ? [1, 1.2, 1] : 1,
                   opacity: status === 'talking' || status === 'listening' ? [0.3, 0.6, 0.3] : 0.1
                 }}
@@ -188,10 +195,9 @@ export default function InterviewScreen({ duration, onFinish }: InterviewScreenP
               />
             )}
           </AnimatePresence>
-          
-          <div className={`w-32 h-32 rounded-full flex items-center justify-center transition-all shadow-2xl z-10 relative ${
-            isRecording ? 'bg-white border-4 border-blue-600' : 'bg-slate-200'
-          }`}>
+
+          <div className={`w-32 h-32 rounded-full flex items-center justify-center transition-all shadow-2xl z-10 relative ${isRecording ? 'bg-white border-4 border-blue-600' : 'bg-slate-200'
+            }`}>
             {isRecording ? (
               <Mic className="w-12 h-12 text-blue-600" />
             ) : (
@@ -203,19 +209,19 @@ export default function InterviewScreen({ duration, onFinish }: InterviewScreenP
 
       <CardFooter className="flex flex-col gap-4">
         <div className="flex justify-center gap-6 w-full">
-           <Button 
-            variant="outline" 
-            size="icon" 
+          <Button
+            variant="outline"
+            size="icon"
             className={`w-14 h-14 rounded-full border-2 ${isRecording ? 'text-blue-600 border-blue-100 hover:bg-blue-50' : 'text-slate-400 bg-slate-100 border-transparent hover:bg-slate-200'}`}
             onClick={() => setIsRecording(!isRecording)}
             disabled={isConnecting}
           >
             {isRecording ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
           </Button>
-          
-          <Button 
-            variant="destructive" 
-            size="icon" 
+
+          <Button
+            variant="destructive"
+            size="icon"
             className="w-14 h-14 rounded-full shadow-lg"
             onClick={handleFinish}
             disabled={isConnecting}
@@ -223,7 +229,7 @@ export default function InterviewScreen({ duration, onFinish }: InterviewScreenP
             <Square className="w-6 h-6 fill-current" />
           </Button>
         </div>
-        
+
         <p className="text-center text-xs text-slate-400 font-medium">
           {isConnecting ? 'Please wait while we establish the connection' : 'Keep talking! AI will guide the conversation.'}
         </p>

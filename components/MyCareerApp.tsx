@@ -124,9 +124,12 @@ export default function MyCareerApp() {
           />
         )}
         {step === 'interview' && (
-          <InterviewScreen 
-            duration={interviewData.duration} 
+          <InterviewScreen
+            duration={interviewData.duration}
             onFinish={handleFinishInterview}
+            resume={interviewData.resume}
+            jobDescription={interviewData.jobDescription}
+            personality={interviewData.personality}
           />
         )}
         {step === 'debrief' && (

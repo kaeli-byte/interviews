@@ -33,3 +33,7 @@ Success criteria:
 2. Setup Screen payload (strings) seamlessly passes down to `geminiLiveClient.ts` during WS init
 3. The AI successfully alters its system instruction to greet the user natively based on their unique resume details (icebreaker)
 4. The AI successfully alters its tone (Warm, Professional, Direct, Coaching) based on the user's personality selection
+
+**Plans:** 2 plans
+- [ ] 02-prompt-engineering-01-PLAN.md — Create personality presets and system instruction builder utilities
+- [ ] 02-prompt-engineering-02-PLAN.md — Wire context props through InterviewScreen to Gemini Live client

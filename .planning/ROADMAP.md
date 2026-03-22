@@ -35,5 +35,5 @@ Success criteria:
 4. The AI successfully alters its tone (Warm, Professional, Direct, Coaching) based on the user's personality selection
 
 **Plans:** 2 plans
-- [ ] 02-prompt-engineering-01-PLAN.md — Create personality presets and system instruction builder utilities
+- [x] 02-prompt-engineering-01-PLAN.md — Create personality presets and system instruction builder utilities
 - [ ] 02-prompt-engineering-02-PLAN.md — Wire context props through InterviewScreen to Gemini Live client

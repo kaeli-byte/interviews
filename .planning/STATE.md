@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-last_updated: "2026-03-21T02:25:49.565Z"
+status: executing
+last_updated: "2026-03-22T10:24:15Z"
 progress:
-  total_phases: 1
+  total_phases: 2
   completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 6
+  completed_plans: 5
 ---
 
 ## Project Reference
@@ -16,13 +16,29 @@ progress:
 See: `.planning/PROJECT.md` (updated 2026-03-21)
 
 **Core value:** The AI interviewer must feel conversational, adaptive, and highly personalized from the moment the user starts the interview, accurately grounding its responses in the provided resume and job description.
-**Current focus:** Phase 01 — ui-extraction
+**Current focus:** Phase 02 — prompt-engineering
 
 ## Current Plan
 
-**Plan:** Not started
-**Status:** Milestone complete
-**Completed:** 2026-03-21
+**Plan:** 02-01 — Prompt Builder Utilities
+**Status:** Complete
+**Completed:** 2026-03-22
+
+**Summary:** Created personality presets module (lib/personalities.ts) and system instruction builder (lib/promptBuilder.ts) with TDD test coverage.
+
+### Tasks Completed
+
+| Task | Name | Commit |
+|------|------|--------|
+| 1 | Create personality presets module | 69f5409 |
+| 2 | Create system instruction builder | f225502 |
+
+### Deviations Fixed
+
+| Type | Description | Commit |
+|------|-------------|--------|
+| Rule 3 - Blocking | Installed vitest for TDD | 4fcd554 |
+| Rule 2 - Critical | Fixed missing @types/pdf-parse | 4fcd554 |
 
 ## Decisions
 
@@ -34,3 +50,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-21)
 - Used react-dropzone for file uploads (industry standard, accessible)
 - Inline FileDropzone component for reusability across resume/JD sections
 - Four personality options with descriptive labels (warm, professional, direct, coaching)
+- XML delimiters for context sections in system instruction (resume, jobDescription, personality)
+- Conservative truncation at 8000 chars per context (~2K tokens each)
+- Pure function design for buildSystemInstruction (testable, deterministic)
+- Use vitest for testing (lightweight, fast, Vite-native)

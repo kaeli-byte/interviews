@@ -43,9 +43,9 @@
 | PROC-02     | Phase 1 | Complete |
 | PROC-03     | Phase 1 | Complete |
 | INTG-01     | Phase 1 | Complete |
-| INTG-02     | Phase 2 | Pending |
-| INTG-03     | Phase 2 | Pending |
-| INTG-04     | Phase 2 | Pending |
+| INTG-02     | Phase 2 | In Progress |
+| INTG-03     | Phase 2 | In Progress |
+| INTG-04     | Phase 2 | In Progress |
 
 **Coverage:**
 - v1 requirements: 11 total

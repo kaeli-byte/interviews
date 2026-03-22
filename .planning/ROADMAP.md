@@ -1,39 +1,19 @@
-# Roadmap
+# Roadmap: MyCareer App
 
-**2 phases** | **11 requirements mapped** | All v1 requirements covered ✓
+## Milestones
 
-| # | Phase | Goal | Requirements | Success Criteria |
-|---|-------|------|--------------|------------------|
-| 1 | UI & Extraction | 4/4 | Complete   | 2026-03-21 |
-| 2 | Prompt Engineering | Inject context and alter AI personality | INTG-01, INTG-02, INTG-03, INTG-04 | 4 |
+- ✅ **v1.0 milestone** — Phases 1-2 (shipped 2026-03-22)
 
-### Phase Details
+## Phases
 
-**Phase 1: UI & Extraction**
-Goal: Expand SetupScreen UI and parse user files
-Requirements: INPT-01, INPT-02, INPT-03, INPT-04, PROC-01, PROC-02, PROC-03
-Success criteria:
-1. User can paste text or upload a PDF/Word file into the Setup Screen for Resume and JD
-2. App successfully reads the text from the files using client-side or Next.js API parsing
-3. Parsed text populates into the text areas so the user can edit it
-4. User receives an immediate warning if the document parsing returns empty or nonsense strings
-5. User can select 1 of 4 distinct AI personalities from a Dropdown/Radio group
+<details>
+<summary>✅ v1.0 milestone (Phases 1-2) — SHIPPED 2026-03-22</summary>
 
-**Plans:** 4 plans
-- [x] 01-ui-extraction-01-PLAN.md — Add shadcn/ui components (Textarea, Select, Alert)
-- [x] 01-ui-extraction-02-PLAN.md — Create document parsing API route and validation utilities
-- [x] 01-ui-extraction-03-PLAN.md — Expand SetupScreen with text areas, file dropzone, personality selector
-- [x] 01-ui-extraction-04-PLAN.md — Lift resume, JD, personality state to MyCareerApp parent component
+- [x] Phase 1: UI & Extraction (4/4 plans) — completed 2026-03-21
+- [x] Phase 2: Prompt Engineering (2/2 plans) — completed 2026-03-22
 
-**Phase 2: Prompt Engineering**
-Goal: Inject context and alter AI personality
-Requirements: INTG-01, INTG-02, INTG-03, INTG-04
-Success criteria:
-1. Parent component (`MyCareerApp`) correctly holds the state of the Resume, JD, and Personality choice
-2. Setup Screen payload (strings) seamlessly passes down to `geminiLiveClient.ts` during WS init
-3. The AI successfully alters its system instruction to greet the user natively based on their unique resume details (icebreaker)
-4. The AI successfully alters its tone (Warm, Professional, Direct, Coaching) based on the user's personality selection
+</details>
 
-**Plans:** 2 plans
-- [x] 02-prompt-engineering-01-PLAN.md — Create personality presets and system instruction builder utilities
-- [x] 02-prompt-engineering-02-PLAN.md — Wire context props through InterviewScreen to Gemini Live client
+---
+
+*For detailed phase information, see `.planning/milestones/v1.0-ROADMAP.md`*

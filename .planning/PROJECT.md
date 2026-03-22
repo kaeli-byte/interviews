@@ -1,7 +1,7 @@
 # MyCareer App - Interview Refinement
 
 ## What This Is
-An AI-driven mock interview application that uses Google's Gemini Multimodal Live API to conduct real-time voice interviews. This update focuses on enhancing the interview flow by using the user's resume and job description to provide a personalized, realistic "icebreaker" introduction before moving into technical/behavioral questions, eliminating the cold "blank page" start.
+An AI-driven mock interview application that uses Google's Gemini Multimodal Live API to conduct real-time voice interviews. The app provides personalized interview experiences by using the user's resume and job description to generate contextual "icebreaker" introductions and tailored interview questions.
 
 ## Core Value
 The AI interviewer must feel conversational, adaptive, and highly personalized from the moment the user starts the interview, accurately grounding its responses in the provided resume and job description context.
@@ -9,53 +9,58 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 ## Requirements
 
 ### Validated
-- ✓ React/Next.js App Router client architecture
-- ✓ Real-time voice interview using Gemini Live WebSocket API (`lib/geminiLiveClient.ts`)
-- ✓ Audio streaming and microphone recording infrastructure
-- ✓ Basic Setup, Interview, and Debrief screens
+- ✓ React/Next.js App Router client architecture — v1.0
+- ✓ Real-time voice interview using Gemini Live WebSocket API (`lib/geminiLiveClient.ts`) — v1.0
+- ✓ Audio streaming and microphone recording infrastructure — v1.0
+- ✓ Basic Setup, Interview, and Debrief screens — v1.0
+- ✓ Resume input via file upload (PDF/Word) or text paste — v1.0 (INPT-01, INPT-03, PROC-01, PROC-02)
+- ✓ Job Description input via file upload (PDF/Word) or text paste — v1.0 (INPT-02, INPT-03, PROC-01, PROC-02)
+- ✓ Personality selector with 4 AI interviewer modes — v1.0 (INPT-04)
+- ✓ Document parsing validation and warnings — v1.0 (PROC-03)
+- ✓ Context injection into Gemini Live system instructions — v1.0 (INTG-01, INTG-02)
+- ✓ Personalized icebreaker generation from resume — v1.0 (INTG-03)
+- ✓ Personality-based tone adaptation — v1.0 (INTG-04)
 
 ### Active
-- [ ] Users can provide a Resume in the SetupScreen via file upload (PDF/Word) or direct text paste.
-- [ ] Users can provide a Job Description in the SetupScreen via file upload (PDF/Word) or direct text paste.
-- [ ] Text extraction from uploaded documents (client-side or via an API utility).
-- [ ] Feed extracted Resume and Job Description context to the Gemini Live agent in its system instructions.
-- [ ] Prompt engineering to ensure the AI opens the interview with a personalized, friendly icebreaker drawn directly from the user's unique work history instead of a generic greeting.
+
+- [ ] Saving user profiles/resumes to a database (v2 requirement)
+- [ ] Generating detailed PDF score report after interview (v2 requirement)
 
 ### Out of Scope
-- Backend database integration or user authentication (deferred to later versions).
-- Multimodal Video interviews (focusing strictly on conversational voice flow).
-- Custom fine-tuning of the Gemini model itself.
+| Feature | Reason |
+|---------|--------|
+| Multi-modal Video | Focus is purely on conversational voice flow. Video adds complexity without core value. |
+| Automatic JD fetching | Scraping from LinkedIn is heavily rate-limited/blocked. Manual copy-paste is safer. |
+| Backend database/auth | Deferred to v2 for user profile persistence |
+| Custom fine-tuning | Using Gemini's natural language understanding via prompts |
 
 ## Context
-The current application successfully connects to the Gemini Live API for voice streaming, but users find the beginning of the interview too abrupt and robotic. A natural conversational flow requires the AI to have prior context about the candidate (Resume) and the role (Job Description), allowing it to emulate a real hiring manager establishing rapport. Since the core connectivity is tested, the focus is purely on expanding the SetupScreen UI and modifying the AI's persona string. 
 
-## Constraints
-- **Tech Stack**: Next.js 16 Client Components, Tailwind CSS v4, Base UI, Shadcn UI.
-- **Client Processing vs Server API**: Document parsing (like PDF text extraction) might be handled via a Next.js API route if bringing large parsing libraries into the client bundle hurts performance.
-- **Context Windows**: Extremely large resumes/JDs might need basic truncation before feeding to the system instructions, depending on token limits.
+**Shipped v1.0** with full context injection pipeline:
+- Document parsing API route handles PDF and Word files
+- Textarea + file dropzone dual input methods
+- 4 personality presets with behavioral constraints
+- System instruction builder with XML-delimited context sections
+- 8000 char truncation per context field (~2K tokens each)
+
+**Tech Stack:** Next.js 16, React 19, TypeScript 5, Tailwind CSS v4, Base UI, Shadcn UI, Vitest
+
+**Test Coverage:** `lib/promptBuilder.test.ts` with 5 passing tests for system instruction generation
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Build upload flow immediately | Mocking data prevents testing the true UX of feeding dynamic context to the model and delays UI refinement. | — Pending |
-| Dual input methods (File and Text paste) | Allowing both file upload and raw text paste ensures maximum flexibility for users. | — Pending |
+| Build upload flow immediately | Mocking data prevents testing true UX of dynamic context | ✓ Good — shipped working file parsing |
+| Dual input methods (File and Text paste) | Maximum flexibility for users | ✓ Good — users can paste or upload |
+| Server-side parsing via API route | Avoid client bundle bloat from pdf-parse/mammoth | ✓ Good — clean separation |
+| Vitest for testing | Lightweight, fast, Vite-native | ✓ Good — tests run instantly |
+| XML delimiters for context sections | Clear parsing boundaries in system instruction | ✓ Good — AI respects context boundaries |
+| Conservative 8000 char truncation | Safe token limit (~2K tokens) per context field | ✓ Good — no context overflow |
+| Pure function design for buildSystemInstruction | Testable, deterministic output | ✓ Good — 5 tests pass |
 
 ## Evolution
 This document evolves at phase transitions and milestone boundaries.
 
-**After each phase transition** (via `/gsd-transition`):
-1. Requirements invalidated? → Move to Out of Scope with reason
-2. Requirements validated? → Move to Validated with phase reference
-3. New requirements emerged? → Add to Active
-4. Decisions to log? → Add to Key Decisions
-5. "What This Is" still accurate? → Update if drifted
-
-**After each milestone** (via `/gsd-complete-milestone`):
-1. Full review of all sections
-2. Core Value check — still the right priority?
-3. Audit Out of Scope — reasons still valid?
-4. Update Context with current state
-
 ---
-*Last updated: 2026-03-21 after initialization*
+*Last updated: 2026-03-22 after v1.0 milestone*

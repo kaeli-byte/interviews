@@ -7,8 +7,9 @@ import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import { Play, RotateCcw, Upload, FileText, Loader2, Brain, Sparkles, Briefcase, Zap, GraduationCap, ArrowRight } from 'lucide-react';
+import { Play, RotateCcw, Upload, FileText, Loader2, Brain, Sparkles, Briefcase, Zap, Heart, Target, BookOpen, Clock, BarChart, ArrowRight } from 'lucide-react';
 import { isEmptyOrNonsense } from '@/lib/documentParser';
+import { AGENT_SELECTIONS, AGENT_DEFINITIONS, type AgentId, type AgentDefinition } from '@/lib/agents';
 
 interface SetupScreenProps {
   onStart: (duration: number) => void;
@@ -16,39 +17,70 @@ interface SetupScreenProps {
   onViewLastReport: () => void;
   resume: string;
   jobDescription: string;
-  personality: string;
+  selectedAgent: AgentId;
   onResumeChange: (text: string) => void;
   onJobDescriptionChange: (text: string) => void;
-  onPersonalityChange: (value: string | null) => void;
+  onAgentChange: (agentId: AgentId) => void;
   onFileParsed: (type: 'resume' | 'jd', text: string) => void;
 }
 
-const PERSONALITY_OPTIONS = [
-  { 
-    value: 'warm', 
-    label: 'Warm', 
-    description: 'Encouraging and conversational',
-    icon: Sparkles,
-  },
-  { 
-    value: 'professional', 
-    label: 'Professional', 
-    description: 'Standard corporate etiquette',
-    icon: Briefcase,
-  },
-  { 
-    value: 'direct', 
-    label: 'Direct', 
-    description: 'Concise and high-pressure',
-    icon: Zap,
-  },
-  { 
-    value: 'coaching', 
-    label: 'Coaching', 
-    description: 'Instructive and growth-oriented',
-    icon: GraduationCap,
-  },
-];
+const AGENT_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  Briefcase,
+  Zap,
+  Heart,
+  Target,
+  BookOpen,
+  Clock,
+  BarChart,
+};
+
+function AgentCard({
+  agent,
+  isSelected,
+  onSelect
+}: {
+  agent: AgentDefinition;
+  isSelected: boolean;
+  onSelect: () => void;
+}) {
+  const Icon = AGENT_ICONS[agent.icon] || Briefcase;
+
+  return (
+    <button
+      onClick={onSelect}
+      className={`
+        p-4 rounded-xl flex flex-col items-start gap-2 transition-all text-left w-full
+        ${isSelected
+          ? 'bg-primary-fixed ring-2 ring-primary'
+          : 'bg-surface-container-lowest hover:bg-surface-container'
+        }
+      `}
+      data-testid={`agent-card-${agent.id}`}
+    >
+      <div className="flex items-center gap-2 w-full">
+        <div className={`
+          w-10 h-10 rounded-lg flex items-center justify-center shrink-0
+          ${isSelected ? 'bg-primary text-primary-foreground' : 'bg-surface-container text-secondary'}
+        `}>
+          <Icon className="w-5 h-5" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className={`text-sm font-semibold truncate ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+            {agent.label}
+          </p>
+        </div>
+      </div>
+      <p className="text-xs text-muted-foreground line-clamp-2">
+        {agent.description}
+      </p>
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-medium">
+          {agent.interviewType}
+        </span>
+      </div>
+    </button>
+  );
+}
 
 function FileDropzone({
   onFileParsed,
@@ -155,10 +187,10 @@ export default function SetupScreen({
   onViewLastReport,
   resume,
   jobDescription,
-  personality,
+  selectedAgent,
   onResumeChange,
   onJobDescriptionChange,
-  onPersonalityChange,
+  onAgentChange,
   onFileParsed,
 }: SetupScreenProps) {
   const [duration, setDuration] = React.useState(10);
@@ -176,6 +208,9 @@ export default function SetupScreen({
   }, [onJobDescriptionChange]);
 
   const canStart = resume.trim().length > 0 && jobDescription.trim().length > 0;
+
+  const selectedAgentDef = AGENT_DEFINITIONS[selectedAgent];
+  const showDurationPicker = selectedAgentDef.type === 'simulation';
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden min-h-0">
@@ -197,27 +232,38 @@ export default function SetupScreen({
       {/* Main Content - Scrollable */}
       <div className="flex-1 overflow-y-auto">
         <div className="px-6 lg:px-12 xl:px-16 py-6 max-w-6xl mx-auto space-y-8">
-          {/* Duration Slider */}
-          <div className="bg-surface-container-low rounded-2xl p-6">
-            <div className="flex justify-between items-center mb-4">
-              <Label htmlFor="duration" className="text-xs font-bold uppercase tracking-widest text-secondary">
-                Session Duration
-              </Label>
-              <span className="text-primary font-heading font-bold text-2xl">{duration} min</span>
+          {/* Duration Slider - Only for simulation agents */}
+          {showDurationPicker ? (
+            <div className="bg-surface-container-low rounded-2xl p-6">
+              <div className="flex justify-between items-center mb-4">
+                <Label htmlFor="duration" className="text-xs font-bold uppercase tracking-widest text-secondary">
+                  Session Duration
+                </Label>
+                <span className="text-primary font-heading font-bold text-2xl">{duration} min</span>
+              </div>
+              <Slider
+                id="duration"
+                min={selectedAgentDef.duration.min}
+                max={selectedAgentDef.duration.max}
+                step={1}
+                value={[duration]}
+                onValueChange={(vals) => {
+                  const val = Array.isArray(vals) ? vals[0] : vals;
+                  setDuration(val);
+                }}
+                className="cursor-pointer"
+              />
+              <p className="text-xs text-muted-foreground mt-2">
+                Recommended: {selectedAgentDef.duration.min}-{selectedAgentDef.duration.max} minutes
+              </p>
             </div>
-            <Slider
-              id="duration"
-              min={1}
-              max={20}
-              step={1}
-              value={[duration]}
-              onValueChange={(vals) => {
-                const val = Array.isArray(vals) ? vals[0] : vals;
-                setDuration(val);
-              }}
-              className="cursor-pointer"
-            />
-          </div>
+          ) : (
+            <div className="bg-surface-container-low rounded-2xl p-6">
+              <p className="text-sm text-muted-foreground">
+                This agent runs until the question list is complete. No duration selection needed.
+              </p>
+            </div>
+          )}
 
           {/* Document Upload Grid - Two columns on larger screens */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -300,49 +346,46 @@ export default function SetupScreen({
             </div>
           </div>
 
-          {/* AI Persona Selector */}
+          {/* Interview Agent Selector */}
           <div className="bg-surface-container-low rounded-2xl p-6">
             <Label className="text-xs font-bold uppercase tracking-widest text-secondary mb-4 block">
-              AI Persona
+              Interview Agent
             </Label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {PERSONALITY_OPTIONS.map((opt) => {
-                const Icon = opt.icon;
-                const isSelected = personality === opt.value;
-                return (
-                  <button
-                    key={opt.value}
-                    onClick={() => onPersonalityChange(opt.value)}
-                    className={`
-                      p-5 rounded-xl flex flex-col items-center gap-3 transition-all text-center
-                      ${isSelected 
-                        ? 'bg-primary-fixed ring-2 ring-primary' 
-                        : 'bg-surface-container-lowest hover:bg-surface-container'
-                      }
-                    `}
-                  >
-                    <div className={`
-                      w-14 h-14 rounded-xl flex items-center justify-center shrink-0
-                      ${isSelected ? 'bg-primary text-primary-foreground' : 'bg-surface-container text-secondary'}
-                    `}>
-                      <Icon className="w-7 h-7" />
-                    </div>
-                    <div>
-                      <p className={`text-sm font-semibold ${isSelected ? 'text-primary' : 'text-foreground'}`}>
-                        {opt.label}
-                      </p>
-                      <p className="text-[11px] text-muted-foreground mt-1">
-                        {opt.description}
-                      </p>
-                    </div>
-                  </button>
-                );
-              })}
+
+            {/* Full Simulations Group */}
+            <div className="mb-6">
+              <h3 className="text-sm font-semibold text-foreground mb-3">Full Simulations</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {AGENT_SELECTIONS.simulation.map((agent) => (
+                  <AgentCard
+                    key={agent.id}
+                    agent={agent}
+                    isSelected={selectedAgent === agent.id}
+                    onSelect={() => onAgentChange(agent.id)}
+                  />
+                ))}
+              </div>
             </div>
+
+            {/* Targeted Prep Group */}
+            <div>
+              <h3 className="text-sm font-semibold text-foreground mb-3">Targeted Prep</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {AGENT_SELECTIONS.targeted.map((agent) => (
+                  <AgentCard
+                    key={agent.id}
+                    agent={agent}
+                    isSelected={selectedAgent === agent.id}
+                    onSelect={() => onAgentChange(agent.id)}
+                  />
+                ))}
+              </div>
+            </div>
+
             <div className="mt-5 p-4 bg-tertiary/10 rounded-xl flex items-start gap-3">
               <Sparkles className="w-5 h-5 text-tertiary shrink-0 mt-0.5" />
               <p className="text-sm text-tertiary leading-relaxed">
-                Selecting a persona alters the tone, vocabulary, and feedback intensity during the session.
+                Selecting an agent determines the interview style, tone, and feedback approach.
               </p>
             </div>
           </div>

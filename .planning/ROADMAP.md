@@ -25,7 +25,7 @@
 
 ### 🔄 v3.0 Agent System & Smart Debrief (Phases 4-6)
 
-- [ ] **Phase 4: Transcript Foundation** — Capture and structure interview data for downstream analysis
+- [x] **Phase 4: Transcript Foundation** — Capture and structure interview data for downstream analysis
 - [ ] **Phase 5: Agent System** — Implement 7 distinct interviewer personas with unique behaviors
 - [ ] **Phase 6: STAR Analysis & Debrief** — Complete analysis pipeline with STAR evaluation, pattern detection, and coaching insights
 
@@ -58,8 +58,12 @@ Plans:
   3. Simulation agents (Hiring Manager, Panelist, Coach, Screener) run full interview sessions
   4. Targeted agents (Drill Sergeant, Story Architect, Pattern Analyst) run focused preparation sessions
   5. Agent persona maintains consistent style throughout interview without drifting
-**Plans:** TBD
-**UI hint:** yes
+**Plans:** 3 plans in 3 waves
+
+Plans:
+- [ ] 05-01-PLAN.md — Agent Definitions & Prompt Builder (Wave 1)
+- [ ] 05-02-PLAN.md — UI Components (Wave 2)
+- [ ] 05-03-PLAN.md — Integration & Verification (Wave 3)
 
 ### Phase 6: STAR Analysis & Debrief
 **Goal:** Users receive actionable feedback with STAR evaluation, pattern detection, and coaching priorities
@@ -82,8 +86,8 @@ Plans:
 | 1. UI & Extraction | v1.0 | 4/4 | Complete | 2026-03-21 |
 | 2. Prompt Engineering | v1.0 | 2/2 | Complete | 2026-03-22 |
 | 3. Layout System | v2.0 | 2/2 | Complete | 2026-03-23 |
-| 4. Transcript Foundation | v3.0 | 0/3 | Not started | - |
-| 5. Agent System | v3.0 | 0/0 | Not started | - |
+| 4. Transcript Foundation | v3.0 | 3/3 | Complete | 2026-03-24 |
+| 5. Agent System | v3.0 | 0/3 | Ready | - |
 | 6. STAR Analysis & Debrief | v3.0 | 0/0 | Not started | - |
 
 ## Dependencies
@@ -92,7 +96,7 @@ Plans:
 v1.0 (Phases 1-2) ─────┐
                        │
                        v
-v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation
+v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation ✅
                        │          |
                        │          v
                        └──> Phase 5: Agent System
@@ -121,4 +125,4 @@ v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation
 *For detailed phase information from previous milestones, see `.planning/milestones/v1.0-ROADMAP.md` and `.planning/milestones/v2.0-ROADMAP.md`*
 
 ---
-*Roadmap updated: 2026-03-23 for Phase 4 planning*
+*Roadmap updated: 2026-03-24 for Phase 5 planning*

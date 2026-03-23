@@ -10,10 +10,10 @@ Requirements for the Agent System & Smart Debrief milestone.
 ### Agent System
 
 - [ ] **AGENT-01**: User can select from 7 distinct interviewer personas in SetupScreen
-- [ ] **AGENT-02**: Each agent has unique persona, interview type, core behaviors, boundaries, and feedback style
+- [x] **AGENT-02**: Each agent has unique persona, interview type, core behaviors, boundaries, and feedback style
 - [ ] **AGENT-03**: Simulation agents (Hiring Manager, Panelist, Coach, Screener) run full interview sessions
-- [ ] **AGENT-04**: Targeted agents (Drill Sergeant, Story Architect, Pattern Analyst) run focused preparation sessions
-- [ ] **AGENT-05**: Agent prompts are injected into Gemini Live system instructions with anti-behaviors to prevent style drift
+- [x] **AGENT-04**: Targeted agents (Drill Sergeant, Story Architect, Pattern Analyst) run focused preparation sessions
+- [x] **AGENT-05**: Agent prompts are injected into Gemini Live system instructions with anti-behaviors to prevent style drift
 - [ ] **AGENT-06**: Agent selection UI displays agent name, description, and interview type/duration
 
 ### Transcript Capture
@@ -86,10 +86,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | AGENT-01 | Phase 5 | Pending |
-| AGENT-02 | Phase 5 | Pending |
+| AGENT-02 | Phase 5 | Complete |
 | AGENT-03 | Phase 5 | Pending |
-| AGENT-04 | Phase 5 | Pending |
-| AGENT-05 | Phase 5 | Pending |
+| AGENT-04 | Phase 5 | Complete |
+| AGENT-05 | Phase 5 | Complete |
 | AGENT-06 | Phase 5 | Pending |
 | TRANS-01 | Phase 4 | Complete |
 | TRANS-02 | Phase 4 | Complete |

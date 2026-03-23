@@ -61,7 +61,7 @@ Plans:
 **Plans:** 3 plans in 3 waves
 
 Plans:
-- [ ] 05-01-PLAN.md — Agent Definitions & Prompt Builder (Wave 1)
+- [x] 05-01-PLAN.md — Agent Definitions & Prompt Builder (Wave 1)
 - [ ] 05-02-PLAN.md — UI Components (Wave 2)
 - [ ] 05-03-PLAN.md — Integration & Verification (Wave 3)
 

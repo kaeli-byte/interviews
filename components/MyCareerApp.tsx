@@ -144,7 +144,7 @@ export default function MyCareerApp() {
       mobileMenuOpen={mobileMenuOpen}
       onMobileMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
     >
-      <div className="h-full flex flex-col">
+      <div className="flex-1 flex flex-col min-h-0">
         {step === 'setup' && (
           <SetupScreen
             onStart={handleStartInterview}

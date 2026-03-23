@@ -18,12 +18,13 @@
 ### Phase 3: Layout System
 
 **Goal:** Add sidebar and body layout inherited by all pages with proper overflow handling
-**Requirements**: TBD
+**Requirements:** LAY-01, LAY-02, LAY-03
 **Depends on:** Phase 2
-**Plans:** 0 plans
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 3 to break down)
+- [ ] 03-01-PLAN.md — Create AppLayout shell and Sidebar navigation component
+- [ ] 03-02-PLAN.md — Integrate layout into MyCareerApp with navigation wiring
 
 ---
 

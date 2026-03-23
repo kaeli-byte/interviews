@@ -41,7 +41,12 @@
   3. Fragmented speech chunks are merged into complete utterances
   4. Each Q/A pair has structured timestamps for evaluation
   5. AI interviewer and candidate responses are distinctly identified
-**Plans:** TBD
+**Plans:** 3 plans in 3 waves
+
+Plans:
+- [ ] 04-01-PLAN.md — Type System & Transcript Processing (Wave 1)
+- [ ] 04-02-PLAN.md — Debrief Generator Rewrite (Wave 2)
+- [ ] 04-03-PLAN.md — Integration & Bug Fix (Wave 3)
 
 ### Phase 5: Agent System
 **Goal:** Users can choose from 7 distinct interviewer personas with consistent behaviors
@@ -77,7 +82,7 @@
 | 1. UI & Extraction | v1.0 | 4/4 | Complete | 2026-03-21 |
 | 2. Prompt Engineering | v1.0 | 2/2 | Complete | 2026-03-22 |
 | 3. Layout System | v2.0 | 2/2 | Complete | 2026-03-23 |
-| 4. Transcript Foundation | v3.0 | 0/0 | Not started | - |
+| 4. Transcript Foundation | v3.0 | 0/3 | Not started | - |
 | 5. Agent System | v3.0 | 0/0 | Not started | - |
 | 6. STAR Analysis & Debrief | v3.0 | 0/0 | Not started | - |
 
@@ -116,4 +121,4 @@ v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation
 *For detailed phase information from previous milestones, see `.planning/milestones/v1.0-ROADMAP.md` and `.planning/milestones/v2.0-ROADMAP.md`*
 
 ---
-*Roadmap updated: 2026-03-23 for v3.0 milestone*
+*Roadmap updated: 2026-03-23 for Phase 4 planning*

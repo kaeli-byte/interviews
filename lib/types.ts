@@ -74,3 +74,41 @@ export interface DebriefReport {
   transcriptSummary: TranscriptSummary;
   sessionStats: SessionStats;
 }
+
+/**
+ * AgentId identifies which interviewer persona is active.
+ * Per D-04: 7 agents from ideas-for-v3 spec.
+ */
+export type AgentId =
+  | 'hiring-manager'
+  | 'high-pressure'
+  | 'supportive-coach'
+  | 'rapid-fire'
+  | 'story-architect'
+  | 'efficiency-screener'
+  | 'behavioral-analyst';
+
+/**
+ * AgentType groups agents by interview mode.
+ * Per D-01: Two groups - simulation and targeted prep.
+ */
+export type AgentType = 'simulation' | 'targeted';
+
+/**
+ * AgentDefinition contains the full persona specification.
+ * Per D-02: Includes boundaries, tone, edge cases for drift prevention.
+ */
+export interface AgentDefinition {
+  id: AgentId;
+  label: string;
+  description: string;
+  interviewType: string;
+  type: AgentType;
+  duration: { min: number; max: number };
+  icon: string; // Lucide icon name
+  persona: string;
+  coreBehaviors: string[];
+  tone: string;
+  boundaries: string[];
+  edgeCaseHandling: Record<string, string>;
+}

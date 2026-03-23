@@ -49,7 +49,7 @@
   - Verify: `npx tsc --noEmit` passes; manual test shows `[Gemini Transcription]` logs in console
   - Done when: TypeScript compiles; WebSocket messages include transcription data when `NEXT_PUBLIC_GEMINI_API_KEY` is set
 
-- [ ] **T02: Integrate structured transcript capture in InterviewScreen** `est:1h`
+- [x] **T02: Integrate structured transcript capture in InterviewScreen** `est:1h`
   - Why: Wires client changes into UI state, producing the structured transcript that S02/S03/S04 will consume
   - Files: `components/InterviewScreen.tsx`, `components/MyCareerApp.tsx`
   - Do: Add `interviewStartTimeRef` for relative timestamps; change transcript from `useRef<string[]>` to `useState<TranscriptEntry[]>`; wire `onTranscript` callback with timestamp offset calculation; update `MyCareerApp.tsx` to use `TranscriptEntry[]` type; convert `TranscriptEntry[]` to `string[]` for backwards compatibility with `debriefGenerator`

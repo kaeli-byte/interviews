@@ -31,13 +31,19 @@ export default function InterviewScreen({
   const [isConnecting, setIsConnecting] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<'connecting' | 'talking' | 'listening' | 'finished'>('connecting');
+  const [transcript, setTranscript] = useState<TranscriptEntry[]>([]);
 
   const clientRef = useRef<GeminiLiveClient | null>(null);
   const recorderRef = useRef<AudioRecorder | null>(null);
   const streamerRef = useRef<AudioStreamer | null>(null);
-  const transcriptRef = useRef<string[]>([]);
-  const transcriptEntriesRef = useRef<TranscriptEntry[]>([]);
+  const transcriptRef = useRef<TranscriptEntry[]>([]); // For callback stability
+  const interviewStartTimeRef = useRef<number>(0); // Set when interview starts
   const isRecordingRef = useRef(isRecording);
+
+  // Sync ref with state for callback stability
+  useEffect(() => {
+    transcriptRef.current = transcript;
+  }, [transcript]);
 
   // Sync ref with state
   useEffect(() => {
@@ -50,12 +56,18 @@ export default function InterviewScreen({
     recorderRef.current?.stop();
     streamerRef.current?.stop();
 
-    // Use standard Gemini API for report generation (Step 5)
-    // For now, pass the transcript to the next step
-    onFinish(transcriptRef.current, null);
+    // Convert TranscriptEntry[] to string[] for backwards compatibility with debriefGenerator
+    const legacyTranscript = transcriptRef.current.map(
+      entry => `${entry.speaker === 'interviewer' ? 'AI' : 'User'}: ${entry.text}`
+    );
+
+    onFinish(legacyTranscript, null);
   }, [onFinish]);
 
   useEffect(() => {
+    // Track interview start time for relative timestamps
+    interviewStartTimeRef.current = Date.now();
+
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
     if (!apiKey) {
       setError("Gemini API Key is missing. Please set NEXT_PUBLIC_GEMINI_API_KEY in your .env.local file.");
@@ -93,9 +105,8 @@ export default function InterviewScreen({
                 streamerRef.current?.addChunk(inlineData.data);
                 setStatus('talking');
               }
-              if (part.text) {
-                transcriptRef.current.push(`AI: ${part.text}`);
-              }
+              // Note: text parts are captured via onTranscript callback (outputTranscription)
+              // No need to manually push to transcript here
             });
           }
 
@@ -103,20 +114,25 @@ export default function InterviewScreen({
             setStatus('listening');
           }
 
-          const inputTranscription = serverContent.input_transcription || serverContent.inputTranscription;
-          if (inputTranscription) {
-            transcriptRef.current.push(`User: ${inputTranscription.text}`);
-          }
+          // Note: inputTranscription is now captured via onTranscript callback
+          // No need to manually handle it here
         }
       },
       (err) => {
         setError("A connection error occurred. Please try again.");
         setIsConnecting(false);
       },
-      // onTranscript callback - receives structured transcript entries
+      // onTranscript callback - receives structured transcript entries with relative timestamps
       (entry: TranscriptEntry) => {
-        console.log('[InterviewScreen] Transcript entry:', entry);
-        transcriptEntriesRef.current.push(entry);
+        // Calculate relative timestamp from interview start
+        const timestampOffset = Date.now() - interviewStartTimeRef.current;
+        const newEntry: TranscriptEntry = {
+          speaker: entry.speaker,
+          text: entry.text,
+          timestamp: timestampOffset
+        };
+        console.log('[InterviewScreen] Transcript entry:', newEntry);
+        setTranscript(prev => [...prev, newEntry]);
       }
     );
 

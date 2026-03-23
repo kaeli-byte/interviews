@@ -4,12 +4,13 @@ import { useState, useEffect } from 'react';
 import SetupScreen from '@/components/SetupScreen';
 import InterviewScreen from '@/components/InterviewScreen';
 import DebriefScreen from '@/components/DebriefScreen';
+import { TranscriptEntry } from '@/lib/types';
 
 export type AppStep = 'setup' | 'interview' | 'debrief';
 
 export interface InterviewData {
   duration: number;
-  transcript: string[];
+  transcript: TranscriptEntry[]; // Structured transcript with speaker labels and timestamps
   report: {
     elevatorPitch: string;
     keyAchievements: string[];
@@ -67,17 +68,29 @@ export default function MyCareerApp() {
     // If report is null (normal flow), we trigger generation
     setStep('debrief');
 
+    // Convert string[] to TranscriptEntry[] for storage
+    // Note: Legacy format is "AI: text" or "User: text"
+    const transcriptEntries: TranscriptEntry[] = transcript.map((line, index) => {
+      const isAI = line.startsWith('AI:');
+      return {
+        speaker: isAI ? 'interviewer' : 'candidate',
+        text: line.replace(/^(AI|User): /, ''),
+        timestamp: index * 1000 // Approximate timestamp based on order (unknown actual time)
+      };
+    });
+
     if (!report) {
       const { generateDebrief } = await import('@/lib/debriefGenerator');
       try {
+        // generateDebrief expects string[], so we pass the legacy format
         const generatedReport = await generateDebrief(transcript);
-        setInterviewData(prev => ({ ...prev, transcript, report: generatedReport }));
+        setInterviewData(prev => ({ ...prev, transcript: transcriptEntries, report: generatedReport }));
         localStorage.setItem('mycareer-last-report', JSON.stringify(generatedReport));
       } catch (e) {
         console.error("Failed to generate report", e);
       }
     } else {
-      setInterviewData(prev => ({ ...prev, transcript, report }));
+      setInterviewData(prev => ({ ...prev, transcript: transcriptEntries, report }));
       localStorage.setItem('mycareer-last-report', JSON.stringify(report));
     }
   };

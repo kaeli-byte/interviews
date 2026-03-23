@@ -6,7 +6,8 @@ import InterviewScreen from '@/components/InterviewScreen';
 import DebriefScreen from '@/components/DebriefScreen';
 import { AppLayout } from '@/components/AppLayout';
 import { Sidebar } from '@/components/Sidebar';
-import { TranscriptEntry, DebriefReport } from '@/lib/types';
+import { TranscriptEntry, DebriefReport, AgentId } from '@/lib/types';
+import { DEFAULT_AGENT_ID } from '@/lib/agents';
 
 export type AppStep = 'setup' | 'interview' | 'debrief';
 
@@ -16,7 +17,7 @@ export interface InterviewData {
   report: DebriefReport | null;
   resume: string;
   jobDescription: string;
-  personality: string;
+  selectedAgent: AgentId;
 }
 
 export default function MyCareerApp() {
@@ -28,7 +29,7 @@ export default function MyCareerApp() {
     report: null,
     resume: '',
     jobDescription: '',
-    personality: 'warm',
+    selectedAgent: DEFAULT_AGENT_ID,
   });
 
   // Load from localStorage on mount
@@ -117,8 +118,8 @@ export default function MyCareerApp() {
     setInterviewData(prev => ({ ...prev, jobDescription: text }));
   };
 
-  const handlePersonalityChange = (value: string | null) => {
-    setInterviewData(prev => ({ ...prev, personality: value || 'warm' }));
+  const handleAgentChange = (agentId: AgentId) => {
+    setInterviewData(prev => ({ ...prev, selectedAgent: agentId }));
   };
 
   const handleFileParsed = (type: 'resume' | 'jd', text: string) => {
@@ -158,10 +159,10 @@ export default function MyCareerApp() {
             onViewLastReport={() => setStep('debrief')}
             resume={interviewData.resume}
             jobDescription={interviewData.jobDescription}
-            personality={interviewData.personality}
+            selectedAgent={interviewData.selectedAgent}
             onResumeChange={handleResumeChange}
             onJobDescriptionChange={handleJobDescriptionChange}
-            onPersonalityChange={handlePersonalityChange}
+            onAgentChange={handleAgentChange}
             onFileParsed={handleFileParsed}
           />
         )}
@@ -171,7 +172,7 @@ export default function MyCareerApp() {
             onFinish={handleFinishInterview}
             resume={interviewData.resume}
             jobDescription={interviewData.jobDescription}
-            personality={interviewData.personality}
+            selectedAgent={interviewData.selectedAgent}
           />
         )}
         {step === 'debrief' && (

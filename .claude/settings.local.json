@@ -19,7 +19,9 @@
       "Bash(npx tsc:*)",
       "Bash(cat:*)",
       "Bash(! grep:*)",
-      "Bash(grep -A5 \"step === ''''interview''''\" components/MyCareerApp.tsx)"
+      "Bash(grep -A5 \"step === ''''interview''''\" components/MyCareerApp.tsx)",
+      "Bash(git branch:*)",
+      "Bash(gh pr:*)"
     ]
   }
 }

@@ -3,18 +3,27 @@
  * In a production app, you'd use ephemeral tokens via a backend.
  */
 
+import { TranscriptEntry } from './types';
+
 export class GeminiLiveClient {
   private ws: WebSocket | null = null;
   private apiKey: string;
   private model: string;
   private onMessage: (msg: any) => void;
   private onError: (err: any) => void;
+  private onTranscript: (entry: TranscriptEntry) => void;
 
-  constructor(apiKey: string, onMessage: (msg: any) => void, onError: (err: any) => void) {
+  constructor(
+    apiKey: string,
+    onMessage: (msg: any) => void,
+    onError: (err: any) => void,
+    onTranscript: (entry: TranscriptEntry) => void
+  ) {
     this.apiKey = apiKey;
     this.model = 'gemini-2.5-flash-native-audio-latest'; // Use the latest available for Live API
     this.onMessage = onMessage;
     this.onError = onError;
+    this.onTranscript = onTranscript;
   }
 
   connect(systemInstruction: string) {
@@ -31,7 +40,10 @@ export class GeminiLiveClient {
           },
           system_instruction: {
             parts: [{ text: systemInstruction }]
-          }
+          },
+          // Enable native transcription at the top level
+          input_audio_transcription: {},
+          output_audio_transcription: {}
         }
       };
       this.ws?.send(JSON.stringify(config));
@@ -44,6 +56,38 @@ export class GeminiLiveClient {
           text = await text.text();
         }
         const data = JSON.parse(text);
+
+        // Log raw message for debugging transcription structure
+        console.log('[Gemini Transcription] Raw message:', JSON.stringify(data, null, 2));
+        console.log('[Gemini Transcription] inputTranscription:', data.inputTranscription || data.server_content?.input_transcription);
+        console.log('[Gemini Transcription] outputTranscription:', data.outputTranscription || data.server_content?.output_transcription);
+
+        // Parse input transcription (candidate speech) - check both paths
+        const inputTranscription = data.inputTranscription || data.server_content?.input_transcription;
+        if (inputTranscription?.text && typeof inputTranscription.text === 'string') {
+          const trimmedText = inputTranscription.text.trim();
+          if (trimmedText) {
+            this.onTranscript({
+              speaker: 'candidate',
+              text: trimmedText,
+              timestamp: Date.now()
+            });
+          }
+        }
+
+        // Parse output transcription (interviewer speech) - check both paths
+        const outputTranscription = data.outputTranscription || data.server_content?.output_transcription;
+        if (outputTranscription?.text && typeof outputTranscription.text === 'string') {
+          const trimmedText = outputTranscription.text.trim();
+          if (trimmedText) {
+            this.onTranscript({
+              speaker: 'interviewer',
+              text: trimmedText,
+              timestamp: Date.now()
+            });
+          }
+        }
+
         this.onMessage(data);
       } catch (e) {
         console.error('Failed to parse WS message', e);

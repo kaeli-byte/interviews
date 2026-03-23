@@ -9,6 +9,7 @@ import { GeminiLiveClient } from '@/lib/geminiLiveClient';
 import { AudioRecorder } from '@/lib/audioRecorder';
 import { AudioStreamer } from '@/lib/audioStreamer';
 import { buildSystemInstruction } from '@/lib/promptBuilder';
+import { TranscriptEntry } from '@/lib/types';
 
 interface InterviewScreenProps {
   duration: number;
@@ -35,6 +36,7 @@ export default function InterviewScreen({
   const recorderRef = useRef<AudioRecorder | null>(null);
   const streamerRef = useRef<AudioStreamer | null>(null);
   const transcriptRef = useRef<string[]>([]);
+  const transcriptEntriesRef = useRef<TranscriptEntry[]>([]);
   const isRecordingRef = useRef(isRecording);
 
   // Sync ref with state
@@ -110,6 +112,11 @@ export default function InterviewScreen({
       (err) => {
         setError("A connection error occurred. Please try again.");
         setIsConnecting(false);
+      },
+      // onTranscript callback - receives structured transcript entries
+      (entry: TranscriptEntry) => {
+        console.log('[InterviewScreen] Transcript entry:', entry);
+        transcriptEntriesRef.current.push(entry);
       }
     );
 

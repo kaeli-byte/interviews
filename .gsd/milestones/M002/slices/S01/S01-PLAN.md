@@ -42,7 +42,7 @@
 
 ## Tasks
 
-- [ ] **T01: Create types and enable transcription in GeminiLiveClient** `est:1h`
+- [x] **T01: Create types and enable transcription in GeminiLiveClient** `est:1h`
   - Why: Foundation for structured transcript capture — types must exist first, and the Gemini client must enable transcription flags
   - Files: `lib/types.ts`, `lib/geminiLiveClient.ts`
   - Do: Create `TranscriptEntry` interface; add `input_audio_transcription` and `output_audio_transcription` to setup config; add `onTranscript` callback parameter; parse transcription from both possible message paths (top-level and nested under `serverContent`); add defensive console logging to verify message structure

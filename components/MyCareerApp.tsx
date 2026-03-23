@@ -4,32 +4,36 @@ import { useState, useEffect } from 'react';
 import SetupScreen from '@/components/SetupScreen';
 import InterviewScreen from '@/components/InterviewScreen';
 import DebriefScreen from '@/components/DebriefScreen';
+import { AppLayout } from '@/components/AppLayout';
+import { Sidebar } from '@/components/Sidebar';
+import { TranscriptEntry } from '@/lib/types';
 
 export type AppStep = 'setup' | 'interview' | 'debrief';
 
 export interface InterviewData {
   duration: number;
-  transcript: string[];
+  transcript: TranscriptEntry[];
   report: {
     elevatorPitch: string;
     keyAchievements: string[];
     uniqueValueProposition: string;
     areasForImprovement: string[];
   } | null;
-  resume: string;           // User's resume text
-  jobDescription: string;   // Job description text
-  personality: string;      // 'warm' | 'professional' | 'direct' | 'coaching'
+  resume: string;
+  jobDescription: string;
+  personality: string;
 }
 
 export default function MyCareerApp() {
   const [step, setStep] = useState<AppStep>('setup');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [interviewData, setInterviewData] = useState<InterviewData>({
     duration: 10,
     transcript: [],
     report: null,
     resume: '',
     jobDescription: '',
-    personality: 'warm',  // Default to warm/encouraging
+    personality: 'warm',
   });
 
   // Load from localStorage on mount
@@ -39,18 +43,23 @@ export default function MyCareerApp() {
       try {
         const report = JSON.parse(saved);
         setInterviewData(prev => ({ ...prev, report }));
-        // If we have a report, maybe we want to show it? 
-        // For now, let's just keep it in state and let the user decide.
       } catch (e) {
         console.error("Failed to parse saved report", e);
       }
     }
   }, []);
 
+  const handleNavigate = (newStep: AppStep) => {
+    setStep(newStep);
+    setMobileMenuOpen(false);
+  };
+
+  const handleMobileMenuToggle = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
   const handleStartInterview = (duration: number) => {
-    // Validate that resume and JD are not empty
     if (!interviewData.resume.trim() || !interviewData.jobDescription.trim()) {
-      // SetupScreen handles disabled button, but we guard here too
       return;
     }
     setInterviewData(prev => ({
@@ -58,26 +67,38 @@ export default function MyCareerApp() {
       duration,
       transcript: [],
       report: null,
-      // Keep resume, jobDescription, personality - they're needed for Phase 2
     }));
     setStep('interview');
   };
 
   const handleFinishInterview = async (transcript: string[], report: InterviewData['report']) => {
-    // If report is null (normal flow), we trigger generation
+    console.log('[MyCareerApp] handleFinishInterview called');
+    console.log('[MyCareerApp] transcript length:', transcript.length);
+    
     setStep('debrief');
 
+    const transcriptEntries: TranscriptEntry[] = transcript.map((line, index) => {
+      const isAI = line.startsWith('AI:');
+      return {
+        speaker: isAI ? 'interviewer' : 'candidate',
+        text: line.replace(/^(AI|User): /, ''),
+        timestamp: index * 1000
+      };
+    });
+
     if (!report) {
+      console.log('[MyCareerApp] Calling generateDebrief...');
       const { generateDebrief } = await import('@/lib/debriefGenerator');
       try {
         const generatedReport = await generateDebrief(transcript);
-        setInterviewData(prev => ({ ...prev, transcript, report: generatedReport }));
+        console.log('[MyCareerApp] Generated report:', generatedReport);
+        setInterviewData(prev => ({ ...prev, transcript: transcriptEntries, report: generatedReport }));
         localStorage.setItem('mycareer-last-report', JSON.stringify(generatedReport));
       } catch (e) {
-        console.error("Failed to generate report", e);
+        console.error("[MyCareerApp] Failed to generate report", e);
       }
     } else {
-      setInterviewData(prev => ({ ...prev, transcript, report }));
+      setInterviewData(prev => ({ ...prev, transcript: transcriptEntries, report }));
       localStorage.setItem('mycareer-last-report', JSON.stringify(report));
     }
   };
@@ -107,8 +128,23 @@ export default function MyCareerApp() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 md:p-8">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden min-h-[600px] flex flex-col">
+    <AppLayout
+      sidebar={
+        <Sidebar
+          currentStep={step}
+          onNavigate={handleNavigate}
+          disabledSteps={[
+            // Interview disabled until user has entered resume and JD
+            ...(step === 'setup' && (!interviewData.resume.trim() || !interviewData.jobDescription.trim()) ? ['interview' as const] : []),
+            // Results disabled until interview completed (has report)
+            ...(!interviewData.report ? ['debrief' as const] : []),
+          ]}
+        />
+      }
+      mobileMenuOpen={mobileMenuOpen}
+      onMobileMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
+    >
+      <div className="flex-1 flex flex-col min-h-0">
         {step === 'setup' && (
           <SetupScreen
             onStart={handleStartInterview}
@@ -133,12 +169,12 @@ export default function MyCareerApp() {
           />
         )}
         {step === 'debrief' && (
-          <DebriefScreen 
-            report={interviewData.report} 
+          <DebriefScreen
+            report={interviewData.report}
             onReset={handleReset}
           />
         )}
       </div>
-    </main>
+    </AppLayout>
   );
 }

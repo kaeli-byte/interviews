@@ -8,7 +8,7 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 
 ## Requirements
 
-### Validated
+### Validated (v1.0)
 - ✓ React/Next.js App Router client architecture — v1.0
 - ✓ Real-time voice interview using Gemini Live WebSocket API (`lib/geminiLiveClient.ts`) — v1.0
 - ✓ Audio streaming and microphone recording infrastructure — v1.0
@@ -21,10 +21,26 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 - ✓ Personalized icebreaker generation from resume — v1.0 (INTG-03)
 - ✓ Personality-based tone adaptation — v1.0 (INTG-04)
 
-### Active
+### Active (v1.1 — M002)
+- [ ] Live transcript display during interview (toggleable) — R003
+- [ ] Speaker labels + timestamps for transcript entries — R004
+- [ ] Voice visualizer component — R005
+- [ ] Real-time feedback grid (Confidence, Pace, Tips) — R006
+- [ ] Transcript Review screen (required step) — R007
+- [ ] Search/filter transcript — R008
+- [ ] Export options (clipboard, markdown, text) — R009
+- [ ] Session metrics display — R010
+- [ ] Overall performance score — R011
+- [ ] STAR compliance per answer — R012
+- [ ] Question-by-question breakdown — R013
+- [ ] Quality scores (1-5) per answer — R014
+- [ ] Tone analysis visualization — R015
+- [ ] Coach's final verdict — R016
+- [ ] Cognitive Canvas design system (all screens) — R017
 
-- [ ] Saving user profiles/resumes to a database (v2 requirement)
-- [ ] Generating detailed PDF score report after interview (v2 requirement)
+### Deferred (v2)
+- [ ] Saving user profiles/resumes to a database
+- [ ] Generating detailed PDF score report after interview
 
 ### Out of Scope
 | Feature | Reason |
@@ -59,8 +75,28 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 | Conservative 8000 char truncation | Safe token limit (~2K tokens) per context field | ✓ Good — no context overflow |
 | Pure function design for buildSystemInstruction | Testable, deterministic output | ✓ Good — 5 tests pass |
 
+## Milestone Sequence
+
+- [x] M001: UI & Extraction + Prompt Engineering — v1.0 shipped 2026-03-22
+- [ ] M002: Interview Transcript & Analysis — Live transcript, transcript review, enhanced debrief with answer analysis
+
+## Current Milestone: M002 — Interview Transcript & Analysis
+
+**Goal:** Transform the interview experience from a basic voice conversation into a complete coaching session with full visibility. Users get live transcript display, real-time feedback, required transcript review with export, and enhanced AI-powered debrief with answer-by-answer analysis.
+
+**Target features:**
+- Live transcript panel (toggleable) with speaker labels + timestamps
+- Voice visualizer with animated bars
+- Real-time feedback grid (Confidence, Pace, Tips) using heuristics
+- Required Transcript Review screen with search + export
+- Enhanced debrief with overall score, STAR compliance, question breakdown, quality scores, coach's verdict
+- Cognitive Canvas design system across all screens
+
+**Progress:**
+- [x] S01: Gemini Transcription + Structured Capture — Native transcription enabled, TranscriptEntry type created, onTranscript callback pattern established
+
 ## Evolution
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-03-22 after v1.0 milestone*
+*Last updated: 2026-03-23 for M002 S01 completion*

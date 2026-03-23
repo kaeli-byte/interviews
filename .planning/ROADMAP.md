@@ -44,7 +44,7 @@
 **Plans:** 3 plans in 3 waves
 
 Plans:
-- [ ] 04-01-PLAN.md — Type System & Transcript Processing (Wave 1)
+- [x] 04-01-PLAN.md — Type System & Transcript Processing (Wave 1)
 - [ ] 04-02-PLAN.md — Debrief Generator Rewrite (Wave 2)
 - [ ] 04-03-PLAN.md — Integration & Bug Fix (Wave 3)
 

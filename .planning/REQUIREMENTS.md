@@ -20,8 +20,8 @@ Requirements for the Agent System & Smart Debrief milestone.
 
 - [ ] **TRANS-01**: Interview transcript is captured in real-time during voice interview
 - [ ] **TRANS-02**: Transcript data flows correctly to debrief generator (fixes critical bug where null was passed)
-- [ ] **TRANS-03**: Fragmented Gemini transcription chunks are merged into complete utterances
-- [ ] **TRANS-04**: Q/A pairs are structured with timestamps for STAR evaluation
+- [x] **TRANS-03**: Fragmented Gemini transcription chunks are merged into complete utterances
+- [x] **TRANS-04**: Q/A pairs are structured with timestamps for STAR evaluation
 - [ ] **TRANS-05**: Speaker identification distinguishes AI interviewer from candidate
 
 ### STAR Evaluation
@@ -93,8 +93,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AGENT-06 | Phase 5 | Pending |
 | TRANS-01 | Phase 4 | Pending |
 | TRANS-02 | Phase 4 | Pending |
-| TRANS-03 | Phase 4 | Pending |
-| TRANS-04 | Phase 4 | Pending |
+| TRANS-03 | Phase 4 | Complete |
+| TRANS-04 | Phase 4 | Complete |
 | TRANS-05 | Phase 4 | Pending |
 | STAR-01 | Phase 6 | Pending |
 | STAR-02 | Phase 6 | Pending |

@@ -46,7 +46,7 @@
 Plans:
 - [x] 04-01-PLAN.md — Type System & Transcript Processing (Wave 1)
 - [x] 04-02-PLAN.md — Debrief Generator Rewrite (Wave 2)
-- [ ] 04-03-PLAN.md — Integration & Bug Fix (Wave 3)
+- [x] 04-03-PLAN.md — Integration & Bug Fix (Wave 3)
 
 ### Phase 5: Agent System
 **Goal:** Users can choose from 7 distinct interviewer personas with consistent behaviors

@@ -54,6 +54,10 @@ export default function MyCareerApp() {
     setMobileMenuOpen(false);
   };
 
+  const handleMobileMenuToggle = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
   const handleStartInterview = (duration: number) => {
     if (!interviewData.resume.trim() || !interviewData.jobDescription.trim()) {
       return;

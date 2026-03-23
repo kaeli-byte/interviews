@@ -1,6 +1,6 @@
 'use client';
 
-import { Play, Mic, FileText, X } from 'lucide-react';
+import { Play, Mic, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { AppStep } from '@/components/MyCareerApp';
@@ -47,11 +47,9 @@ export function Sidebar({
   currentStep,
   onNavigate,
   className,
-  mobileOpen = false,
-  onMobileClose,
 }: SidebarProps) {
-  const sidebarContent = (
-    <nav className="flex flex-col h-full bg-surface-container-low border-r border-border">
+  return (
+    <nav className={cn('flex flex-col h-full', className)}>
       {/* Navigation area */}
       <div className="flex-1 p-4 space-y-1">
         {navItems.map((item) => (
@@ -60,60 +58,10 @@ export function Sidebar({
             icon={item.icon}
             label={item.label}
             active={currentStep === item.step}
-            onClick={() => {
-              onNavigate(item.step);
-              if (mobileOpen && onMobileClose) {
-                onMobileClose();
-              }
-            }}
+            onClick={() => onNavigate(item.step)}
           />
         ))}
       </div>
     </nav>
-  );
-
-  // Desktop: render as static sidebar
-  if (!mobileOpen && !onMobileClose) {
-    return (
-      <div className={cn('w-64', className)}>
-        {sidebarContent}
-      </div>
-    );
-  }
-
-  // Mobile: render as overlay drawer when open
-  return (
-    <>
-      {/* Backdrop */}
-      <div
-        className={cn(
-          'fixed inset-0 bg-black/50 z-40 transition-opacity duration-300',
-          mobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        )}
-        onClick={onMobileClose}
-        aria-hidden="true"
-      />
-
-      {/* Sidebar drawer */}
-      <div
-        className={cn(
-          'fixed left-0 top-0 h-full z-50 w-64 transition-transform duration-300 ease-in-out',
-          mobileOpen ? 'translate-x-0' : '-translate-x-full'
-        )}
-      >
-        {/* Close button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute top-4 right-4 lg:hidden"
-          onClick={onMobileClose}
-          aria-label="Close menu"
-        >
-          <X className="size-4" />
-        </Button>
-
-        {sidebarContent}
-      </div>
-    </>
   );
 }

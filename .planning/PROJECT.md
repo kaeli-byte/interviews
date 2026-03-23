@@ -23,6 +23,11 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 - ✓ Sidebar Component with navigation items — v2.0 (LAY-01)
 - ✓ Body Layout Container with overflow handling — v2.0 (LAY-02)
 - ✓ Layout Inheritance Pattern for all pages — v2.0 (LAY-03)
+- ✓ Transcript capture and QAPair structuring — v3.0 Phase 4 (TRANS-01, TRANS-03, TRANS-04)
+- ✓ Utterance merging for fragmented Gemini chunks — v3.0 Phase 4 (TRANS-03)
+- ✓ Q/A pair detection with timestamps — v3.0 Phase 4 (TRANS-04)
+- ✓ Transcript-based debrief generation — v3.0 Phase 4 (TRANS-02, TRANS-05)
+- ✓ Fixed critical null report bug in InterviewScreen.handleFinish() — v3.0 Phase 4
 
 ### Active
 
@@ -72,6 +77,13 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 - Disabled navigation states based on app state
 - Proper scroll overflow handling in all screen components
 
+**Shipped v3.0 Phase 4** with transcript foundation:
+- QAPair type for structured interview data
+- Utterance merging for fragmented Gemini chunks using turn_complete signal
+- Q/A pair detection with timestamps
+- Transcript-based debrief generation (no resume/JD)
+- Fixed critical null report bug in InterviewScreen.handleFinish()
+
 **Tech Stack:** Next.js 16, React 19, TypeScript 5, Tailwind CSS v4, Base UI, Shadcn UI, Framer Motion, Vitest
 
 **LOC:** ~5,800 TypeScript/TSX across components, lib, and hooks
@@ -95,4 +107,4 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-03-23 after v2.0 milestone*
+*Last updated: 2026-03-23 after v3.0 Phase 4 completion*

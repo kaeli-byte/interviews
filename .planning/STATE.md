@@ -1,23 +1,24 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.0
-milestone_name: Layout & Architecture
-status: complete
-last_updated: "2026-03-23T14:00:00.000Z"
+milestone: v3.0
+milestone_name: Agent System & Smart Debrief
+status: in_progress
+last_updated: "2026-03-23T15:00:00.000Z"
 ---
 
 ## Current Position
 
-**Phase:** None (milestone complete)
-**Current Plan:** N/A
-**Last Completed:** Phase 3 (2026-03-23)
+**Phase:** Not started (defining requirements)
+**Current Plan:** —
+**Status:** Defining requirements
+**Last activity:** 2026-03-23 — Milestone v3.0 started
 
 ## Project Reference
 
-See: `.planning/PROJECT.md` (updated 2026-03-23 after v2.0 milestone)
+See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 
 **Core value:** The AI interviewer must feel conversational, adaptive, and highly personalized from the moment the user starts the interview, accurately grounding its responses in the provided resume and job description.
-**Current focus:** Ready for v3.0 planning
+**Current focus:** v3.0 Agent System & Smart Debrief
 
 ## Milestone Status
 
@@ -30,9 +31,14 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 after v2.0 milestone)
 
 - Phase 3: Layout System (2/2 plans)
 
+**v3.0 milestone** — 🔄 In progress
+
+- Requirements definition pending
+
 ## Accumulated Context
 
 ### Roadmap Evolution
 
 - Phase 1-2: v1.0 MVP — UI extraction and prompt engineering
 - Phase 3: v2.0 Layout — Sidebar navigation and responsive layout
+- Phase 4+: v3.0 Agent System — Multi-agent personas and transcript-based debrief

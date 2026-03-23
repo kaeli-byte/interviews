@@ -26,8 +26,27 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 
 ### Active
 
-- [ ] Saving user profiles/resumes to a database (v3 requirement)
-- [ ] Generating detailed PDF score report after interview (v3 requirement)
+- [ ] Saving user profiles/resumes to a database (future milestone)
+- [ ] Generating detailed PDF score report after interview (future milestone)
+
+## Current Milestone: v3.0 Agent System & Smart Debrief
+
+**Goal:** Build a multi-agent interview system with 7 distinct personas and a transcript-based debrief with STAR evaluation.
+
+**Target features:**
+- 7 agent prompts with unique behaviors, boundaries, and feedback styles
+  - Realistic Hiring Manager — Professional, structured, 15-20 min simulation
+  - High-Pressure Panelist — Intense, probing, 20-30 min
+  - Supportive Coach — Warm, encouraging, 10-15 min
+  - Rapid-Fire Drill Sergeant — Fast, breadth-focused
+  - Story Architect — Analytical, STAR-depth
+  - Efficiency Screener — Brisk, recruiter-style, 10-15 min
+  - Behavioral Pattern Analyst — Objective, pattern-focused
+- Agent selection UI in SetupScreen
+- Transcript-based debrief (NOT resume/JD)
+- STAR evaluation per answer
+- Analysis layer with pattern detection
+- Coaching insights with actionable priorities
 
 ### Out of Scope
 | Feature | Reason |

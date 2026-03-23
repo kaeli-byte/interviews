@@ -23,7 +23,7 @@
 **Plans:** 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Create AppLayout shell and Sidebar navigation component
+- [x] 03-01-PLAN.md — Create AppLayout shell and Sidebar navigation component (completed 2026-03-23)
 - [ ] 03-02-PLAN.md — Integrate layout into MyCareerApp with navigation wiring
 
 ---

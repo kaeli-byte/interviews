@@ -1,7 +1,7 @@
 # MyCareer App - Interview Refinement
 
 ## What This Is
-An AI-driven mock interview application that uses Google's Gemini Multimodal Live API to conduct real-time voice interviews. The app provides personalized interview experiences by using the user's resume and job description to generate contextual "icebreaker" introductions and tailored interview questions.
+An AI-driven mock interview application that uses Google's Gemini Multimodal Live API to conduct real-time voice interviews. The app provides personalized interview experiences by using the user's resume and job description to generate contextual "icebreaker" introductions and tailored interview questions. Features a responsive layout with sidebar navigation that adapts seamlessly between desktop and mobile.
 
 ## Core Value
 The AI interviewer must feel conversational, adaptive, and highly personalized from the moment the user starts the interview, accurately grounding its responses in the provided resume and job description context.
@@ -20,18 +20,21 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 - ✓ Context injection into Gemini Live system instructions — v1.0 (INTG-01, INTG-02)
 - ✓ Personalized icebreaker generation from resume — v1.0 (INTG-03)
 - ✓ Personality-based tone adaptation — v1.0 (INTG-04)
+- ✓ Sidebar Component with navigation items — v2.0 (LAY-01)
+- ✓ Body Layout Container with overflow handling — v2.0 (LAY-02)
+- ✓ Layout Inheritance Pattern for all pages — v2.0 (LAY-03)
 
 ### Active
 
-- [ ] Saving user profiles/resumes to a database (v2 requirement)
-- [ ] Generating detailed PDF score report after interview (v2 requirement)
+- [ ] Saving user profiles/resumes to a database (v3 requirement)
+- [ ] Generating detailed PDF score report after interview (v3 requirement)
 
 ### Out of Scope
 | Feature | Reason |
 |---------|--------|
 | Multi-modal Video | Focus is purely on conversational voice flow. Video adds complexity without core value. |
 | Automatic JD fetching | Scraping from LinkedIn is heavily rate-limited/blocked. Manual copy-paste is safer. |
-| Backend database/auth | Deferred to v2 for user profile persistence |
+| Backend database/auth | Deferred to v3 for user profile persistence |
 | Custom fine-tuning | Using Gemini's natural language understanding via prompts |
 
 ## Context
@@ -43,9 +46,16 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 - System instruction builder with XML-delimited context sections
 - 8000 char truncation per context field (~2K tokens each)
 
-**Tech Stack:** Next.js 16, React 19, TypeScript 5, Tailwind CSS v4, Base UI, Shadcn UI, Vitest
+**Shipped v2.0** with responsive layout system:
+- AppLayout component with sidebar slot and mobile drawer
+- Sidebar navigation with Play/Mic/FileText icons
+- Responsive breakpoint at 1024px (lg)
+- Disabled navigation states based on app state
+- Proper scroll overflow handling in all screen components
 
-**Test Coverage:** `lib/promptBuilder.test.ts` with 5 passing tests for system instruction generation
+**Tech Stack:** Next.js 16, React 19, TypeScript 5, Tailwind CSS v4, Base UI, Shadcn UI, Framer Motion, Vitest
+
+**LOC:** ~5,800 TypeScript/TSX across components, lib, and hooks
 
 ## Key Decisions
 
@@ -58,9 +68,12 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 | XML delimiters for context sections | Clear parsing boundaries in system instruction | ✓ Good — AI respects context boundaries |
 | Conservative 8000 char truncation | Safe token limit (~2K tokens) per context field | ✓ Good — no context overflow |
 | Pure function design for buildSystemInstruction | Testable, deterministic output | ✓ Good — 5 tests pass |
+| Sidebar width fixed at 256px (w-64) | Tailwind convention, good UX balance | ✓ Good — consistent sizing |
+| CSS transforms for mobile drawer | Hardware-accelerated, smooth animation | ✓ Good — 60fps slide-in |
+| flex-1 min-h-0 for scroll containers | Flex children need min-h-0 to allow shrink | ✓ Good — scroll works correctly |
 
 ## Evolution
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-03-22 after v1.0 milestone*
+*Last updated: 2026-03-23 after v2.0 milestone*

@@ -63,4 +63,62 @@ Living document capturing lessons learned across milestones.
 
 ---
 
-*Last updated: 2026-03-22 after v1.0 milestone*
+## Milestone: v2.0 — Layout & Architecture
+
+**Shipped:** 2026-03-23
+**Phases:** 1 | **Plans:** 2
+
+### What Was Built
+
+- AppLayout component with sidebar slot, mobile drawer, and header/footer regions
+- Sidebar navigation with three items (Start Interview, Interview, Results)
+- Responsive breakpoint at 1024px with hamburger menu on mobile
+- Disabled navigation states based on app state (resume/JD required, report required)
+- Scroll overflow fix using flex-1 min-h-0 pattern
+
+### What Worked
+
+- **Slot-based composition** — Passing sidebar as prop keeps layout flexible and testable
+- **Mobile-first CSS** — Using Tailwind lg: breakpoint made responsive behavior predictable
+- **CSS transforms for drawer** — Hardware-accelerated slide-in animation is smooth (60fps)
+- **UAT-driven verification** — 5 tests caught the scroll overflow issue before ship
+
+### What Was Inefficient
+
+- **Missing files in PR** — Audio visualizer and hooks weren't committed initially, would have broken build
+- **h-full vs flex-1 confusion** — First attempt used h-full which doesn't work in flex containers
+
+### Patterns Established
+
+- `flex-1 min-h-0` for scroll containers in flex layouts
+- Slot pattern for optional layout regions (header, footer)
+- `disabledSteps` array for conditional navigation states
+- Mobile drawer with backdrop + X button close pattern
+
+### Key Lessons
+
+1. **flex-1 min-h-0, not h-full** — Flex children need min-h-0 to shrink below content size
+2. **Check PR contents before merge** — Verify all imported files are included
+3. **Responsive patterns belong in layout** — Not in individual screen components
+
+### Cost Observations
+
+- 1 phase in 1 day (focused scope)
+- UAT testing took ~10 min and caught a critical bug
+- Audio visualizer was pre-built, just needed integration
+
+---
+
+## Cross-Milestone Trends
+
+| Metric | v1.0 | v2.0 | Trend |
+|--------|------|------|-------|
+| Phases/Milestone | 2 | 1 | ↓ Smaller releases |
+| Plans/Phase | 3.0 avg | 2.0 avg | → Consistent |
+| Days/Milestone | 2 | 1 | ↑ Faster delivery |
+| Test coverage | 5 tests | 5 UAT tests | → Stable |
+| Files changed | 54 | 73 | ↑ More files, smaller scope |
+
+---
+
+*Last updated: 2026-03-23 after v2.0 milestone*

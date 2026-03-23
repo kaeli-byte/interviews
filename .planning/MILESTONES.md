@@ -1,5 +1,15 @@
 # Milestones
 
+## v2.0 Layout & Architecture (Shipped: 2026-03-23)
+
+**Phases completed:** 0 phases, 0 plans, 0 tasks
+
+**Key accomplishments:**
+
+- (none recorded)
+
+---
+
 ## v1.0 milestone (Shipped: 2026-03-22)
 
 **Phases completed:** 2 phases, 6 plans, 8 tasks

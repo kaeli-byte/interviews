@@ -1,7 +1,7 @@
 # Requirements: MyCareer App - v3.0 Agent System & Smart Debrief
 
 **Defined:** 2026-03-23
-**Core Value:** The AI interviewer must feel conversational, adaptive, and highly personalized from the moment the user starts the interview, accurately grounding its responses in the provided resume and job description.
+**Core Value:** The AI interviewer must feel conversational, adaptive, and highly personalized from the moment the user starts the interview, accurately grounding its responses in the provided resume and job description context.
 
 ## v1 Requirements (Milestone v3.0)
 
@@ -85,40 +85,40 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AGENT-01 | — | Pending |
-| AGENT-02 | — | Pending |
-| AGENT-03 | — | Pending |
-| AGENT-04 | — | Pending |
-| AGENT-05 | — | Pending |
-| AGENT-06 | — | Pending |
-| TRANS-01 | — | Pending |
-| TRANS-02 | — | Pending |
-| TRANS-03 | — | Pending |
-| TRANS-04 | — | Pending |
-| TRANS-05 | — | Pending |
-| STAR-01 | — | Pending |
-| STAR-02 | — | Pending |
-| STAR-03 | — | Pending |
-| STAR-04 | — | Pending |
-| STAR-05 | — | Pending |
-| STAR-06 | — | Pending |
-| STAR-07 | — | Pending |
-| PATN-01 | — | Pending |
-| PATN-02 | — | Pending |
-| PATN-03 | — | Pending |
-| PATN-04 | — | Pending |
-| PATN-05 | — | Pending |
-| PATN-06 | — | Pending |
-| DEBR-01 | — | Pending |
-| DEBR-02 | — | Pending |
-| DEBR-03 | — | Pending |
-| DEBR-04 | — | Pending |
+| AGENT-01 | Phase 5 | Pending |
+| AGENT-02 | Phase 5 | Pending |
+| AGENT-03 | Phase 5 | Pending |
+| AGENT-04 | Phase 5 | Pending |
+| AGENT-05 | Phase 5 | Pending |
+| AGENT-06 | Phase 5 | Pending |
+| TRANS-01 | Phase 4 | Pending |
+| TRANS-02 | Phase 4 | Pending |
+| TRANS-03 | Phase 4 | Pending |
+| TRANS-04 | Phase 4 | Pending |
+| TRANS-05 | Phase 4 | Pending |
+| STAR-01 | Phase 6 | Pending |
+| STAR-02 | Phase 6 | Pending |
+| STAR-03 | Phase 6 | Pending |
+| STAR-04 | Phase 6 | Pending |
+| STAR-05 | Phase 6 | Pending |
+| STAR-06 | Phase 6 | Pending |
+| STAR-07 | Phase 6 | Pending |
+| PATN-01 | Phase 6 | Pending |
+| PATN-02 | Phase 6 | Pending |
+| PATN-03 | Phase 6 | Pending |
+| PATN-04 | Phase 6 | Pending |
+| PATN-05 | Phase 6 | Pending |
+| PATN-06 | Phase 6 | Pending |
+| DEBR-01 | Phase 6 | Pending |
+| DEBR-02 | Phase 6 | Pending |
+| DEBR-03 | Phase 6 | Pending |
+| DEBR-04 | Phase 6 | Pending |
 
 **Coverage:**
 - v1 requirements: 28 total
-- Mapped to phases: 0
-- Unmapped: 28 ⚠️
+- Mapped to phases: 28
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-23*
-*Last updated: 2026-03-23 after milestone definition*
+*Last updated: 2026-03-23 after roadmap creation*

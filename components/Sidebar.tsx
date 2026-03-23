@@ -14,28 +14,32 @@ const navItems = [
 interface SidebarProps {
   currentStep: AppStep;
   onNavigate: (step: AppStep) => void;
+  /** Steps that should be disabled (greyed out, not clickable) */
+  disabledSteps?: AppStep[];
   className?: string;
-  mobileOpen?: boolean;
-  onMobileClose?: () => void;
 }
 
 interface SidebarItemProps {
   icon: React.ElementType;
   label: string;
   active: boolean;
+  disabled?: boolean;
   onClick: () => void;
 }
 
-export function SidebarItem({ icon: Icon, label, active, onClick }: SidebarItemProps) {
+export function SidebarItem({ icon: Icon, label, active, disabled, onClick }: SidebarItemProps) {
   return (
     <Button
       variant="ghost"
       className={cn(
         'w-full justify-start gap-3 px-3',
-        active && 'bg-primary/10 text-primary font-medium'
+        active && 'bg-primary/10 text-primary font-medium',
+        disabled && 'opacity-40 cursor-not-allowed pointer-events-none'
       )}
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
+      disabled={disabled}
       aria-current={active ? 'page' : undefined}
+      aria-disabled={disabled}
     >
       <Icon className="size-4" />
       <span>{label}</span>
@@ -46,6 +50,7 @@ export function SidebarItem({ icon: Icon, label, active, onClick }: SidebarItemP
 export function Sidebar({
   currentStep,
   onNavigate,
+  disabledSteps = [],
   className,
 }: SidebarProps) {
   return (
@@ -58,6 +63,7 @@ export function Sidebar({
             icon={item.icon}
             label={item.label}
             active={currentStep === item.step}
+            disabled={disabledSteps.includes(item.step)}
             onClick={() => onNavigate(item.step)}
           />
         ))}

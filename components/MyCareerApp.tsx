@@ -133,8 +133,12 @@ export default function MyCareerApp() {
         <Sidebar
           currentStep={step}
           onNavigate={handleNavigate}
-          mobileOpen={mobileMenuOpen}
-          onMobileClose={() => setMobileMenuOpen(false)}
+          disabledSteps={[
+            // Interview disabled until user has entered resume and JD
+            ...(step === 'setup' && (!interviewData.resume.trim() || !interviewData.jobDescription.trim()) ? ['interview' as const] : []),
+            // Results disabled until interview completed (has report)
+            ...(!interviewData.report ? ['debrief' as const] : []),
+          ]}
         />
       }
       mobileMenuOpen={mobileMenuOpen}

@@ -8,12 +8,13 @@ import { GeminiLiveClient } from '@/lib/geminiLiveClient';
 import { AudioRecorder } from '@/lib/audioRecorder';
 import { AudioStreamer } from '@/lib/audioStreamer';
 import { buildSystemInstruction } from '@/lib/promptBuilder';
-import { TranscriptEntry } from '@/lib/types';
+import { TranscriptEntry, DebriefReport } from '@/lib/types';
+import { generateDebrief } from '@/lib/debriefGenerator';
 import { AgentAudioVisualizerAura } from '@/components/agent-audio-visualizer-aura';
 
 interface InterviewScreenProps {
   duration: number;
-  onFinish: (transcript: string[], report: any) => void;
+  onFinish: (transcript: TranscriptEntry[], report: DebriefReport | null) => void;
   resume: string;
   jobDescription: string;
   personality: string;
@@ -250,16 +251,21 @@ export default function InterviewScreen({
     clientRef.current?.disconnect();
     recorderRef.current?.stop();
     streamerRef.current?.stop();
-    
+
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
     }
 
-    const legacyTranscript = transcriptRef.current.map(
-      entry => `${entry.speaker === 'interviewer' ? 'AI' : 'User'}: ${entry.text}`
-    );
-
-    onFinish(legacyTranscript, null);
+    // Per D-04: Generate debrief before calling onFinish
+    // Per PITFALLS.md Pitfall 1: Fix the bug where null was passed for report
+    try {
+      const report = await generateDebrief(transcriptRef.current);
+      onFinish(transcriptRef.current, report);
+    } catch (error) {
+      console.error('[InterviewScreen] Failed to generate debrief:', error);
+      // Still call onFinish with transcript even if debrief fails
+      onFinish(transcriptRef.current, null);
+    }
   }, [onFinish]);
 
   useEffect(() => {

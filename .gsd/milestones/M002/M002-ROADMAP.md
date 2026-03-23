@@ -16,14 +16,14 @@
 
 ## Key Risks / Unknowns
 
-- **Transcription message structure** — Gemini Live returns transcription at top-level, not nested. Verify during S01 implementation.
+- ~~**Transcription message structure** — Gemini Live returns transcription at top-level, not nested. Verify during S01 implementation.~~ ✅ **RETIRED S01**: Transcription arrives at both top-level and nested paths; code checks both defensively.
 - **Heuristic accuracy** — Confidence/pace derived from patterns may feel arbitrary. Acceptable for M002; calibrate later.
 - **STAR detection reliability** — AI judgment is imperfect. Structured schema helps but isn't foolproof.
 - **Design system integration effort** — Applying to all screens adds scope. May reveal prototype vs. component gaps.
 
 ## Proof Strategy
 
-- **Transcription message structure** → retire in S01 by proving `inputTranscription`/`outputTranscription` arrive in WebSocket messages
+- ~~**Transcription message structure** → retire in S01 by proving `inputTranscription`/`outputTranscription` arrive in WebSocket messages~~ ✅ **RETIRED S01**
 - **Heuristic accuracy** → accept approximate values for M002; gather user feedback for future calibration
 - **STAR detection reliability** → test with sample behavioral questions; verify JSON output structure
 - **Design system integration** → start with new components (S02, S03, S04), then apply to existing (S05)
@@ -57,7 +57,7 @@ This milestone is complete only when all are true:
 
 ## Slices
 
-- [ ] **S01: Gemini Transcription + Structured Capture** `risk:high` `depends:[]`
+- [x] **S01: Gemini Transcription + Structured Capture** `risk:high` `depends:[]`
   > After this: Gemini Live returns `inputTranscription`/`outputTranscription`; stored as `TranscriptEntry[]` with speaker + timestamp
 
 - [ ] **S02: Live Transcript UI + Voice Visualizer** `risk:medium` `depends:[S01]`

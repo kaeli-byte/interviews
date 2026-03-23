@@ -92,8 +92,11 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 - Enhanced debrief with overall score, STAR compliance, question breakdown, quality scores, coach's verdict
 - Cognitive Canvas design system across all screens
 
+**Progress:**
+- [x] S01: Gemini Transcription + Structured Capture — Native transcription enabled, TranscriptEntry type created, onTranscript callback pattern established
+
 ## Evolution
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-03-23 for M002 planning*
+*Last updated: 2026-03-23 for M002 S01 completion*

@@ -1,34 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { TranscriptEntry, QAPair, SessionStats } from "./types";
+import { TranscriptEntry, QAPair, SessionStats, DebriefReport, TranscriptSummary, QAPairSummary } from "./types";
 import { processTranscript } from "./transcriptProcessor";
-
-/**
- * Extended debrief report with transcript-based analysis.
- * Includes legacy fields for DebriefScreen compatibility (per D-06).
- */
-export interface DebriefReport {
-  // Legacy fields (required for DebriefScreen compatibility)
-  elevatorPitch: string;
-  keyAchievements: string[];
-  uniqueValueProposition: string;
-  areasForImprovement: string[];
-
-  // New transcript-based fields
-  transcriptSummary: TranscriptSummary;
-  sessionStats: SessionStats;
-}
-
-export interface TranscriptSummary {
-  pairs: QAPairSummary[];
-  fullText: string;
-}
-
-export interface QAPairSummary {
-  id: string;
-  question: string;
-  response: string;
-  timestamp: string; // formatted as MM:SS
-}
 
 /**
  * Generate debrief from actual interview transcript.

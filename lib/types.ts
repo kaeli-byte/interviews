@@ -40,3 +40,37 @@ export interface SessionStats {
   candidateWordCount: number;
   interviewerWordCount: number;
 }
+
+/**
+ * QAPairSummary for readable transcript output.
+ */
+export interface QAPairSummary {
+  id: string;
+  question: string;
+  response: string;
+  timestamp: string; // formatted as MM:SS
+}
+
+/**
+ * TranscriptSummary for debrief report.
+ */
+export interface TranscriptSummary {
+  pairs: QAPairSummary[];
+  fullText: string;
+}
+
+/**
+ * DebriefReport is the output of generateDebrief.
+ * Includes legacy fields for DebriefScreen compatibility (per D-06).
+ */
+export interface DebriefReport {
+  // Legacy fields (required for DebriefScreen compatibility)
+  elevatorPitch: string;
+  keyAchievements: string[];
+  uniqueValueProposition: string;
+  areasForImprovement: string[];
+
+  // Transcript-based fields (new in Phase 4)
+  transcriptSummary: TranscriptSummary;
+  sessionStats: SessionStats;
+}

@@ -32,12 +32,16 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 - ✓ Agent selection UI with grouped cards (Full Simulations + Targeted Prep) — v3.0 Phase 5 (AGENT-06)
 - ✓ Agent prompts with anti-behavior boundaries for persona consistency — v3.0 Phase 5 (AGENT-05)
 - ✓ Conditional duration picker for simulation vs targeted agents — v3.0 Phase 5
+- ✓ STAR evaluation per answer with 4-level scale — v3.0 Phase 6 (STAR-01 through STAR-07)
+- ✓ Pattern detection across answers (3+ instance threshold) — v3.0 Phase 6 (PATN-01 through PATN-06)
+- ✓ Coaching insights with actionable priorities — v3.0 Phase 6 (DEBR-01 through DEBR-04)
+- ✓ Three-layer debrief UI (Transcript, Analysis, Coaching tabs) — v3.0 Phase 6
+- ✓ Liquid Glass design system with CSS tokens — v3.0 Phase 06.1
+- ✓ Manrope + Inter typography — v3.0 Phase 06.1
+- ✓ Glass utility classes (.glass, .glass-panel, .glass-shadow, .glass-shine) — v3.0 Phase 06.1
 
 ### Active
 
-- [ ] STAR evaluation per answer with 4-level scale — v3.0 Phase 6 (STAR-01 through STAR-07)
-- [ ] Pattern detection across answers — v3.0 Phase 6 (PATN-01 through PATN-06)
-- [ ] Coaching insights with actionable priorities — v3.0 Phase 6 (DEBR-01 through DEBR-04)
 - [ ] Saving user profiles/resumes to a database (future milestone)
 - [ ] Generating detailed PDF score report after interview (future milestone)
 
@@ -99,6 +103,12 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 - MyCareerApp selectedAgent state replacing legacy personality
 - Conditional duration picker visible for simulation agents only
 
+**Shipped v3.0 Phase 06.1** with Liquid Glass design system:
+- CSS design tokens for surface hierarchy, tertiary colors, glass tints
+- Liquid Glass utility classes (.glass, .glass-panel, .glass-shadow, .glass-shine)
+- Ambient shadow utilities with on-surface tinting
+- Manrope (headlines) + Inter (body) fonts replacing Geist
+
 **Tech Stack:** Next.js 16, React 19, TypeScript 5, Tailwind CSS v4, Base UI, Shadcn UI, Framer Motion, Vitest
 
 **LOC:** ~5,800 TypeScript/TSX across components, lib, and hooks
@@ -122,4 +132,4 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-03-24 after v3.0 Phase 5 completion*
+*Last updated: 2026-03-24 after v3.0 Phase 06.1 completion*

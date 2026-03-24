@@ -2,27 +2,27 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Agent System & Smart Debrief
-status: Ready to execute
-last_updated: "2026-03-23T23:06:03.934Z"
+status: Complete
+last_updated: "2026-03-24T00:15:00.000Z"
 progress:
   total_phases: 3
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 6
-  completed_plans: 4
-  percent: 67
+  completed_plans: 6
+  percent: 100
 ---
 
 ## Current Position
 
-Phase: 05 (Agent System) — EXECUTING
-Plan: 2 of 3
+Phase: 05 (Agent System) — COMPLETE
+Plan: 3 of 3 (Phase complete)
 
 ## Project Reference
 
 See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 
 **Core value:** The AI interviewer must feel conversational, adaptive, and highly personalized from the moment the user starts the interview, accurately grounding its responses in the provided resume and job description.
-**Current focus:** Phase 05 — Agent System
+**Current focus:** Phase 05 — Agent System (Complete)
 
 ## Milestone Status
 
@@ -40,10 +40,10 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 | Phase | Status | Plans |
 |-------|--------|-------|
 | 4. Transcript Foundation | ✅ Complete | 3/3 complete |
-| 5. Agent System | 🔄 Executing | 1/3 complete |
+| 5. Agent System | ✅ Complete | 3/3 complete |
 | 6. STAR Analysis & Debrief | Not started | - |
 
-**Progress:** [███████░░░] 67%
+**Progress:** [██████████] 100%
 
 ## Accumulated Context
 
@@ -62,6 +62,8 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 - **04-01**: Pass raw entries to calculateSessionStats for accurate duration (merged entries only have start timestamps)
 - **04-03**: Execute Task 3 (types) before Tasks 1 and 2 to ensure types are available for component imports
 - **05-01**: Added backwards compatibility for personality field in promptBuilder to prevent build break until 05-02 updates UI
+- **05-02/05-03**: selectedAgent: AgentId replaces personality: string for type-safe agent selection
+- **05-03**: Added getAnalyser method to AudioRecorder for mic level monitoring (deviation fix)
 
 ### Critical Pitfalls (from research)
 
@@ -71,11 +73,6 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 4. **Pattern Detection Hallucination** — Require 3+ instances before claiming a "pattern"
 5. **STAR on Non-Behavioral Questions** — Add `question_type` field, only evaluate behavioral questions
 
-### Active Todos
-
-- Run `/gsd:verify-work 04` to verify Phase 4 completion
-- Run `/gsd:plan-phase 05` to start Agent System phase
-
 ### Blockers
 
 - (none)
@@ -84,10 +81,11 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 
 ### Last Session
 
-- Completed 05-01-PLAN.md: Agent Definitions
-- Created lib/agents.ts with 7 interviewer personas
-- Added AgentId, AgentType, AgentDefinition types
-- Updated promptBuilder.ts with agent-specific prompts and backwards compatibility
+- Completed 05-02-PLAN.md and 05-03-PLAN.md: Agent Selection UI and Integration
+- Updated MyCareerApp to track selectedAgent state
+- Updated SetupScreen with agent selector UI (7 agents in 2 groups)
+- Updated InterviewScreen to use selectedAgent in buildSystemInstruction
+- Fixed AudioRecorder.getAnalyser for mic level monitoring
 
 ### Key Files
 
@@ -97,13 +95,14 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 - `lib/agents.ts` — 7 agent definitions with AGENT_SELECTIONS grouping
 - `lib/types.ts` — Type definitions including AgentId, AgentDefinition, QAPair, DebriefReport
 - `lib/promptBuilder.ts` — Agent-aware system instruction generation
-- `lib/transcriptProcessor.ts` — Transcript processing pipeline
-- `lib/debriefGenerator.ts` — Transcript-based debrief generation
-- `components/InterviewScreen.tsx` — Interview screen with debrief generation
+- `lib/audioRecorder.ts` — Audio recording with analyser for level monitoring
+- `components/MyCareerApp.tsx` — App state with selectedAgent
+- `components/SetupScreen.tsx` — Agent selector UI with grouped sections
+- `components/InterviewScreen.tsx` — Interview screen with agent-specific prompts
 
 ### Next Action
 
-Continue with 05-02-PLAN.md: Agent Selection UI
+Continue with Phase 6: STAR Analysis & Debrief
 
 ---
-*State updated: 2026-03-23*
+*State updated: 2026-03-24*

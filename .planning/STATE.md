@@ -3,19 +3,19 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Agent System & Smart Debrief
 status: Ready to execute
-last_updated: "2026-03-24T04:27:09.647Z"
+last_updated: "2026-03-24T04:40:14.805Z"
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 9
-  completed_plans: 7
-  percent: 78
+  completed_plans: 8
+  percent: 89
 ---
 
 ## Current Position
 
 Phase: 06 (STAR Analysis & Debrief) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Project Reference
 
@@ -41,9 +41,9 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 |-------|--------|-------|
 | 4. Transcript Foundation | ✅ Complete | 3/3 complete |
 | 5. Agent System | ✅ Complete | 3/3 complete |
-| 6. STAR Analysis & Debrief | In Progress | 1/3 complete |
+| 6. STAR Analysis & Debrief | In Progress | 2/3 complete |
 
-**Progress:** [████████░░] 78%
+**Progress:** [█████████░] 89%
 
 ## Accumulated Context
 
@@ -66,14 +66,16 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 - **05-03**: Added getAnalyser method to AudioRecorder for mic level monitoring (deviation fix)
 - **06-01**: Made Phase 6 fields optional in DebriefReport to maintain backward compatibility during transition
 - **06-01**: Pattern type requires instanceCount field for D-03 threshold validation (3+ instances)
+- **06-02**: Combined Task 2 and Task 3 into single commit since validation helpers are integral to the pipeline
+- **06-02**: Pattern threshold (D-03) enforced at validation time, not in AI prompt alone
 
 ### Critical Pitfalls (from research)
 
 1. **Wrong Debrief Source** — ✅ FIXED in 04-03: InterviewScreen.handleFinish() now calls generateDebrief before onFinish
 2. **Agent Persona Bleed** — ✅ ADDRESSED in 05-01: Boundaries sections in agent prompts with anti-behaviors
 3. **Transcript Fragmentation** — ✅ FIXED in 04-01: Utterance buffering with turn_complete signal
-4. **Pattern Detection Hallucination** — Require 3+ instances before claiming a "pattern"
-5. **STAR on Non-Behavioral Questions** — Add `question_type` field, only evaluate behavioral questions
+4. **Pattern Detection Hallucination** — ✅ FIXED in 06-02: validatePattern requires 3+ instances (D-03 threshold)
+5. **STAR on Non-Behavioral Questions** — ✅ FIXED in 06-02: starScore set to null for non-behavioral questions (D-04)
 
 ### Blockers
 
@@ -83,10 +85,11 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 
 ### Last Session
 
-- Completed 06-01-PLAN.md: Type definitions for STAR analysis and coaching
-- Added 11 new types: STARLevel, STARScore, CommunicationScore, BehavioralSignal, QuestionType, QAPairEvaluation, Pattern, CoachingPriority, PracticePlan, AnalysisReport, CoachingInsight
-- Extended DebriefReport with optional evaluations, analysis, and coaching fields
-- Made Phase 6 fields optional to maintain backward compatibility
+- Completed 06-02-PLAN.md: STAR Evaluation Implementation
+- Created lib/analysisPrompts.ts with structured AI prompts
+- Rewrote lib/debriefGenerator.ts with STAR evaluation, pattern detection, and coaching insights
+- Added validation helpers for D-03 pattern threshold enforcement
+- Requirements completed: STAR-02, STAR-03, STAR-04, STAR-05, PATN-02, PATN-04, PATN-06, DEBR-04
 
 ### Key Files
 
@@ -97,13 +100,15 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 - `lib/types.ts` — Type definitions including AgentId, AgentDefinition, QAPair, DebriefReport, STAR types
 - `lib/promptBuilder.ts` — Agent-aware system instruction generation
 - `lib/audioRecorder.ts` — Audio recording with analyser for level monitoring
+- `lib/analysisPrompts.ts` — Structured AI prompts for STAR analysis
+- `lib/debriefGenerator.ts` — Interview debrief with STAR evaluation and coaching
 - `components/MyCareerApp.tsx` — App state with selectedAgent
 - `components/SetupScreen.tsx` — Agent selector UI with grouped sections
 - `components/InterviewScreen.tsx` — Interview screen with agent-specific prompts
 
 ### Next Action
 
-Continue with Phase 6 Plan 02: STAR Evaluation Implementation
+Continue with Phase 6 Plan 03: Analysis UI Implementation
 
 ---
 *State updated: 2026-03-24*

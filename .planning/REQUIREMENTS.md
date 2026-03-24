@@ -27,10 +27,10 @@ Requirements for the Agent System & Smart Debrief milestone.
 ### STAR Evaluation
 
 - [x] **STAR-01**: Each answer receives STAR evaluation with 4-level scale (clear/partial/moderate/weak)
-- [ ] **STAR-02**: Situation component is evaluated for clarity and relevance
-- [ ] **STAR-03**: Task component is evaluated for ownership clarity
-- [ ] **STAR-04**: Action component is evaluated for specificity and structure
-- [ ] **STAR-05**: Result component is evaluated for quantification and impact
+- [x] **STAR-02**: Situation component is evaluated for clarity and relevance
+- [x] **STAR-03**: Task component is evaluated for ownership clarity
+- [x] **STAR-04**: Action component is evaluated for specificity and structure
+- [x] **STAR-05**: Result component is evaluated for quantification and impact
 - [x] **STAR-06**: Communication scores (Clarity, Conciseness, Structure, Confidence) are generated per answer
 - [x] **STAR-07**: Behavioral signals (Ownership, Problem-Solving, Impact, Self-Awareness) are detected per answer
 
@@ -39,16 +39,16 @@ Requirements for the Agent System & Smart Debrief milestone.
 - [x] **PATN-01**: System detects recurring issues across multiple answers (missing metrics, weak ownership, etc.)
 - [x] **PATN-02**: Pattern detection requires minimum threshold before flagging (prevents over-claiming)
 - [x] **PATN-03**: Top 3 coaching priorities are generated with why/fix/example structure
-- [ ] **PATN-04**: Quick wins are identified for immediate improvement
+- [x] **PATN-04**: Quick wins are identified for immediate improvement
 - [x] **PATN-05**: Practice plan includes next session focus and recommended agent
-- [ ] **PATN-06**: Coaching insights are derived from transcript data, not resume/JD context
+- [x] **PATN-06**: Coaching insights are derived from transcript data, not resume/JD context
 
 ### Debrief Rendering
 
 - [ ] **DEBR-01**: DebriefScreen displays transcript layer with Q/A pairs
 - [ ] **DEBR-02**: DebriefScreen displays analysis layer with STAR scores and patterns
 - [ ] **DEBR-03**: DebriefScreen displays coaching layer with priorities and next steps
-- [ ] **DEBR-04**: Debrief uses Gemini structured output (JSON schema) for reliable parsing
+- [x] **DEBR-04**: Debrief uses Gemini structured output (JSON schema) for reliable parsing
 
 ## Future Requirements
 
@@ -97,22 +97,22 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TRANS-04 | Phase 4 | Complete |
 | TRANS-05 | Phase 4 | Complete |
 | STAR-01 | Phase 6 | Complete |
-| STAR-02 | Phase 6 | Pending |
-| STAR-03 | Phase 6 | Pending |
-| STAR-04 | Phase 6 | Pending |
-| STAR-05 | Phase 6 | Pending |
+| STAR-02 | Phase 6 | Complete |
+| STAR-03 | Phase 6 | Complete |
+| STAR-04 | Phase 6 | Complete |
+| STAR-05 | Phase 6 | Complete |
 | STAR-06 | Phase 6 | Complete |
 | STAR-07 | Phase 6 | Complete |
 | PATN-01 | Phase 6 | Complete |
 | PATN-02 | Phase 6 | Complete |
 | PATN-03 | Phase 6 | Complete |
-| PATN-04 | Phase 6 | Pending |
+| PATN-04 | Phase 6 | Complete |
 | PATN-05 | Phase 6 | Complete |
-| PATN-06 | Phase 6 | Pending |
+| PATN-06 | Phase 6 | Complete |
 | DEBR-01 | Phase 6 | Pending |
 | DEBR-02 | Phase 6 | Pending |
 | DEBR-03 | Phase 6 | Pending |
-| DEBR-04 | Phase 6 | Pending |
+| DEBR-04 | Phase 6 | Complete |
 
 **Coverage:**
 - v1 requirements: 28 total

@@ -80,7 +80,7 @@ Plans:
 
 Plans:
 - [x] 06-01-PLAN.md — Type System & Analysis Structures (Wave 1)
-- [ ] 06-02-PLAN.md — Enhanced Debrief Generator (Wave 2)
+- [x] 06-02-PLAN.md — Enhanced Debrief Generator (Wave 2)
 - [ ] 06-03-PLAN.md — Three-Layer Tabbed UI (Wave 3)
 
 ## Progress

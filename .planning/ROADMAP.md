@@ -2,32 +2,32 @@
 
 ## Milestones
 
-- ✅ **v1.0 MVP** — Phases 1-2 (shipped 2026-03-22)
-- ✅ **v2.0 Layout & Architecture** — Phase 3 (shipped 2026-03-23)
-- 🔄 **v3.0 Agent System & Smart Debrief** — Phases 4-6 (in progress)
+- **v1.0 MVP** - Phases 1-2 (shipped 2026-03-22)
+- **v2.0 Layout & Architecture** - Phase 3 (shipped 2026-03-23)
+- **v3.0 Agent System & Smart Debrief** - Phases 4-6 (in progress)
 
 ## Phases
 
 <details>
-<summary>✅ v1.0 MVP (Phases 1-2) — SHIPPED 2026-03-22</summary>
+<summary>v1.0 MVP (Phases 1-2) - SHIPPED 2026-03-22</summary>
 
-- [x] Phase 1: UI & Extraction (4/4 plans) — completed 2026-03-21
-- [x] Phase 2: Prompt Engineering (2/2 plans) — completed 2026-03-22
+- [x] Phase 1: UI & Extraction (4/4 plans) - completed 2026-03-21
+- [x] Phase 2: Prompt Engineering (2/2 plans) - completed 2026-03-22
 
 </details>
 
 <details>
-<summary>✅ v2.0 Layout & Architecture (Phase 3) — SHIPPED 2026-03-23</summary>
+<summary>v2.0 Layout & Architecture (Phase 3) - SHIPPED 2026-03-23</summary>
 
-- [x] Phase 3: Layout System (2/2 plans) — completed 2026-03-23
+- [x] Phase 3: Layout System (2/2 plans) - completed 2026-03-23
 
 </details>
 
-### 🔄 v3.0 Agent System & Smart Debrief (Phases 4-6)
+### v3.0 Agent System & Smart Debrief (Phases 4-6)
 
-- [x] **Phase 4: Transcript Foundation** — Capture and structure interview data for downstream analysis
-- [x] **Phase 5: Agent System** — Implement 7 distinct interviewer personas with unique behaviors
-- [ ] **Phase 6: STAR Analysis & Debrief** — Complete analysis pipeline with STAR evaluation, pattern detection, and coaching insights
+- [x] **Phase 4: Transcript Foundation** - Capture and structure interview data for downstream analysis
+- [x] **Phase 5: Agent System** - Implement 7 distinct interviewer personas with unique behaviors
+- [ ] **Phase 6: STAR Analysis & Debrief** - Complete analysis pipeline with STAR evaluation, pattern detection, and coaching insights
 
 ## Phase Details
 
@@ -44,9 +44,9 @@
 **Plans:** 3 plans in 3 waves
 
 Plans:
-- [x] 04-01-PLAN.md — Type System & Transcript Processing (Wave 1)
-- [x] 04-02-PLAN.md — Debrief Generator Rewrite (Wave 2)
-- [x] 04-03-PLAN.md — Integration & Bug Fix (Wave 3)
+- [x] 04-01-PLAN.md - Type System & Transcript Processing (Wave 1)
+- [x] 04-02-PLAN.md - Debrief Generator Rewrite (Wave 2)
+- [x] 04-03-PLAN.md - Integration & Bug Fix (Wave 3)
 
 ### Phase 5: Agent System
 **Goal:** Users can choose from 7 distinct interviewer personas with consistent behaviors
@@ -61,9 +61,9 @@ Plans:
 **Plans:** 3 plans in 3 waves
 
 Plans:
-- [x] 05-01-PLAN.md — Agent Definitions & Prompt Builder (Wave 1)
-- [x] 05-02-PLAN.md — UI Components (Wave 2)
-- [x] 05-03-PLAN.md — Integration & Verification (Wave 3)
+- [x] 05-01-PLAN.md - Agent Definitions & Prompt Builder (Wave 1)
+- [x] 05-02-PLAN.md - UI Components (Wave 2)
+- [x] 05-03-PLAN.md - Integration & Verification (Wave 3)
 
 ### Phase 6: STAR Analysis & Debrief
 **Goal:** Users receive actionable feedback with STAR evaluation, pattern detection, and coaching priorities
@@ -79,9 +79,25 @@ Plans:
 **Plans:** 3 plans in 3 waves
 
 Plans:
-- [x] 06-01-PLAN.md — Type System & Analysis Structures (Wave 1)
-- [x] 06-02-PLAN.md — Enhanced Debrief Generator (Wave 2)
-- [ ] 06-03-PLAN.md — Three-Layer Tabbed UI (Wave 3)
+- [x] 06-01-PLAN.md - Type System & Analysis Structures (Wave 1)
+- [x] 06-02-PLAN.md - Enhanced Debrief Generator (Wave 2)
+- [ ] 06-03-PLAN.md - Three-Layer Tabbed UI (Wave 3)
+
+### Phase 06.1: Design System Implementation (INSERTED)
+**Goal:** Implement DESIGN.md specification for the "Cognitive Canvas" design system with proper CSS tokens and typography
+**Requirements:** None (inserted phase for design fix)
+**Depends on:** Phase 6
+**Success Criteria** (what must be TRUE):
+  1. DebriefScreen renders without CSS token errors
+  2. SetupScreen displays correct surface hierarchy colors
+  3. InterviewScreen shows tertiary color indicators
+  4. Headlines use Manrope font with editorial styling
+  5. Body text uses Inter font for readability
+  6. editorial-gradient class creates primary-to-primary-container gradient
+**Plans:** 1 plan in 1 wave
+
+Plans:
+- [ ] 06.1-01-PLAN.md - CSS Design Tokens & Typography (Wave 1)
 
 ## Progress
 
@@ -93,6 +109,7 @@ Plans:
 | 4. Transcript Foundation | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 5. Agent System | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 6. STAR Analysis & Debrief | v3.0 | 0/3 | Ready to execute | - |
+| 06.1. Design System | v3.0 | 0/1 | Planned | - |
 
 ## Dependencies
 
@@ -100,13 +117,16 @@ Plans:
 v1.0 (Phases 1-2) ─────┐
                        │
                        v
-v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation ✅
+v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation
                        │          |
                        │          v
-                       └──> Phase 5: Agent System ✅
+                       └──> Phase 5: Agent System
                                   |
                                   v
                           Phase 6: STAR Analysis & Debrief
+                                  |
+                                  v
+                          Phase 06.1: Design System Implementation
                                   |
                                   v
                             v3.0 Complete
@@ -129,4 +149,4 @@ v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation �
 *For detailed phase information from previous milestones, see `.planning/milestones/v1.0-ROADMAP.md` and `.planning/milestones/v2.0-ROADMAP.md`*
 
 ---
-*Roadmap updated: 2026-03-24 for Phase 6 planning*
+*Roadmap updated: 2026-03-24 for Phase 06.1 planning*

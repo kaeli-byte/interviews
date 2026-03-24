@@ -60,6 +60,64 @@ export interface TranscriptSummary {
 }
 
 /**
+ * STARLevel represents the quality of a STAR component.
+ * Per D-05: 4-level scale for STAR evaluation.
+ */
+export type STARLevel = 'clear' | 'partial' | 'moderate' | 'weak';
+
+/**
+ * STARScore represents evaluation of each STAR component.
+ * Used for behavioral question evaluation.
+ */
+export interface STARScore {
+  situation: STARLevel;
+  task: STARLevel;
+  action: STARLevel;
+  result: STARLevel;
+}
+
+/**
+ * CommunicationScore represents communication quality metrics.
+ * All values are on a 1-10 scale.
+ */
+export interface CommunicationScore {
+  clarity: number; // 1-10
+  conciseness: number; // 1-10
+  structure: number; // 1-10
+  confidence: number; // 1-10
+}
+
+/**
+ * BehavioralSignal represents behavioral trait indicators.
+ * All values are on a 1-10 scale.
+ */
+export interface BehavioralSignal {
+  ownership: number; // 1-10
+  problemSolving: number; // 1-10
+  impact: number; // 1-10
+  selfAwareness: number; // 1-10
+}
+
+/**
+ * QuestionType classifies interview questions.
+ * Per Pitfall 4: Only behavioral questions get STAR evaluation.
+ */
+export type QuestionType = 'behavioral' | 'icebreaker' | 'technical' | 'clarification';
+
+/**
+ * QAPairEvaluation contains per-answer evaluation data.
+ * starScore is null for non-behavioral questions per Pitfall 4.
+ */
+export interface QAPairEvaluation {
+  qaPairId: string;
+  questionType: QuestionType;
+  starScore: STARScore | null; // null for non-behavioral questions
+  communicationScore: CommunicationScore;
+  behavioralSignals: BehavioralSignal;
+  feedback: string; // Brief feedback for this answer
+}
+
+/**
  * DebriefReport is the output of generateDebrief.
  * Includes legacy fields for DebriefScreen compatibility (per D-06).
  */

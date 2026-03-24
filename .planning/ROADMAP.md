@@ -76,8 +76,12 @@ Plans:
   4. Top 3 coaching priorities are generated with actionable guidance
   5. User sees a practice plan with next session focus and recommended agent
   6. DebriefScreen displays transcript, analysis, and coaching layers in a clear hierarchy
-**Plans:** TBD
-**UI hint:** yes
+**Plans:** 3 plans in 3 waves
+
+Plans:
+- [ ] 06-01-PLAN.md — Type System & Analysis Structures (Wave 1)
+- [ ] 06-02-PLAN.md — Enhanced Debrief Generator (Wave 2)
+- [ ] 06-03-PLAN.md — Three-Layer Tabbed UI (Wave 3)
 
 ## Progress
 
@@ -88,7 +92,7 @@ Plans:
 | 3. Layout System | v2.0 | 2/2 | Complete | 2026-03-23 |
 | 4. Transcript Foundation | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 5. Agent System | v3.0 | 3/3 | Complete | 2026-03-24 |
-| 6. STAR Analysis & Debrief | v3.0 | 0/0 | Not started | - |
+| 6. STAR Analysis & Debrief | v3.0 | 0/3 | Ready to execute | - |
 
 ## Dependencies
 
@@ -125,4 +129,4 @@ v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation �
 *For detailed phase information from previous milestones, see `.planning/milestones/v1.0-ROADMAP.md` and `.planning/milestones/v2.0-ROADMAP.md`*
 
 ---
-*Roadmap updated: 2026-03-24 for Phase 5 planning*
+*Roadmap updated: 2026-03-24 for Phase 6 planning*

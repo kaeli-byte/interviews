@@ -188,3 +188,89 @@
     @apply font-sans;
   }
 }
+
+/* ========================================
+   LIQUID GLASS UTILITY CLASSES
+   ======================================== */
+
+/* Glass Surface Base (light tint for buttons) */
+.glass {
+  background-color: var(--glass-tint-light);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Glass Panel (darker tint for containers/cards) */
+.glass-panel {
+  background-color: var(--glass-tint-dark);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Glass Shadow Stack (D-06) */
+.glass-shadow {
+  box-shadow:
+    inset 0 1px 0px var(--glass-highlight),
+    0 0 9px rgba(0, 0, 0, 0.2),
+    0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Glass Gradient Overlays (D-07) */
+.glass-shine {
+  position: relative;
+}
+.glass-shine::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.60),
+    transparent 50%
+  );
+  opacity: 0.70;
+  pointer-events: none;
+}
+.glass-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    to top left,
+    rgba(255, 255, 255, 0.30),
+    transparent 50%
+  );
+  opacity: 0.50;
+  pointer-events: none;
+}
+
+/* Editorial Gradient for CTAs (D-05) */
+.editorial-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--primary-container, var(--primary)));
+}
+
+/* Ghost Border Utility */
+.ghost-border {
+  border: 1px solid var(--outline-variant);
+}
+
+/* Ambient Shadows (D-11) - tinted with on-surface */
+.shadow-ambient {
+  box-shadow:
+    0 8px 32px oklch(from var(--on-surface) l c h / 0.06),
+    0 16px 64px oklch(from var(--on-surface) l c h / 0.04);
+}
+.shadow-ambient-lg {
+  box-shadow:
+    0 16px 48px oklch(from var(--on-surface) l c h / 0.08),
+    0 32px 96px oklch(from var(--on-surface) l c h / 0.05);
+}
+
+/* Font Heading Utility */
+.font-heading {
+  font-family: var(--font-heading), var(--font-sans), sans-serif;
+}

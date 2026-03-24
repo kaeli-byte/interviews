@@ -118,6 +118,67 @@ export interface QAPairEvaluation {
 }
 
 /**
+ * Pattern represents a detected behavior pattern across answers.
+ * Per Pitfall 5/D-03: instanceCount must be 3+ to qualify as a pattern.
+ */
+export interface Pattern {
+  type: 'positive' | 'attention';
+  description: string;
+  instanceCount: number; // Per D-03: must be 3+ to qualify as pattern
+  affectedAnswerIds: string[]; // QAPair IDs where pattern appears
+}
+
+/**
+ * CoachingPriority represents a prioritized improvement area.
+ * Uses issue/why/fix/example structure for actionable guidance.
+ */
+export interface CoachingPriority {
+  issue: string;
+  whyItMatters: string;
+  fix: string;
+  example?: string; // Optional example of fix
+}
+
+/**
+ * PracticePlan represents recommended next steps.
+ * Links to agent definitions from Phase 5.
+ */
+export interface PracticePlan {
+  nextSessionFocus: string;
+  recommendedAgent: AgentId; // Links to agent definitions from Phase 5
+  drill: string;
+}
+
+/**
+ * AnalysisReport contains aggregated interview analysis.
+ * Patterns array only includes items with instanceCount >= 3 per D-03.
+ */
+export interface AnalysisReport {
+  overallScore: number; // 1-10
+  hireSignal: 'strong_yes' | 'lean_yes' | 'neutral' | 'lean_no' | 'strong_no';
+  starAverages: {
+    situation: number;
+    task: number;
+    action: number;
+    result: number;
+  };
+  communicationAverages: CommunicationScore;
+  strengths: string[];
+  weaknesses: string[];
+  patterns: Pattern[]; // Only patterns with instanceCount >= 3 per D-03
+}
+
+/**
+ * CoachingInsight contains actionable coaching recommendations.
+ * topPriorities contains exactly 3 items per spec.
+ */
+export interface CoachingInsight {
+  topPriorities: CoachingPriority[]; // Exactly 3 items per spec
+  quickWins: string[];
+  practicePlan: PracticePlan;
+}
+
+/**
  * DebriefReport is the output of generateDebrief.
  * Includes legacy fields for DebriefScreen compatibility (per D-06).
  */

@@ -8,7 +8,7 @@ import { GeminiLiveClient } from '@/lib/geminiLiveClient';
 import { AudioRecorder } from '@/lib/audioRecorder';
 import { AudioStreamer } from '@/lib/audioStreamer';
 import { buildSystemInstruction } from '@/lib/promptBuilder';
-import { TranscriptEntry, DebriefReport } from '@/lib/types';
+import { TranscriptEntry, DebriefReport, AgentId } from '@/lib/types';
 import { generateDebrief } from '@/lib/debriefGenerator';
 import { AgentAudioVisualizerAura } from '@/components/agent-audio-visualizer-aura';
 
@@ -17,7 +17,7 @@ interface InterviewScreenProps {
   onFinish: (transcript: TranscriptEntry[], report: DebriefReport | null) => void;
   resume: string;
   jobDescription: string;
-  personality: string;
+  selectedAgent: AgentId;
 }
 
 /**
@@ -171,7 +171,7 @@ export default function InterviewScreen({
   onFinish,
   resume,
   jobDescription,
-  personality
+  selectedAgent
 }: InterviewScreenProps) {
   const [timeLeft, setTimeLeft] = useState(duration * 60);
   const [isRecording, setIsRecording] = useState(true);
@@ -341,7 +341,7 @@ export default function InterviewScreen({
     const systemInstruction = buildSystemInstruction({
       resume,
       jobDescription,
-      personality: personality as 'warm' | 'professional' | 'direct' | 'coaching'
+      agentId: selectedAgent
     });
 
     clientRef.current.connect(systemInstruction);
@@ -366,7 +366,7 @@ export default function InterviewScreen({
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [resume, jobDescription, personality]);
+  }, [resume, jobDescription, selectedAgent]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);

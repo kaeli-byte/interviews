@@ -183,15 +183,21 @@ export interface CoachingInsight {
  * Includes legacy fields for DebriefScreen compatibility (per D-06).
  */
 export interface DebriefReport {
-  // Legacy fields (required for DebriefScreen compatibility)
+  // Legacy fields (retained for backward compatibility)
   elevatorPitch: string;
   keyAchievements: string[];
   uniqueValueProposition: string;
   areasForImprovement: string[];
 
-  // Transcript-based fields (new in Phase 4)
+  // Transcript-based fields (Phase 4)
   transcriptSummary: TranscriptSummary;
   sessionStats: SessionStats;
+
+  // STAR Analysis fields (Phase 6)
+  // Optional until analysis implementation in 06-02/06-03
+  evaluations?: QAPairEvaluation[];
+  analysis?: AnalysisReport;
+  coaching?: CoachingInsight;
 }
 
 /**

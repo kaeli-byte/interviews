@@ -2,22 +2,23 @@
 gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: Candidate Simulator
-status: "Roadmap defined — ready for Phase 7 planning"
-last_updated: "2026-03-25T10:00:00.000Z"
+status: in_progress
+last_updated: "2026-03-25T21:49:00.000Z"
+last_activity: 2026-03-25 — Simulation API endpoint completed
 progress:
   total_phases: 3
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  completed_phases: 1
+  total_plans: 6
+  completed_plans: 5
+  percent: 83
 ---
 
 ## Current Position
 
-Phase: 7 - Candidate Persona Generation
-Plan: 02 (PersonaScreen UI) — ✅ Complete
+Phase: 8 - Text Chat Simulation
+Plan: 02 (API & Streaming) — ✅ Complete
 Status: 2/3 plans complete
-Last activity: 2026-03-25 — PersonaScreen UI completed
+Last activity: 2026-03-25 — Simulation API endpoint with SSE streaming completed
 
 ## Project Reference
 
@@ -50,11 +51,11 @@ See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 
 | Phase | Status | Plans |
 |-------|--------|-------|
-| 7. Candidate Persona Generation | In progress | 2/3 complete |
-| 8. Text Chat Simulation | Not started | TBD |
+| 7. Candidate Persona Generation | ✅ Complete | 3/3 complete |
+| 8. Text Chat Simulation | In progress | 2/3 complete |
 | 9. Interviewer Quality Metrics | Not started | TBD |
 
-**Progress:** [██░░░░░░░░] 20%
+**Progress:** [████████░░] 83%
 
 ## Accumulated Context
 
@@ -84,6 +85,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 - **06.1-01**: Used oklch color space for design tokens with -webkit-backdrop-filter for Safari compatibility in glass effects
 - **v4.0 Roadmap**: Text simulation (no voice) for simplicity; 3-phase structure mirrors requirement categories
 - **07-02**: PersonaScreen uses LiquidGlassCard design system with editable Select/Textarea fields for all persona attributes
+- **08-02**: SSE streaming API with in-memory session Map for stop functionality; session ID emitted as first event
 
 ### Critical Pitfalls (from research)
 
@@ -101,27 +103,29 @@ See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 
 ### Last Session
 
-- Completed Plan 07-02: PersonaScreen UI
-- Created API route for persona extraction
-- Built PersonaScreen component with editable fields
-- Phase 7 progress: 2/3 plans complete
+- Completed Plan 08-02: API & Streaming
+- Created simulation API endpoint with SSE streaming
+- Implemented stop functionality with partial transcript return
+- Phase 8 progress: 2/3 plans complete
 
 ### Key Files
 
 - `.planning/ROADMAP.md` — Phase structure and goals for v4.0
 - `.planning/REQUIREMENTS.md` — Requirements with traceability (19 v4.0 requirements mapped)
-- `lib/agents.ts` — 7 agent definitions (will be used as simulation interviewers)
-- `lib/types.ts` — Type definitions including CandidatePersona
+- `lib/agents.ts` — 7 agent definitions (used as simulation interviewers)
+- `lib/types.ts` — Type definitions including CandidatePersona, SimulationConfig
 - `lib/personaExtractor.ts` — AI-powered persona extraction from resume/JD
 - `lib/personaPrompts.ts` — Structured prompts for Gemini extraction
 - `components/PersonaScreen.tsx` — Persona review/edit UI
 - `app/api/extract-persona/route.ts` — API endpoint for persona extraction
+- `app/api/simulation/route.ts` — SSE streaming endpoint for simulation
+- `lib/simulationRunner.ts` — Simulation engine with alternating API calls
 - `lib/promptBuilder.ts` — Agent-aware system instruction generation
 - `lib/debriefGenerator.ts` — Interview debrief (will need quality metrics extension)
 
 ### Next Action
 
-Run `/gsd:execute-phase 07` to complete Phase 7 (Plan 07-03 remaining)
+Run `/gsd:execute-phase 08` to complete Phase 8 (Plan 08-03 remaining: Observer UI)
 
 ---
 *State updated: 2026-03-25*

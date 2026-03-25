@@ -24,8 +24,8 @@
 - [ ] **SIM-02**: Simulation displays text-based chat interface (no voice/audio)
 - [ ] **SIM-03**: User can select which interviewer agent (from existing 7) conducts the simulation
 - [ ] **SIM-04**: User can adjust simulation speed (1x, 1.5x, 2x)
-- [ ] **SIM-05**: Simulation displays candidate responses and interviewer questions in real-time
-- [ ] **SIM-06**: User can stop simulation at any point and receive partial debrief
+- [x] **SIM-05**: Simulation displays candidate responses and interviewer questions in real-time
+- [x] **SIM-06**: User can stop simulation at any point and receive partial debrief
 - [ ] **SIM-07**: Simulation uses existing transcript and debrief infrastructure
 
 ### Interviewer Quality Metrics
@@ -132,8 +132,8 @@
 | SIM-02 | Phase 8 | Pending |
 | SIM-03 | Phase 8 | Pending |
 | SIM-04 | Phase 8 | Pending |
-| SIM-05 | Phase 8 | Pending |
-| SIM-06 | Phase 8 | Pending |
+| SIM-05 | Phase 8 | Complete |
+| SIM-06 | Phase 8 | Complete |
 | SIM-07 | Phase 8 | Pending |
 | QUAL-01 | Phase 9 | Pending |
 | QUAL-02 | Phase 9 | Pending |

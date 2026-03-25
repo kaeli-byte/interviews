@@ -73,8 +73,8 @@ Plans:
 **Plans:** 3 plans in 3 waves
 
 Plans:
-- [ ] 08-01-PLAN.md - Types & Simulation Core (Wave 1) - SIM-01, SIM-02, SIM-05, SIM-07
-- [ ] 08-02-PLAN.md - API & Streaming (Wave 2) - SIM-05, SIM-06
+- [x] 08-01-PLAN.md - Types & Simulation Core (Wave 1) - SIM-01, SIM-02, SIM-05, SIM-07
+- [x] 08-02-PLAN.md - API & Streaming (Wave 2) - SIM-05, SIM-06
 - [ ] 08-03-PLAN.md - UI Integration (Wave 3) - SIM-03, SIM-04, SIM-06
 
 **UI hint:** yes

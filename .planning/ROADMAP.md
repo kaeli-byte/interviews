@@ -70,7 +70,13 @@ Plans:
   4. User can adjust simulation speed (1x, 1.5x, 2x) to control pacing
   5. User can stop simulation at any point and receive a partial debrief with current data
   6. Simulation transcript flows to existing debrief infrastructure for analysis
-**Plans:** TBD
+**Plans:** 3 plans in 3 waves
+
+Plans:
+- [ ] 08-01-PLAN.md - Types & Simulation Core (Wave 1) - SIM-01, SIM-02, SIM-05, SIM-07
+- [ ] 08-02-PLAN.md - API & Streaming (Wave 2) - SIM-05, SIM-06
+- [ ] 08-03-PLAN.md - UI Integration (Wave 3) - SIM-03, SIM-04, SIM-06
+
 **UI hint:** yes
 
 ### Phase 9: Interviewer Quality Metrics
@@ -99,7 +105,7 @@ Plans:
 | 6. STAR Analysis & Debrief | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 06.1. Design System | v3.0 | 1/1 | Complete | 2026-03-24 |
 | 7. Candidate Persona Generation | v4.0 | 2/3 | In progress | - |
-| 8. Text Chat Simulation | v4.0 | 0/0 | Not started | - |
+| 8. Text Chat Simulation | v4.0 | 0/3 | Planned | - |
 | 9. Interviewer Quality Metrics | v4.0 | 0/0 | Not started | - |
 
 ## Dependencies
@@ -150,4 +156,4 @@ v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation
 *For detailed phase information from previous milestones, see `.planning/milestones/v1.0-ROADMAP.md` and `.planning/milestones/v2.0-ROADMAP.md`*
 
 ---
-*Roadmap updated: 2026-03-25 for Phase 7 planning*
+*Roadmap updated: 2026-03-25 for Phase 8 planning*

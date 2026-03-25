@@ -4,6 +4,7 @@ export class AudioRecorder {
   private stream: MediaStream | null = null;
   private audioContext: AudioContext | null = null;
   private processor: ScriptProcessorNode | null = null;
+  private analyser: AnalyserNode | null = null;
   private onAudio: (base64Data: string) => void;
 
   constructor(onAudio: (base64Data: string) => void) {
@@ -14,11 +15,16 @@ export class AudioRecorder {
     this.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     this.audioContext = new AudioContext({ sampleRate: 16000 });
     const source = this.audioContext.createMediaStreamSource(this.stream);
-    
+
+    // Create analyser for level monitoring
+    this.analyser = this.audioContext.createAnalyser();
+    this.analyser.fftSize = 256;
+    source.connect(this.analyser);
+
     // Using ScriptProcessor for simplicity in this prototype
     this.processor = this.audioContext.createScriptProcessor(4096, 1, 1);
-    
-    source.connect(this.processor);
+
+    this.analyser.connect(this.processor);
     this.processor.connect(this.audioContext.destination);
 
     this.processor.onaudioprocess = (e) => {
@@ -28,16 +34,24 @@ export class AudioRecorder {
       for (let i = 0; i < inputData.length; i++) {
         pcmData[i] = Math.max(-1, Math.min(1, inputData[i])) * 0x7FFF;
       }
-      
+
       const base64Data = Buffer.from(pcmData.buffer).toString('base64');
       this.onAudio(base64Data);
     };
+  }
+
+  getAnalyser(): AnalyserNode | null {
+    return this.analyser;
   }
 
   stop() {
     if (this.processor) {
       this.processor.disconnect();
       this.processor = null;
+    }
+    if (this.analyser) {
+      this.analyser.disconnect();
+      this.analyser = null;
     }
     if (this.audioContext) {
       this.audioContext.close();

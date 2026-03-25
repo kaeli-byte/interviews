@@ -1,18 +1,22 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { type LocalAudioTrack, type RemoteAudioTrack } from 'livekit-client';
 import {
-  type AnimationPlaybackControlsWithThen,
   type ValueAnimationTransition,
   animate,
   useMotionValue,
   useMotionValueEvent,
 } from 'framer-motion';
-import {
-  type AgentState,
-  type TrackReference,
-  type TrackReferenceOrPlaceholder,
-  useTrackVolume,
-} from '@livekit/components-react';
+
+// Agent state type (local definition, not from LiveKit)
+export type AgentState =
+  | 'idle'
+  | 'connecting'
+  | 'initializing'
+  | 'listening'
+  | 'thinking'
+  | 'speaking'
+  | 'pre-connect-buffering'
+  | 'failed'
+  | 'disconnected';
 
 const DEFAULT_SPEED = 10;
 const DEFAULT_AMPLITUDE = 2;
@@ -30,7 +34,7 @@ const DEFAULT_PULSE_TRANSITION: ValueAnimationTransition = {
 function useAnimatedValue<T>(initialValue: T) {
   const [value, setValue] = useState(initialValue);
   const motionValue = useMotionValue(initialValue);
-  const controlsRef = useRef<AnimationPlaybackControlsWithThen | null>(null);
+  const controlsRef = useRef<ReturnType<typeof animate> | null>(null);
   useMotionValueEvent(motionValue, 'change', (value) => setValue(value as T));
 
   const animateFn = useCallback(
@@ -43,10 +47,7 @@ function useAnimatedValue<T>(initialValue: T) {
   return { value, motionValue, controls: controlsRef, animate: animateFn };
 }
 
-export function useAgentAudioVisualizerAura(
-  state: AgentState | undefined,
-  audioTrack?: LocalAudioTrack | RemoteAudioTrack | TrackReferenceOrPlaceholder,
-) {
+export function useAgentAudioVisualizerAura(state: AgentState | undefined) {
   const [speed, setSpeed] = useState(DEFAULT_SPEED);
   const {
     value: scale,
@@ -56,11 +57,6 @@ export function useAgentAudioVisualizerAura(
   const { value: amplitude, animate: animateAmplitude } = useAnimatedValue(DEFAULT_AMPLITUDE);
   const { value: frequency, animate: animateFrequency } = useAnimatedValue(DEFAULT_FREQUENCY);
   const { value: brightness, animate: animateBrightness } = useAnimatedValue(DEFAULT_BRIGHTNESS);
-
-  const volume = useTrackVolume(audioTrack as TrackReference, {
-    fftSize: 512,
-    smoothingTimeConstant: 0.55,
-  });
 
   useEffect(() => {
     switch (state) {
@@ -100,19 +96,14 @@ export function useAgentAudioVisualizerAura(
     }
   }, [state, animateScale, animateAmplitude, animateFrequency, animateBrightness]);
 
+  // Optional: add volume-based scale animation when speaking
+  // For now, we keep a static scale since we don't have audio volume data
   useEffect(() => {
-    if (state === 'speaking' && volume > 0 && !scaleMotionValue.isAnimating()) {
-      animateScale(0.2 + 0.2 * volume, { duration: 0 });
+    if (state === 'speaking' && !scaleMotionValue.isAnimating()) {
+      // Subtle pulse when speaking
+      animateScale([0.25, 0.35], { duration: 0.3, repeat: Infinity, repeatType: 'mirror' });
     }
-  }, [
-    state,
-    volume,
-    scaleMotionValue,
-    animateScale,
-    animateAmplitude,
-    animateFrequency,
-    animateBrightness,
-  ]);
+  }, [state, scaleMotionValue, animateScale]);
 
   return {
     speed,

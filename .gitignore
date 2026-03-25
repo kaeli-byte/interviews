@@ -66,3 +66,8 @@ vendor/
 coverage/
 .cache/
 tmp/
+liquidglass.css
+LIQUID_GLASS.md
+
+# GSD local state
+.gsd/

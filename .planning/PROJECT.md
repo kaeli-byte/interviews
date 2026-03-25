@@ -23,11 +23,46 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 - ✓ Sidebar Component with navigation items — v2.0 (LAY-01)
 - ✓ Body Layout Container with overflow handling — v2.0 (LAY-02)
 - ✓ Layout Inheritance Pattern for all pages — v2.0 (LAY-03)
+- ✓ Transcript capture and QAPair structuring — v3.0 Phase 4 (TRANS-01, TRANS-03, TRANS-04)
+- ✓ Utterance merging for fragmented Gemini chunks — v3.0 Phase 4 (TRANS-03)
+- ✓ Q/A pair detection with timestamps — v3.0 Phase 4 (TRANS-04)
+- ✓ Transcript-based debrief generation — v3.0 Phase 4 (TRANS-02, TRANS-05)
+- ✓ Fixed critical null report bug in InterviewScreen.handleFinish() — v3.0 Phase 4
+- ✓ 7 distinct interviewer personas with unique behaviors — v3.0 Phase 5 (AGENT-01, AGENT-02)
+- ✓ Agent selection UI with grouped cards (Full Simulations + Targeted Prep) — v3.0 Phase 5 (AGENT-06)
+- ✓ Agent prompts with anti-behavior boundaries for persona consistency — v3.0 Phase 5 (AGENT-05)
+- ✓ Conditional duration picker for simulation vs targeted agents — v3.0 Phase 5
+- ✓ STAR evaluation per answer with 4-level scale — v3.0 Phase 6 (STAR-01 through STAR-07)
+- ✓ Pattern detection across answers (3+ instance threshold) — v3.0 Phase 6 (PATN-01 through PATN-06)
+- ✓ Coaching insights with actionable priorities — v3.0 Phase 6 (DEBR-01 through DEBR-04)
+- ✓ Three-layer debrief UI (Transcript, Analysis, Coaching tabs) — v3.0 Phase 6
+- ✓ Liquid Glass design system with CSS tokens — v3.0 Phase 06.1
+- ✓ Manrope + Inter typography — v3.0 Phase 06.1
+- ✓ Glass utility classes (.glass, .glass-panel, .glass-shadow, .glass-shine) — v3.0 Phase 06.1
 
 ### Active
 
-- [ ] Saving user profiles/resumes to a database (v3 requirement)
-- [ ] Generating detailed PDF score report after interview (v3 requirement)
+- [ ] Saving user profiles/resumes to a database (future milestone)
+- [ ] Generating detailed PDF score report after interview (future milestone)
+
+## Current Milestone: v3.0 Agent System & Smart Debrief
+
+**Goal:** Build a multi-agent interview system with 7 distinct personas and a transcript-based debrief with STAR evaluation.
+
+**Target features:**
+- 7 agent prompts with unique behaviors, boundaries, and feedback styles
+  - Realistic Hiring Manager — Professional, structured, 15-20 min simulation
+  - High-Pressure Panelist — Intense, probing, 20-30 min
+  - Supportive Coach — Warm, encouraging, 10-15 min
+  - Rapid-Fire Drill Sergeant — Fast, breadth-focused
+  - Story Architect — Analytical, STAR-depth
+  - Efficiency Screener — Brisk, recruiter-style, 10-15 min
+  - Behavioral Pattern Analyst — Objective, pattern-focused
+- Agent selection UI in SetupScreen
+- Transcript-based debrief (NOT resume/JD)
+- STAR evaluation per answer
+- Analysis layer with pattern detection
+- Coaching insights with actionable priorities
 
 ### Out of Scope
 | Feature | Reason |
@@ -53,6 +88,27 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 - Disabled navigation states based on app state
 - Proper scroll overflow handling in all screen components
 
+**Shipped v3.0 Phase 4** with transcript foundation:
+- QAPair type for structured interview data
+- Utterance merging for fragmented Gemini chunks using turn_complete signal
+- Q/A pair detection with timestamps
+- Transcript-based debrief generation (no resume/JD)
+- Fixed critical null report bug in InterviewScreen.handleFinish()
+
+**Shipped v3.0 Phase 5** with agent system:
+- 7 agent definitions in lib/agents.ts with persona, behaviors, boundaries, tone
+- AgentId type (7 union members) and AgentDefinition type
+- Agent-aware buildSystemInstruction with anti-behavior boundaries
+- SetupScreen with grouped agent cards (Full Simulations: 4, Targeted Prep: 3)
+- MyCareerApp selectedAgent state replacing legacy personality
+- Conditional duration picker visible for simulation agents only
+
+**Shipped v3.0 Phase 06.1** with Liquid Glass design system:
+- CSS design tokens for surface hierarchy, tertiary colors, glass tints
+- Liquid Glass utility classes (.glass, .glass-panel, .glass-shadow, .glass-shine)
+- Ambient shadow utilities with on-surface tinting
+- Manrope (headlines) + Inter (body) fonts replacing Geist
+
 **Tech Stack:** Next.js 16, React 19, TypeScript 5, Tailwind CSS v4, Base UI, Shadcn UI, Framer Motion, Vitest
 
 **LOC:** ~5,800 TypeScript/TSX across components, lib, and hooks
@@ -76,4 +132,4 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-03-23 after v2.0 milestone*
+*Last updated: 2026-03-24 after v3.0 Phase 06.1 completion*

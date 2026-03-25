@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: Candidate Simulator
-status: "Starting milestone — requirements gathering"
-last_updated: "2026-03-25T08:00:00.000Z"
+status: "Roadmap defined — ready for Phase 7 planning"
+last_updated: "2026-03-25T10:00:00.000Z"
 progress:
-  total_phases: 0
+  total_phases: 3
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -14,10 +14,10 @@ progress:
 
 ## Current Position
 
-Phase: Not started
+Phase: 7 - Candidate Persona Generation
 Plan: —
-Status: Defining requirements
-Last activity: 2026-03-25 — Milestone v4.0 started
+Status: Not started
+Last activity: 2026-03-25 — v4.0 roadmap created
 
 ## Project Reference
 
@@ -46,11 +46,13 @@ See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 | 6. STAR Analysis & Debrief | ✅ Complete | 3/3 complete |
 | 06.1. Design System | ✅ Complete | 1/1 complete |
 
-**v4.0 milestone** — 🔄 Starting
+**v4.0 milestone** — 🔄 Planning Complete
 
 | Phase | Status | Plans |
 |-------|--------|-------|
-| (TBD) | Planning | — |
+| 7. Candidate Persona Generation | Not started | TBD |
+| 8. Text Chat Simulation | Not started | TBD |
+| 9. Interviewer Quality Metrics | Not started | TBD |
 
 **Progress:** [░░░░░░░░░░] 0%
 
@@ -62,7 +64,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 - Phase 3: v2.0 Layout — Sidebar navigation and responsive layout
 - Phase 4-6: v3.0 Agent System — Multi-agent personas and transcript-based STAR debrief
 - Phase 06.1 inserted after Phase 6: Design System Implementation (URGENT) — Implement DESIGN.md specification
-- v4.0: Candidate Simulator — AI vs AI interview simulation
+- Phase 7-9: v4.0 Candidate Simulator — AI candidate persona generation, text simulation, quality metrics
 
 ### Key Decisions
 
@@ -80,6 +82,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 - **06-02**: Combined Task 2 and Task 3 into single commit since validation helpers are integral to the pipeline
 - **06-02**: Pattern threshold (D-03) enforced at validation time, not in AI prompt alone
 - **06.1-01**: Used oklch color space for design tokens with -webkit-backdrop-filter for Safari compatibility in glass effects
+- **v4.0 Roadmap**: Text simulation (no voice) for simplicity; 3-phase structure mirrors requirement categories
 
 ### Critical Pitfalls (from research)
 
@@ -97,21 +100,22 @@ See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 
 ### Last Session
 
-- Completed v3.0 milestone (Phases 4-6 + 06.1)
-- All features shipped: transcript, agents, STAR analysis, design system
+- Created v4.0 roadmap with 3 phases
+- Mapped 19 requirements to phases 7, 8, 9
+- Updated REQUIREMENTS.md traceability
 
 ### Key Files
 
-- `.planning/ROADMAP.md` — Phase structure and goals
-- `.planning/REQUIREMENTS.md` — Requirements with traceability
-- `lib/agents.ts` — 7 agent definitions with AGENT_SELECTIONS grouping
-- `lib/types.ts` — Type definitions including AgentId, AgentDefinition, QAPair, DebriefReport, STAR types
+- `.planning/ROADMAP.md` — Phase structure and goals for v4.0
+- `.planning/REQUIREMENTS.md` — Requirements with traceability (19 v4.0 requirements mapped)
+- `lib/agents.ts` — 7 agent definitions (will be used as simulation interviewers)
+- `lib/types.ts` — Type definitions (will need CandidatePersona type)
 - `lib/promptBuilder.ts` — Agent-aware system instruction generation
-- `lib/debriefGenerator.ts` — Interview debrief with STAR evaluation and coaching
+- `lib/debriefGenerator.ts` — Interview debrief (will need quality metrics extension)
 
 ### Next Action
 
-Define requirements for v4.0 Candidate Simulator
+Run `/gsd:plan-phase 7` to plan Candidate Persona Generation
 
 ---
 *State updated: 2026-03-25*

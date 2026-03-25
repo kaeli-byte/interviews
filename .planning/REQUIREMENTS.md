@@ -122,27 +122,27 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CAND-01 | TBD | — |
-| CAND-02 | TBD | — |
-| CAND-03 | TBD | — |
-| CAND-04 | TBD | — |
-| CAND-05 | TBD | — |
-| CAND-06 | TBD | — |
-| SIM-01 | TBD | — |
-| SIM-02 | TBD | — |
-| SIM-03 | TBD | — |
-| SIM-04 | TBD | — |
-| SIM-05 | TBD | — |
-| SIM-06 | TBD | — |
-| SIM-07 | TBD | — |
-| QUAL-01 | TBD | — |
-| QUAL-02 | TBD | — |
-| QUAL-03 | TBD | — |
-| QUAL-04 | TBD | — |
-| QUAL-05 | TBD | — |
-| QUAL-06 | TBD | — |
+| CAND-01 | Phase 7 | Pending |
+| CAND-02 | Phase 7 | Pending |
+| CAND-03 | Phase 7 | Pending |
+| CAND-04 | Phase 7 | Pending |
+| CAND-05 | Phase 7 | Pending |
+| CAND-06 | Phase 7 | Pending |
+| SIM-01 | Phase 8 | Pending |
+| SIM-02 | Phase 8 | Pending |
+| SIM-03 | Phase 8 | Pending |
+| SIM-04 | Phase 8 | Pending |
+| SIM-05 | Phase 8 | Pending |
+| SIM-06 | Phase 8 | Pending |
+| SIM-07 | Phase 8 | Pending |
+| QUAL-01 | Phase 9 | Pending |
+| QUAL-02 | Phase 9 | Pending |
+| QUAL-03 | Phase 9 | Pending |
+| QUAL-04 | Phase 9 | Pending |
+| QUAL-05 | Phase 9 | Pending |
+| QUAL-06 | Phase 9 | Pending |
 
-**v4.0 Coverage:** 19 requirements (unmapped)
+**v4.0 Coverage:** 19/19 requirements mapped
 
 ### v3.0 Requirements (COMPLETE)
 
@@ -182,4 +182,4 @@
 ---
 
 *Requirements defined: 2026-03-23*
-*Last updated: 2026-03-25 for v4.0 Candidate Simulator*
+*Last updated: 2026-03-25 for v4.0 Candidate Simulator roadmap*

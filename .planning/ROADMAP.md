@@ -57,7 +57,7 @@
 Plans:
 - [x] 07-01-PLAN.md - Types & Extraction Core (Wave 1) - CAND-01 through CAND-05
 - [x] 07-02-PLAN.md - PersonaScreen UI (Wave 2) - CAND-06
-- [ ] 07-03-PLAN.md - App Integration (Wave 3) - Full flow integration
+- [x] 07-03-PLAN.md - App Integration (Wave 3) - Full flow integration
 
 ### Phase 8: Text Chat Simulation
 **Goal:** Users can observe AI candidates interviewing with AI interviewers in real-time text chat

@@ -22,9 +22,22 @@ export function AppLayout({
   onMobileMenuToggle,
 }: AppLayoutProps) {
   return (
-    <div className="flex h-screen bg-surface-container-lowest">
+    <div className="flex h-screen relative overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: 'url(/hero-bg-01.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+      {/* Dark gradient overlay for readability */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-black/0 via-black/0 to-black/0" />
+
       {/* Desktop sidebar - visible at lg breakpoint and up */}
-      <div className="hidden lg:block w-64 shrink-0 border-r border-border bg-surface-container-low">
+      <div className="hidden lg:block w-64 shrink-0 z-10 glass-panel border-r border-white/10">
         {sidebar}
       </div>
 
@@ -43,7 +56,7 @@ export function AppLayout({
         {/* Mobile sidebar drawer */}
         <div
           className={cn(
-            'fixed left-0 top-0 h-full z-50 w-64 transition-transform duration-300 ease-in-out lg:hidden bg-surface-container-low border-r border-border',
+            'fixed left-0 top-0 h-full z-50 w-64 transition-transform duration-300 ease-in-out lg:hidden glass-panel border-r border-white/10',
             mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
           )}
         >
@@ -76,7 +89,7 @@ export function AppLayout({
       </div>
 
       {/* Main content area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 z-10">
         {/* Header slot (optional) */}
         {header && (
           <div className="shrink-0">

@@ -9,6 +9,14 @@ export interface TranscriptEntry {
 }
 
 /**
+ * TranscriptUpdate extends TranscriptEntry with partial flag.
+ * Used for real-time streaming: partial updates amend the last entry, complete creates new.
+ */
+export interface TranscriptUpdate extends TranscriptEntry {
+  isPartial: boolean; // true = still streaming, update last entry; false = complete, finalize
+}
+
+/**
  * QAPair represents a complete question-answer exchange.
  * Used for debrief generation and STAR evaluation.
  */

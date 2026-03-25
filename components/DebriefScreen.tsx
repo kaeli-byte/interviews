@@ -19,6 +19,10 @@ import {
 } from 'lucide-react';
 import type { DebriefReport, STARLevel, AgentId } from '@/lib/types';
 import { AGENT_DEFINITIONS } from '@/lib/agents';
+import {
+  LiquidGlassCard,
+  LiquidGlassActionButton,
+} from '@/components/ui/liquid-glass';
 
 interface DebriefScreenProps {
   report: DebriefReport | null;
@@ -47,7 +51,7 @@ function TabButton({
       className={`flex items-center gap-2 px-4 py-3 rounded-lg font-semibold text-sm transition-all ${
         active
           ? 'bg-primary text-primary-foreground'
-          : 'bg-surface-container-low text-muted-foreground hover:bg-surface-container'
+          : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'
       }`}
     >
       <Icon className="w-4 h-4" />
@@ -77,17 +81,17 @@ function StatCard({
   };
 
   return (
-    <div className="bg-surface-container-lowest rounded-xl p-5 lg:p-6 flex items-center gap-4">
+    <LiquidGlassCard className="flex items-center gap-4 p-4">
       <div className={`w-12 h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center ${colorClasses[color]}`}>
         <Icon className="w-6 h-6 lg:w-7 lg:h-7" />
       </div>
       <div>
-        <span className="text-[10px] font-bold text-secondary uppercase tracking-widest block">
+        <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest block">
           {label}
         </span>
         <span className="text-xl lg:text-2xl font-heading font-bold">{value}</span>
       </div>
-    </div>
+    </LiquidGlassCard>
   );
 }
 
@@ -135,12 +139,12 @@ function TranscriptTab({ report }: { report: DebriefReport }) {
 
         {/* Q/A Pairs */}
         {pairs.map((pair, index) => (
-          <div
+          <LiquidGlassCard
             key={pair.id}
-            className="bg-surface-container-low rounded-xl overflow-hidden"
+            className="overflow-hidden"
           >
             {/* Question */}
-            <div className="p-5 lg:p-6 border-b border-outline-variant">
+            <div className="p-5 lg:p-6 border-b border-white/10">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-bold shrink-0">
                   Q{index + 1}
@@ -181,14 +185,14 @@ function TranscriptTab({ report }: { report: DebriefReport }) {
                 </div>
               </div>
             </div>
-          </div>
+          </LiquidGlassCard>
         ))}
 
         {/* Fallback if no transcript data */}
         {pairs.length === 0 && (
-          <div className="bg-surface-container-low rounded-2xl p-8 text-center">
-            <p className="text-muted-foreground">No transcript data available for this session.</p>
-          </div>
+          <LiquidGlassCard className="text-center p-6">
+            <p className="text-white/60">No transcript data available for this session.</p>
+          </LiquidGlassCard>
         )}
       </div>
     </div>
@@ -209,8 +213,8 @@ function StarProgressBar({ label, level }: { label: string; level: STARLevel }) 
   const config = STAR_COLORS[level];
   return (
     <div className="flex items-center gap-3">
-      <span className="text-sm text-muted-foreground w-20 capitalize">{label}</span>
-      <div className="flex-1 h-3 bg-surface-container-highest rounded-full overflow-hidden">
+      <span className="text-sm text-white/60 w-20 capitalize">{label}</span>
+      <div className="flex-1 h-3 bg-white/10 rounded-full overflow-hidden">
         <div className={`h-full ${config.bg} transition-all duration-500`} style={{ width: config.width }} />
       </div>
       <span className="text-xs font-semibold uppercase tracking-wider w-16 text-right">{level}</span>
@@ -237,24 +241,24 @@ function AnalysisTab({ report }: { report: DebriefReport }) {
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Overall Score */}
         {analysis && (
-          <div className="bg-surface-container-low rounded-2xl p-6 lg:p-8">
-            <h3 className="text-xs font-bold text-secondary uppercase tracking-widest mb-4">Overall Performance</h3>
+          <LiquidGlassCard className="p-6">
+            <h3 className="text-xs font-bold text-white/60 uppercase tracking-widest mb-4">Overall Performance</h3>
             <div className="flex items-center gap-4">
               <div className="text-4xl font-heading font-extrabold text-primary">
                 {analysis.overallScore}/10
               </div>
-              <div className="text-sm text-muted-foreground capitalize">
+              <div className="text-sm text-white/60 capitalize">
                 {analysis.hireSignal?.replace('_', ' ')}
               </div>
             </div>
-          </div>
+          </LiquidGlassCard>
         )}
 
         {/* Per-Answer STAR Evaluation */}
         <div className="space-y-6">
           <h3 className="text-xs font-bold text-secondary uppercase tracking-widest">STAR Evaluation by Answer</h3>
           {evaluations.filter(e => e.starScore).map((evaluation, index) => (
-            <div key={evaluation.qaPairId} className="bg-surface-container-low rounded-xl p-5 lg:p-6">
+            <LiquidGlassCard key={evaluation.qaPairId} className="p-4">
               <div className="mb-4">
                 <span className="text-xs text-muted-foreground uppercase">Q{index + 1} - {evaluation.questionType}</span>
                 <p className="text-sm text-foreground mt-1 line-clamp-2">{getQuestionText(evaluation.qaPairId)}</p>
@@ -266,16 +270,16 @@ function AnalysisTab({ report }: { report: DebriefReport }) {
                 <StarProgressBar label="Result" level={evaluation.starScore!.result} />
               </div>
               {evaluation.feedback && (
-                <p className="text-sm text-muted-foreground mt-4 italic">"{evaluation.feedback}"</p>
+                <p className="text-sm text-white/60 mt-4 italic">"{evaluation.feedback}"</p>
               )}
-            </div>
+            </LiquidGlassCard>
           ))}
 
           {/* Fallback if no evaluations */}
           {evaluations.filter(e => e.starScore).length === 0 && (
-            <div className="bg-surface-container-low rounded-2xl p-8 text-center">
-              <p className="text-muted-foreground">No STAR evaluations available. Complete a behavioral interview to see analysis.</p>
-            </div>
+            <LiquidGlassCard className="text-center p-6">
+              <p className="text-white/60">No STAR evaluations available. Complete a behavioral interview to see analysis.</p>
+            </LiquidGlassCard>
           )}
         </div>
 
@@ -284,7 +288,7 @@ function AnalysisTab({ report }: { report: DebriefReport }) {
           <div className="space-y-4">
             <h3 className="text-xs font-bold text-secondary uppercase tracking-widest">Patterns Detected</h3>
             {patterns.map((pattern, index) => (
-              <div key={index} className="bg-surface-container-low rounded-xl p-5 lg:p-6">
+              <LiquidGlassCard key={index} className="p-4">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     {pattern.type === 'positive' ? (
@@ -302,8 +306,8 @@ function AnalysisTab({ report }: { report: DebriefReport }) {
                     {pattern.instanceCount} instances
                   </span>
                 </div>
-                <p className="text-foreground">{pattern.description}</p>
-              </div>
+                <p className="text-white">{pattern.description}</p>
+              </LiquidGlassCard>
             ))}
           </div>
         )}
@@ -311,36 +315,36 @@ function AnalysisTab({ report }: { report: DebriefReport }) {
         {/* Strengths & Weaknesses */}
         {analysis && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-surface-container-low rounded-2xl p-6">
-              <h4 className="text-xs font-bold text-secondary uppercase tracking-widest mb-4">Strengths</h4>
+            <LiquidGlassCard className="p-4">
+              <h4 className="text-xs font-bold text-white/60 uppercase tracking-widest mb-4">Strengths</h4>
               <ul className="space-y-3">
                 {analysis.strengths?.map((strength, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <Sparkles className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
-                    <span className="text-sm text-foreground">{strength}</span>
+                    <span className="text-sm text-white">{strength}</span>
                   </li>
                 ))}
               </ul>
-            </div>
-            <div className="bg-surface-container-low rounded-2xl p-6">
-              <h4 className="text-xs font-bold text-secondary uppercase tracking-widest mb-4">Areas to Improve</h4>
+            </LiquidGlassCard>
+            <LiquidGlassCard className="p-4">
+              <h4 className="text-xs font-bold text-white/60 uppercase tracking-widest mb-4">Areas to Improve</h4>
               <ul className="space-y-3">
                 {analysis.weaknesses?.map((weakness, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <TrendingUp className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
-                    <span className="text-sm text-foreground">{weakness}</span>
+                    <span className="text-sm text-white">{weakness}</span>
                   </li>
                 ))}
               </ul>
-            </div>
+            </LiquidGlassCard>
           </div>
         )}
 
         {/* Fallback if no analysis data */}
         {!analysis && (
-          <div className="bg-surface-container-low rounded-2xl p-8 text-center">
-            <p className="text-muted-foreground">No analysis data available for this session.</p>
-          </div>
+          <LiquidGlassCard className="text-center p-6">
+            <p className="text-white/60">No analysis data available for this session.</p>
+          </LiquidGlassCard>
         )}
       </div>
     </div>
@@ -366,61 +370,61 @@ function CoachingTab({ report }: { report: DebriefReport }) {
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Top 3 Priorities */}
         <div className="space-y-6">
-          <h3 className="text-xs font-bold text-secondary uppercase tracking-widest">Top 3 Priorities</h3>
+          <h3 className="text-xs font-bold text-white/60 uppercase tracking-widest">Top 3 Priorities</h3>
           {priorities.map((priority, index) => (
-            <div key={index} className="bg-surface-container-low rounded-2xl p-6 lg:p-8">
-              <div className="flex items-start gap-4">
+            <LiquidGlassCard key={index} className="p-6">
+              <div className="relative z-10 flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg shrink-0">
                   {index + 1}
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-heading font-bold text-lg text-foreground mb-2">{priority.issue}</h4>
-                  <p className="text-sm text-muted-foreground mb-3">{priority.whyItMatters}</p>
-                  <div className="bg-surface-container-highest rounded-lg p-4">
-                    <span className="text-xs text-secondary uppercase tracking-wider">How to fix</span>
-                    <p className="text-foreground mt-1">{priority.fix}</p>
+                  <h4 className="font-heading font-bold text-lg text-white mb-2">{priority.issue}</h4>
+                  <p className="text-sm text-white/60 mb-3">{priority.whyItMatters}</p>
+                  <div className="mt-2 p-4 bg-white/5 border border-white/20 rounded-xl">
+                    <span className="text-xs text-white/60 uppercase tracking-wider">How to fix</span>
+                    <p className="text-white mt-1">{priority.fix}</p>
                   </div>
                   {priority.example && (
-                    <div className="mt-3 p-4 bg-primary/5 border-l-4 border-primary rounded-r-lg">
+                    <div className="mt-3 p-4 bg-primary/10 border-l-4 border-primary rounded-r-lg">
                       <span className="text-xs text-primary uppercase tracking-wider">Example</span>
-                      <p className="text-sm text-foreground mt-1 italic">{priority.example}</p>
+                      <p className="text-sm text-white mt-1 italic">{priority.example}</p>
                     </div>
                   )}
                 </div>
               </div>
-            </div>
+            </LiquidGlassCard>
           ))}
 
           {/* Fallback if no priorities */}
           {priorities.length === 0 && (
-            <div className="bg-surface-container-low rounded-2xl p-8 text-center">
-              <p className="text-muted-foreground">No coaching priorities available. Complete an interview to receive personalized guidance.</p>
-            </div>
+            <LiquidGlassCard className="text-center p-6">
+              <p className="text-white/60">No coaching priorities available. Complete an interview to receive personalized guidance.</p>
+            </LiquidGlassCard>
           )}
         </div>
 
         {/* Quick Wins */}
         {quickWins.length > 0 && (
-          <div className="bg-surface-container-low rounded-2xl p-6 lg:p-8">
-            <h3 className="text-xs font-bold text-secondary uppercase tracking-widest mb-4">Quick Wins</h3>
+          <LiquidGlassCard className="p-6">
+            <h3 className="text-xs font-bold text-white/60 uppercase tracking-widest mb-4">Quick Wins</h3>
             <ul className="space-y-3">
               {quickWins.map((win, index) => (
                 <li key={index} className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-tertiary/10 text-tertiary flex items-center justify-center">
+                  <div className="w-6 h-6 rounded-full bg-tertiary/20 text-tertiary flex items-center justify-center">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <span className="text-foreground">{win}</span>
+                  <span className="text-white">{win}</span>
                 </li>
               ))}
             </ul>
-          </div>
+          </LiquidGlassCard>
         )}
 
         {/* Practice Plan */}
         {practicePlan && (
-          <div className="editorial-gradient rounded-2xl p-6 lg:p-8 text-white">
+          <LiquidGlassCard className="p-6 lg:p-8 editorial-gradient text-white">
             <h3 className="text-xs font-bold uppercase tracking-widest opacity-80 mb-4">Practice Plan</h3>
             <div className="space-y-4">
               <div>
@@ -436,14 +440,14 @@ function CoachingTab({ report }: { report: DebriefReport }) {
                 <p className="text-base">{practicePlan.drill}</p>
               </div>
             </div>
-          </div>
+          </LiquidGlassCard>
         )}
 
         {/* Fallback if no coaching data */}
         {!coaching && (
-          <div className="bg-surface-container-low rounded-2xl p-8 text-center">
-            <p className="text-muted-foreground">No coaching insights available for this session.</p>
-          </div>
+          <LiquidGlassCard className="text-center p-6">
+            <p className="text-white/60">No coaching insights available for this session.</p>
+          </LiquidGlassCard>
         )}
       </div>
     </div>
@@ -455,32 +459,35 @@ export default function DebriefScreen({ report, onReset }: DebriefScreenProps) {
 
   if (!report) {
     return (
-      <div className="h-full flex flex-col items-center justify-center text-muted-foreground p-6">
-        <div className="w-20 h-20 rounded-full bg-surface-container-low flex items-center justify-center mb-6">
-          <RotateCcw className="w-10 h-10 animate-spin opacity-40" />
-        </div>
-        <p className="font-medium text-lg">Generating your debrief...</p>
-        <p className="text-base text-muted-foreground mt-2">This may take a moment</p>
+      <div className="h-full flex flex-col items-center justify-center text-white/60 p-6">
+        <LiquidGlassCard className="flex flex-col items-center justify-center p-6">
+          <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4">
+            <RotateCcw className="w-8 h-8 animate-spin opacity-40" />
+          </div>
+          <p className="font-medium text-lg text-white">Generating your debrief...</p>
+          <p className="text-base text-white/60 mt-2">This may take a moment</p>
+        </LiquidGlassCard>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-surface overflow-hidden min-h-0">
+    <div className="flex-1 flex flex-col overflow-hidden min-h-0">
       {/* Header */}
-      <header className="px-6 lg:px-12 xl:px-16 py-6 shrink-0 bg-surface-container-lowest">
-        <div className="flex items-center gap-3 mb-2">
+      <LiquidGlassCard className="shrink-0 rounded-none border-b border-white/10 rounded-t-none p-4">
+        <div className="relative z-10 flex items-center gap-3 mb-2">
           <TrendingUp className="w-6 h-6 text-primary" />
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold">Career Debrief</h1>
         </div>
-        <p className="text-base lg:text-lg text-muted-foreground">
+        <p className="text-base lg:text-lg text-white/60 relative z-10">
           Based on your interview session
         </p>
-      </header>
+      </LiquidGlassCard>
 
       {/* Tab Navigation */}
-      <div className="flex gap-2 px-6 lg:px-12 xl:px-16 py-4 bg-surface-container-lowest border-b border-outline-variant">
-        <TabButton
+      <div className="shrink-0 border-b border-white/10 bg-white/5 backdrop-blur-xl p-4">
+        <div className="relative z-10 flex gap-2">
+          <TabButton
           id="transcript"
           label="Transcript"
           icon={FileText}
@@ -501,6 +508,7 @@ export default function DebriefScreen({ report, onReset }: DebriefScreenProps) {
           active={activeTab === 'coaching'}
           onClick={() => setActiveTab('coaching')}
         />
+        </div>
       </div>
 
       {/* Tab Content */}
@@ -511,8 +519,8 @@ export default function DebriefScreen({ report, onReset }: DebriefScreenProps) {
       </ScrollArea>
 
       {/* Footer Actions */}
-      <footer className="px-6 lg:px-12 xl:px-16 py-6 shrink-0 bg-surface-container-lowest">
-        <div className="flex gap-4 max-w-6xl mx-auto">
+      <LiquidGlassCard className="shrink-0 border-t border-white/10 rounded-none p-4">
+        <div className="relative z-10 flex gap-4 max-w-6xl mx-auto">
           <Button
             variant="outline"
             className="flex-1 h-14 lg:h-16 rounded-xl font-semibold text-base lg:text-lg"
@@ -526,7 +534,7 @@ export default function DebriefScreen({ report, onReset }: DebriefScreenProps) {
             Share Pitch
           </Button>
         </div>
-      </footer>
+      </LiquidGlassCard>
     </div>
   );
 }

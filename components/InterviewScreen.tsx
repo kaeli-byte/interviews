@@ -8,9 +8,10 @@ import { GeminiLiveClient } from '@/lib/geminiLiveClient';
 import { AudioRecorder } from '@/lib/audioRecorder';
 import { AudioStreamer } from '@/lib/audioStreamer';
 import { buildSystemInstruction } from '@/lib/promptBuilder';
-import { TranscriptEntry, DebriefReport, AgentId } from '@/lib/types';
+import { TranscriptEntry, TranscriptUpdate, DebriefReport, AgentId } from '@/lib/types';
 import { generateDebrief } from '@/lib/debriefGenerator';
 import { AgentAudioVisualizerAura } from '@/components/agent-audio-visualizer-aura';
+import { LiquidGlassCard, LiveTranscriptPanel } from '@/components/ui/liquid-glass';
 
 interface InterviewScreenProps {
   duration: number;
@@ -322,19 +323,47 @@ export default function InterviewScreen({
         setError("A connection error occurred. Please try again.");
         setIsConnecting(false);
       },
-      (entry: TranscriptEntry) => {
+      (entry: TranscriptUpdate) => {
         const timestampOffset = Date.now() - interviewStartTimeRef.current;
         const newEntry: TranscriptEntry = {
           speaker: entry.speaker,
           text: entry.text,
           timestamp: timestampOffset
         };
-        
+
         if (entry.speaker === 'interviewer') {
           setCurrentQuestion(entry.text);
         }
-        
-        setTranscript(prev => [...prev, newEntry]);
+
+        // Handle partial vs complete transcription updates
+        // Partial: update the last entry for same speaker (streaming in progress)
+        // Complete: update last entry if same speaker (already exists from partial), else append
+        if (entry.isPartial) {
+          setTranscript(prev => {
+            const lastIndex = prev.length - 1;
+            // If last entry is same speaker, update it
+            if (lastIndex >= 0 && prev[lastIndex].speaker === entry.speaker) {
+              const updated = [...prev];
+              updated[lastIndex] = { ...updated[lastIndex], text: entry.text };
+              return updated;
+            }
+            // Otherwise append new entry for this partial
+            return [...prev, newEntry];
+          });
+        } else {
+          // Complete turn - update last entry if same speaker, else append
+          setTranscript(prev => {
+            const lastIndex = prev.length - 1;
+            if (lastIndex >= 0 && prev[lastIndex].speaker === entry.speaker) {
+              // Already have partial entry, just update text (should be same)
+              const updated = [...prev];
+              updated[lastIndex] = { ...updated[lastIndex], text: entry.text };
+              return updated;
+            }
+            // No partial entry exists, append new
+            return [...prev, newEntry];
+          });
+        }
       }
     );
 
@@ -422,7 +451,7 @@ export default function InterviewScreen({
           </div>
 
           {/* Voice Interaction Visualizer - Center */}
-          <div className="glass-panel flex-1 max-w-2xl w-full aspect-video rounded-3xl flex flex-col items-center justify-center p-8 md:p-10 lg:p-12 relative overflow-hidden order-1 lg:order-2">
+          <LiquidGlassCard className="flex-1 max-w-2xl w-full aspect-video flex flex-col items-center justify-center relative overflow-hidden p-8">
             {/* Background Gradient */}
             <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,var(--primary)_0%,transparent_70%)]" />
             
@@ -450,7 +479,7 @@ export default function InterviewScreen({
                 </p>
               )}
             </div>
-          </div>
+          </LiquidGlassCard>
 
           {/* Mic Gauge - Right side on desktop */}
           <div className="hidden lg:flex flex-col items-center gap-5 order-3">
@@ -467,34 +496,21 @@ export default function InterviewScreen({
           {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
         </button>
 
-        {/* Transcript Panel */}
+        {/* Live Transcript Panel */}
         <AnimatePresence>
-          {showTranscript && transcript.length > 0 && (
+          {showTranscript && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="w-full max-w-3xl mt-4 bg-surface-container-low rounded-2xl p-6 max-h-48 overflow-y-auto"
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ type: "spring", duration: 0.4 }}
+              className="w-full max-w-md mt-4"
             >
-              {transcript.map((entry, index) => (
-                <div
-                  key={index}
-                  className={`mb-3 ${entry.speaker === 'candidate' ? 'text-right' : 'text-left'}`}
-                >
-                  <span className={`
-                    inline-block px-4 py-2 rounded-xl text-sm max-w-[80%]
-                    ${entry.speaker === 'candidate'
-                      ? 'bg-primary-fixed text-primary'
-                      : 'bg-surface-container text-foreground'
-                    }
-                  `}>
-                    <span className="font-semibold text-[10px] uppercase tracking-wider opacity-70 block mb-0.5">
-                      {entry.speaker === 'candidate' ? 'You' : 'AI'}
-                    </span>
-                    {entry.text}
-                  </span>
-                </div>
-              ))}
+              <LiveTranscriptPanel
+                transcript={transcript}
+                isRecording={isRecording}
+                status={status}
+              />
             </motion.div>
           )}
         </AnimatePresence>

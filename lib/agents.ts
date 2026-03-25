@@ -2,7 +2,11 @@
 // Per D-04: Follow ideas-for-v3 spec exactly
 // Per D-02: Include boundaries and edge cases for drift prevention
 
-import type { AgentId, AgentDefinition, AgentType } from './types';
+import type { AgentId as AgentIdType, AgentDefinition, AgentType } from './types';
+
+// Re-export AgentId for convenience
+export type AgentId = AgentIdType;
+export type { AgentDefinition, AgentType };
 
 export const AGENT_DEFINITIONS: Record<AgentId, AgentDefinition> = {
   'hiring-manager': {

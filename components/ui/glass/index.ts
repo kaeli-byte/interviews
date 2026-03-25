@@ -1,11 +1,15 @@
 // Liquid Glass UI Components
 // These components implement the "Liquid Glass Cognitive Canvas" design system
-// See DESIGN.md for specifications
+// Based on David UI Tailwind CSS Library by Creative Tim
 
 export { GlassButton, glassButtonVariants } from "./GlassButton"
 export { GlassCard, glassCardVariants } from "./GlassCard"
 export { GlassInput, glassInputVariants } from "./GlassInput"
 export { GlassIconButton, glassIconButtonVariants } from "./GlassIconButton"
+export { GlassButtonGroup, glassButtonGroupVariants } from "./GlassButtonGroup"
+export { GlassVoiceAssistant, glassVoiceAssistantVariants, AudioVisualizer, StatusIndicator } from "./GlassVoiceAssistant"
+export { GlassSearchInput, glassSearchInputVariants } from "./GlassSearchInput"
+export { GlassPanel, glassPanelVariants, GlassContainer, glassContainerVariants } from "./GlassPanel"
 
 // Utility class exports for direct CSS usage
 // These map to the CSS classes defined in app/globals.css

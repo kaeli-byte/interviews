@@ -52,7 +52,12 @@
   3. User can see detected communication style indicators (formal/casual/technical/narrative)
   4. User can view identified knowledge gaps between resume skills and job description requirements
   5. User can review and adjust candidate persona traits before starting a simulation
-**Plans:** TBD
+**Plans:** 3 plans in 3 waves
+
+Plans:
+- [ ] 07-01-PLAN.md - Types & Extraction Core (Wave 1) - CAND-01 through CAND-05
+- [ ] 07-02-PLAN.md - PersonaScreen UI (Wave 2) - CAND-06
+- [ ] 07-03-PLAN.md - App Integration (Wave 3) - Full flow integration
 
 ### Phase 8: Text Chat Simulation
 **Goal:** Users can observe AI candidates interviewing with AI interviewers in real-time text chat
@@ -93,7 +98,7 @@
 | 5. Agent System | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 6. STAR Analysis & Debrief | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 06.1. Design System | v3.0 | 1/1 | Complete | 2026-03-24 |
-| 7. Candidate Persona Generation | v4.0 | 0/0 | Not started | - |
+| 7. Candidate Persona Generation | v4.0 | 0/3 | Planned | - |
 | 8. Text Chat Simulation | v4.0 | 0/0 | Not started | - |
 | 9. Interviewer Quality Metrics | v4.0 | 0/0 | Not started | - |
 
@@ -145,4 +150,4 @@ v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation
 *For detailed phase information from previous milestones, see `.planning/milestones/v1.0-ROADMAP.md` and `.planning/milestones/v2.0-ROADMAP.md`*
 
 ---
-*Roadmap updated: 2026-03-25 for v4.0 Candidate Simulator roadmap*
+*Roadmap updated: 2026-03-25 for Phase 7 planning*

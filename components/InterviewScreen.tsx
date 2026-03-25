@@ -290,6 +290,7 @@ function SimulationModeComponent({
   const [messages, setMessages] = React.useState<SimulationMessage[]>([]);
   const [isRunning, setIsRunning] = React.useState(false);
   const [isComplete, setIsComplete] = React.useState(false);
+  const [completedTranscript, setCompletedTranscript] = React.useState<TranscriptEntry[] | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
   const agent = AGENT_DEFINITIONS[selectedAgent];
@@ -351,10 +352,8 @@ function SimulationModeComponent({
                 case 'complete':
                   setIsComplete(true);
                   setIsRunning(false);
-                  // Generate debrief from transcript
-                  generateDebrief(data.transcript).then(report => {
-                    onFinish(data.transcript, report);
-                  });
+                  // Store transcript for user to review before proceeding
+                  setCompletedTranscript(data.transcript);
                   break;
                 case 'error':
                   setError(data.error);
@@ -386,14 +385,21 @@ function SimulationModeComponent({
         const data = await response.json();
         setIsRunning(false);
         setIsComplete(true);
-        // Generate partial debrief
-        const report = await generateDebrief(data.transcript);
-        onFinish(data.transcript, report);
+        // Store partial transcript for user to review
+        setCompletedTranscript(data.transcript);
       }
     } catch (e) {
       console.error('Failed to stop simulation:', e);
     }
-  }, [sessionId, onFinish]);
+  }, [sessionId]);
+
+  // Proceed to debrief after reviewing simulation
+  const handleViewDebrief = React.useCallback(async () => {
+    if (!completedTranscript) return;
+
+    const report = await generateDebrief(completedTranscript);
+    onFinish(completedTranscript, report);
+  }, [completedTranscript, onFinish]);
 
   // Auto-start simulation on mount
   React.useEffect(() => {
@@ -449,10 +455,15 @@ function SimulationModeComponent({
               </LiquidGlassActionButton>
             )}
             {isComplete && (
-              <div className="text-center">
-                <p className="text-sm font-semibold text-secondary">Simulation Complete</p>
-                <p className="text-xs text-muted-foreground">Generating debrief...</p>
-              </div>
+              <LiquidGlassActionButton
+                variant="primary"
+                size="lg"
+                onClick={handleViewDebrief}
+                className="flex items-center gap-2"
+              >
+                <FileText className="w-5 h-5" />
+                <span>View Debrief</span>
+              </LiquidGlassActionButton>
             )}
             {error && (
               <div className="text-center">

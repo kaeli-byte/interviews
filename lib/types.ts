@@ -309,3 +309,59 @@ export interface CandidatePersona {
   communicationStyle: CommunicationStyle;
   knowledgeGaps: KnowledgeGap[]; // Per D-04: 3-5 categories
 }
+
+/**
+ * SimulationSpeed controls message pacing.
+ * Per D-06: Default is 1x (real-time pacing).
+ * Per D-07: Speed affects message timing, not streaming speed.
+ */
+export type SimulationSpeed = '1x' | '1.5x' | '2x';
+
+/**
+ * SimulationMessage represents a single message in the simulation.
+ * Per D-04: Messages stream as generated.
+ */
+export interface SimulationMessage {
+  id: string;
+  speaker: 'interviewer' | 'candidate';
+  text: string;
+  timestamp: number;
+  isComplete: boolean; // true when full message received
+}
+
+/**
+ * SimulationState tracks the current simulation progress.
+ */
+export interface SimulationState {
+  messages: SimulationMessage[];
+  qaPairs: QAPair[];
+  currentQuestionCount: number;
+  isRunning: boolean;
+  isComplete: boolean;
+}
+
+/**
+ * SimulationConfig contains all parameters for running a simulation.
+ * Per D-03: 5 Q/A pairs per simulation.
+ * Per D-10: Uses existing 7 interviewer agents.
+ */
+export interface SimulationConfig {
+  candidatePersona: CandidatePersona;
+  interviewerAgentId: AgentId;
+  resume: string;
+  jobDescription: string;
+  speed: SimulationSpeed; // Default: '1x'
+  maxQuestions: number; // Default: 5 per D-03
+}
+
+/**
+ * SimulationSession represents a complete or partial simulation run.
+ * Per SIM-07: Flows to existing debrief infrastructure.
+ */
+export interface SimulationSession {
+  id: string;
+  config: SimulationConfig;
+  state: SimulationState;
+  startTime: number;
+  endTime?: number;
+}

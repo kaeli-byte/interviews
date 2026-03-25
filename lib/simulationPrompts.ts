@@ -13,7 +13,8 @@ import { buildSystemInstruction } from './promptBuilder';
 
 /**
  * Build the system prompt for the interviewer agent.
- * Uses the SAME prompts as real interviews (promptBuilder.ts) for consistency.
+ * Uses the SAME prompts as real interviews (promptBuilder.ts) for consistency,
+ * plus simulation-specific instructions for text-based format.
  */
 export function buildInterviewerPrompt(
   agentId: AgentId,
@@ -21,11 +22,27 @@ export function buildInterviewerPrompt(
   jobDescription: string
 ): string {
   // Use the shared prompt builder for consistency with real interviews
-  return buildSystemInstruction({
+  const basePrompt = buildSystemInstruction({
     resume,
     jobDescription,
     agentId,
   });
+
+  // Add simulation-specific instructions
+  return `${basePrompt}
+
+<simulation_mode>
+You are in TEXT-BASED simulation mode (not voice). Important rules:
+- Ask EXACTLY ONE question at a time, then wait for the candidate's response
+- Do NOT combine multiple questions into one message
+- After the candidate responds to each question, ask your NEXT question
+- Continue until you have asked 5 distinct questions
+- Do NOT provide feedback during the interview - save it for later
+- Do NOT conclude early - you must ask all 5 questions
+- After the 5th question-answer exchange, simply say "Thank you for your time today. That concludes our interview."
+
+Remember: Each message you send should contain exactly ONE question.
+</simulation_mode>`;
 }
 
 /**

@@ -114,20 +114,21 @@ export class SimulationRunner {
       const interviewerChat = interviewerModel.startChat();
       const candidateChat = candidateModel.startChat();
 
-      // Track conversation for context
-      let conversationContext = '';
-
       // Per D-03/D-12: Run for maxQuestions Q/A pairs
       while (
         this.session.state.currentQuestionCount < this.config.maxQuestions &&
         !this.abortController.signal.aborted
       ) {
         // Step 1: Interviewer asks a question
+        // Chat session maintains history, so just ask for next question
+        const questionNum = this.session.state.currentQuestionCount + 1;
+        const questionPrompt = questionNum === 1
+          ? 'Start the interview by asking your FIRST question. Ask only ONE question.'
+          : `Ask your next question (this is question ${questionNum} of 5). Ask only ONE question.`;
+
         const questionResult = await this.generateWithTimeout(
           interviewerChat,
-          conversationContext
-            ? `Continue the interview. Previous context:\n${conversationContext}\n\nAsk your next question.`
-            : 'Start the interview by asking your first question.',
+          questionPrompt,
           this.abortController.signal
         );
 
@@ -145,17 +146,16 @@ export class SimulationRunner {
           isComplete: true,
         });
 
-        conversationContext += `\nInterviewer: ${questionText}`;
-
         // Per D-07: Apply speed-based delay before candidate responds
         await this.delayForSpeed();
 
         if (this.abortController.signal.aborted) break;
 
         // Step 2: Candidate responds
+        // Candidate chat maintains its own history
         const answerResult = await this.generateWithTimeout(
           candidateChat,
-          `Interviewer: ${questionText}\n\nRespond to this question as the candidate.`,
+          `The interviewer just asked: "${questionText}"\n\nRespond to this question as the candidate.`,
           this.abortController.signal
         );
 
@@ -172,8 +172,6 @@ export class SimulationRunner {
           timestamp: answerTimestamp,
           isComplete: true,
         });
-
-        conversationContext += `\nCandidate: ${answerText}`;
 
         // Create QAPair for this exchange
         const qaPair: QAPair = {

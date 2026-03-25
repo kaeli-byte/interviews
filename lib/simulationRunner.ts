@@ -100,17 +100,19 @@ export class SimulationRunner {
       );
       const candidatePrompt = buildCandidatePrompt(this.config.candidatePersona);
 
-      // Create models for each role
-      const interviewerModel = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-      const candidateModel = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-
-      // Start chat sessions
-      const interviewerChat = interviewerModel.startChat({
+      // Create models for each role with system instructions
+      const interviewerModel = this.genAI.getGenerativeModel({
+        model: 'gemini-2.0-flash',
         systemInstruction: interviewerPrompt,
       });
-      const candidateChat = candidateModel.startChat({
+      const candidateModel = this.genAI.getGenerativeModel({
+        model: 'gemini-2.0-flash',
         systemInstruction: candidatePrompt,
       });
+
+      // Start chat sessions
+      const interviewerChat = interviewerModel.startChat();
+      const candidateChat = candidateModel.startChat();
 
       // Track conversation for context
       let conversationContext = '';

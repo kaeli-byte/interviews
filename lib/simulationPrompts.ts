@@ -3,59 +3,29 @@
  * Per D-09: Alternating API calls between interviewer and candidate.
  * Per D-10: Uses existing 7 interviewer agents from lib/agents.ts.
  * Per D-11: Candidate persona drives responses.
+ *
+ * IMPORTANT: Interviewer prompts use the same buildSystemInstruction as real interviews
+ * to ensure simulations accurately represent the actual interviewer personas.
  */
 
 import { AgentId, CandidatePersona } from './types';
-import { AGENT_DEFINITIONS } from './agents';
+import { buildSystemInstruction } from './promptBuilder';
 
 /**
  * Build the system prompt for the interviewer agent.
- * Adapted from voice personas to text-based simulation.
+ * Uses the SAME prompts as real interviews (promptBuilder.ts) for consistency.
  */
 export function buildInterviewerPrompt(
   agentId: AgentId,
   resume: string,
   jobDescription: string
 ): string {
-  const agent = AGENT_DEFINITIONS[agentId];
-  if (!agent) {
-    throw new Error(`Unknown agent ID: ${agentId}`);
-  }
-
-  return `You are an AI interviewer simulating a ${agent.label}.
-
-## Your Persona
-${agent.persona}
-
-## Core Behaviors
-${agent.coreBehaviors.map((b, i) => `${i + 1}. ${b}`).join('\n')}
-
-## Tone
-${agent.tone}
-
-## Boundaries (Never violate these)
-${agent.boundaries.map((b, i) => `${i + 1}. ${b}`).join('\n')}
-
-## Interview Context
-You are interviewing a candidate for this position:
-
-### Job Description
-${jobDescription}
-
-### Candidate's Resume
-${resume}
-
-## Instructions for This Simulation
-- You are in TEXT-BASED simulation mode (not voice).
-- Ask ONE question at a time, then wait for the candidate's response.
-- Keep questions focused and relevant to the job description.
-- Adapt your questioning style to match your persona.
-- After 5 question-answer exchanges, conclude the interview naturally.
-- Do NOT provide feedback during the interview - save it for the debrief.
-
-## Response Format
-Respond with ONLY your question or follow-up. No meta-commentary.
-Be concise and natural - like a real text chat.`;
+  // Use the shared prompt builder for consistency with real interviews
+  return buildSystemInstruction({
+    resume,
+    jobDescription,
+    agentId,
+  });
 }
 
 /**

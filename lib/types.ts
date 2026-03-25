@@ -244,4 +244,68 @@ export interface AgentDefinition {
   tone: string;
   boundaries: string[];
   edgeCaseHandling: Record<string, string>;
+  interruptionBehavior?: {
+    approach: 'controlled' | 'buffered-controlled' | 'aggressive' | 'minimal';
+    rules: string[];
+    phrases: Record<string, string>;
+  };
+}
+
+/**
+ * ExperienceLevel represents career seniority.
+ * Per D-02: 4-level scale derived from work history.
+ */
+export type ExperienceLevel = 'junior' | 'mid' | 'senior' | 'staff';
+
+/**
+ * CommunicationFormality represents tone formality.
+ * Per D-02: Formal vs casual communication style.
+ */
+export type CommunicationFormality = 'formal' | 'casual';
+
+/**
+ * CommunicationApproach represents explanation style.
+ * Per D-02: Technical (data/process) vs narrative (story-based).
+ */
+export type CommunicationApproach = 'technical' | 'narrative';
+
+/**
+ * CommunicationStyle represents how the candidate communicates.
+ * Per D-02: Pair of formality and approach dimensions.
+ */
+export interface CommunicationStyle {
+  formality: CommunicationFormality;
+  approach: CommunicationApproach;
+}
+
+/**
+ * CategorizedSkills groups skills by type.
+ * Per D-02: 5-8 skills per category.
+ */
+export interface CategorizedSkills {
+  technical: string[];  // Languages, frameworks, tools, methodologies
+  soft: string[];       // Communication, leadership, collaboration
+  domain: string[];     // Industry-specific knowledge
+}
+
+/**
+ * KnowledgeGap represents a skill gap category.
+ * Per D-04: 3-5 categories with 2-3 specific missing skills each.
+ */
+export interface KnowledgeGap {
+  category: string;       // e.g., "Cloud Infrastructure", "Leadership"
+  missingSkills: string[]; // 2-3 specific skills
+}
+
+/**
+ * CandidatePersona contains extracted persona data for simulation.
+ * Per D-02: Complete persona structure for AI candidate simulation.
+ */
+export interface CandidatePersona {
+  experienceLevel: ExperienceLevel;
+  yearsOfExperience: number;
+  workHistorySummary: string;
+  skills: CategorizedSkills;
+  communicationStyle: CommunicationStyle;
+  knowledgeGaps: KnowledgeGap[]; // Per D-04: 3-5 categories
 }

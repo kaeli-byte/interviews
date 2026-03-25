@@ -1,28 +1,30 @@
 ---
 gsd_state_version: 1.0
-milestone: v3.0
-milestone_name: Agent System & Smart Debrief
-status: Milestone complete
-last_updated: "2026-03-24T07:30:21.571Z"
+milestone: v4.0
+milestone_name: Candidate Simulator
+status: "Starting milestone — requirements gathering"
+last_updated: "2026-03-25T08:00:00.000Z"
 progress:
-  total_phases: 4
-  completed_phases: 3
-  total_plans: 10
-  completed_plans: 9
-  percent: 90
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 ## Current Position
 
-Phase: 06.1
-Plan: Not started
+Phase: Not started
+Plan: —
+Status: Defining requirements
+Last activity: 2026-03-25 — Milestone v4.0 started
 
 ## Project Reference
 
-See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
+See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 
 **Core value:** The AI interviewer must feel conversational, adaptive, and highly personalized from the moment the user starts the interview, accurately grounding its responses in the provided resume and job description.
-**Current focus:** Phase 06.1 — Design System Implementation
+**Current focus:** v4.0 — Candidate Simulator
 
 ## Milestone Status
 
@@ -35,7 +37,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 
 - Phase 3: Layout System (2/2 plans)
 
-**v3.0 milestone** — 🔄 In progress
+**v3.0 milestone** — ✅ Completed 2026-03-25
 
 | Phase | Status | Plans |
 |-------|--------|-------|
@@ -44,7 +46,13 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 | 6. STAR Analysis & Debrief | ✅ Complete | 3/3 complete |
 | 06.1. Design System | ✅ Complete | 1/1 complete |
 
-**Progress:** [█████████░] 90%
+**v4.0 milestone** — 🔄 Starting
+
+| Phase | Status | Plans |
+|-------|--------|-------|
+| (TBD) | Planning | — |
+
+**Progress:** [░░░░░░░░░░] 0%
 
 ## Accumulated Context
 
@@ -54,6 +62,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 - Phase 3: v2.0 Layout — Sidebar navigation and responsive layout
 - Phase 4-6: v3.0 Agent System — Multi-agent personas and transcript-based STAR debrief
 - Phase 06.1 inserted after Phase 6: Design System Implementation (URGENT) — Implement DESIGN.md specification
+- v4.0: Candidate Simulator — AI vs AI interview simulation
 
 ### Key Decisions
 
@@ -88,30 +97,21 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 
 ### Last Session
 
-- Completed 06.1-01-PLAN.md: CSS Design Tokens & Typography
-- Added surface hierarchy tokens, tertiary colors, fixed variants, glass tints
-- Created Liquid Glass utility classes (.glass, .glass-panel, .glass-shadow, .glass-shine)
-- Updated font loading from Geist to Manrope (headings) + Inter (body)
-- All DESIGN.md specifications implemented
+- Completed v3.0 milestone (Phases 4-6 + 06.1)
+- All features shipped: transcript, agents, STAR analysis, design system
 
 ### Key Files
 
-- `.planning/ROADMAP.md` — Phase structure and goals (this milestone)
-- `.planning/REQUIREMENTS.md` — 28 v1 requirements with traceability
-- `.planning/research/SUMMARY.md` — Architecture research and pitfall analysis
+- `.planning/ROADMAP.md` — Phase structure and goals
+- `.planning/REQUIREMENTS.md` — Requirements with traceability
 - `lib/agents.ts` — 7 agent definitions with AGENT_SELECTIONS grouping
 - `lib/types.ts` — Type definitions including AgentId, AgentDefinition, QAPair, DebriefReport, STAR types
 - `lib/promptBuilder.ts` — Agent-aware system instruction generation
-- `lib/audioRecorder.ts` — Audio recording with analyser for level monitoring
-- `lib/analysisPrompts.ts` — Structured AI prompts for STAR analysis
 - `lib/debriefGenerator.ts` — Interview debrief with STAR evaluation and coaching
-- `components/MyCareerApp.tsx` — App state with selectedAgent
-- `components/SetupScreen.tsx` — Agent selector UI with grouped sections
-- `components/InterviewScreen.tsx` — Interview screen with agent-specific prompts
 
 ### Next Action
 
-v3.0 milestone complete — Ready for final verification and deployment
+Define requirements for v4.0 Candidate Simulator
 
 ---
-*State updated: 2026-03-24*
+*State updated: 2026-03-25*

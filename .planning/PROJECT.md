@@ -45,24 +45,14 @@ The AI interviewer must feel conversational, adaptive, and highly personalized f
 - [ ] Saving user profiles/resumes to a database (future milestone)
 - [ ] Generating detailed PDF score report after interview (future milestone)
 
-## Current Milestone: v3.0 Agent System & Smart Debrief
+## Current Milestone: v4.0 Candidate Simulator
 
-**Goal:** Build a multi-agent interview system with 7 distinct personas and a transcript-based debrief with STAR evaluation.
+**Goal:** Enable simulation mode where an AI candidate (generated from resume) interviews with an AI interviewer agent, allowing testing and refinement of interviewer behaviors.
 
 **Target features:**
-- 7 agent prompts with unique behaviors, boundaries, and feedback styles
-  - Realistic Hiring Manager — Professional, structured, 15-20 min simulation
-  - High-Pressure Panelist — Intense, probing, 20-30 min
-  - Supportive Coach — Warm, encouraging, 10-15 min
-  - Rapid-Fire Drill Sergeant — Fast, breadth-focused
-  - Story Architect — Analytical, STAR-depth
-  - Efficiency Screener — Brisk, recruiter-style, 10-15 min
-  - Behavioral Pattern Analyst — Objective, pattern-focused
-- Agent selection UI in SetupScreen
-- Transcript-based debrief (NOT resume/JD)
-- STAR evaluation per answer
-- Analysis layer with pattern detection
-- Coaching insights with actionable priorities
+- **Candidate Persona Generation** — Full extraction from resume: skills, experience level, communication style, knowledge gaps
+- **Text Chat Simulation** — Observer mode where user watches two AI agents interview each other
+- **Interviewer Quality Metrics** — Persona Consistency, Question Relevance, Follow-up Quality, Debrief Actionability
 
 ### Out of Scope
 | Feature | Reason |

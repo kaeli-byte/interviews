@@ -1,20 +1,54 @@
-# Requirements: MyCareer App - v3.0 Agent System & Smart Debrief
+# Requirements: MyCareer App
 
-**Defined:** 2026-03-23
 **Core Value:** The AI interviewer must feel conversational, adaptive, and highly personalized from the moment the user starts the interview, accurately grounding its responses in the provided resume and job description context.
 
-## v1 Requirements (Milestone v3.0)
+---
 
-Requirements for the Agent System & Smart Debrief milestone.
+## v4.0 Candidate Simulator
+
+**Defined:** 2026-03-25
+**Goal:** Enable simulation mode where an AI candidate (generated from resume) interviews with an AI interviewer agent for testing and refinement.
+
+### Candidate Persona Generation
+
+- [ ] **CAND-01**: System can parse uploaded resume to extract skills, work history, and qualifications
+- [ ] **CAND-02**: System can infer experience level (junior/mid/senior/staff) from work history duration and roles
+- [ ] **CAND-03**: System can detect communication style indicators from resume content (formal/casual/technical/narrative)
+- [ ] **CAND-04**: System can identify knowledge gaps by comparing resume skills against job description requirements
+- [ ] **CAND-05**: System can generate a coherent AI candidate persona with consistent traits for simulation
+- [ ] **CAND-06**: User can review and adjust candidate persona before starting simulation
+
+### Text Chat Simulation
+
+- [ ] **SIM-01**: User can enter observer mode where they watch AI candidate interview with AI interviewer
+- [ ] **SIM-02**: Simulation displays text-based chat interface (no voice/audio)
+- [ ] **SIM-03**: User can select which interviewer agent (from existing 7) conducts the simulation
+- [ ] **SIM-04**: User can adjust simulation speed (1x, 1.5x, 2x)
+- [ ] **SIM-05**: Simulation displays candidate responses and interviewer questions in real-time
+- [ ] **SIM-06**: User can stop simulation at any point and receive partial debrief
+- [ ] **SIM-07**: Simulation uses existing transcript and debrief infrastructure
+
+### Interviewer Quality Metrics
+
+- [ ] **QUAL-01**: System can measure interviewer persona consistency (staying in character throughout session)
+- [ ] **QUAL-02**: System can rate question relevance against provided job description and resume context
+- [ ] **QUAL-03**: System can analyze follow-up question quality (depth, relevance, probing effectiveness)
+- [ ] **QUAL-04**: System can assess debrief actionability (how useful are recommendations)
+- [ ] **QUAL-05**: Quality metrics display in debrief alongside candidate performance metrics
+- [ ] **QUAL-06**: User can compare interviewer quality across multiple simulation runs
+
+---
+
+## v3.0 Agent System & Smart Debrief (COMPLETED)
 
 ### Agent System
 
-- [ ] **AGENT-01**: User can select from 7 distinct interviewer personas in SetupScreen
+- [x] **AGENT-01**: User can select from 7 distinct interviewer personas in SetupScreen
 - [x] **AGENT-02**: Each agent has unique persona, interview type, core behaviors, boundaries, and feedback style
-- [ ] **AGENT-03**: Simulation agents (Hiring Manager, Panelist, Coach, Screener) run full interview sessions
+- [x] **AGENT-03**: Simulation agents (Hiring Manager, Panelist, Coach, Screener) run full interview sessions
 - [x] **AGENT-04**: Targeted agents (Drill Sergeant, Story Architect, Pattern Analyst) run focused preparation sessions
 - [x] **AGENT-05**: Agent prompts are injected into Gemini Live system instructions with anti-behaviors to prevent style drift
-- [ ] **AGENT-06**: Agent selection UI displays agent name, description, and interview type/duration
+- [x] **AGENT-06**: Agent selection UI displays agent name, description, and interview type/duration
 
 ### Transcript Capture
 
@@ -45,17 +79,18 @@ Requirements for the Agent System & Smart Debrief milestone.
 
 ### Debrief Rendering
 
-- [ ] **DEBR-01**: DebriefScreen displays transcript layer with Q/A pairs
-- [ ] **DEBR-02**: DebriefScreen displays analysis layer with STAR scores and patterns
-- [ ] **DEBR-03**: DebriefScreen displays coaching layer with priorities and next steps
+- [x] **DEBR-01**: DebriefScreen displays transcript layer with Q/A pairs
+- [x] **DEBR-02**: DebriefScreen displays analysis layer with STAR scores and patterns
+- [x] **DEBR-03**: DebriefScreen displays coaching layer with priorities and next steps
 - [x] **DEBR-04**: Debrief uses Gemini structured output (JSON schema) for reliable parsing
+
+---
 
 ## Future Requirements
 
-Deferred to future milestones.
+### v4.1+ Considerations
 
-### Persistence
-
+- **SIM-08**: Play/pause controls for simulation (deferred from v4.0)
 - **PERS-01**: User can save interview transcripts to database
 - **PERS-02**: User can view past interview history
 - **PERS-03**: User can track improvement across multiple sessions
@@ -66,31 +101,59 @@ Deferred to future milestones.
 - **ADVN-02**: Agent difficulty progression over multiple sessions
 - **ADVN-03**: Exportable PDF score report
 
-## Out of Scope
+---
 
-Explicitly excluded from v3.0. Documented to prevent scope creep.
+## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| Multi-modal Video | Focus is purely on conversational voice flow. Video adds complexity without core value. |
+| Multi-modal Video | Focus is purely on conversational text/voice flow. Video adds complexity without core value. |
 | Automatic JD fetching | Scraping from LinkedIn is heavily rate-limited/blocked. Manual copy-paste is safer. |
-| Backend database/auth | Deferred to future milestone for user profile persistence |
+| Voice-based simulation | Text simulation is simpler to implement and debug; voice adds latency and complexity. |
 | Custom fine-tuning | Using Gemini's natural language understanding via prompts |
 | Real-time coaching | Agents hold all feedback until debrief phase per spec |
 | Score comparison/benchmarking | Requires persistence layer not in scope |
 
+---
+
 ## Traceability
 
-Which phases cover which requirements. Updated during roadmap creation.
+### v4.0 Requirements
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AGENT-01 | Phase 5 | Pending |
+| CAND-01 | TBD | — |
+| CAND-02 | TBD | — |
+| CAND-03 | TBD | — |
+| CAND-04 | TBD | — |
+| CAND-05 | TBD | — |
+| CAND-06 | TBD | — |
+| SIM-01 | TBD | — |
+| SIM-02 | TBD | — |
+| SIM-03 | TBD | — |
+| SIM-04 | TBD | — |
+| SIM-05 | TBD | — |
+| SIM-06 | TBD | — |
+| SIM-07 | TBD | — |
+| QUAL-01 | TBD | — |
+| QUAL-02 | TBD | — |
+| QUAL-03 | TBD | — |
+| QUAL-04 | TBD | — |
+| QUAL-05 | TBD | — |
+| QUAL-06 | TBD | — |
+
+**v4.0 Coverage:** 19 requirements (unmapped)
+
+### v3.0 Requirements (COMPLETE)
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| AGENT-01 | Phase 5 | Complete |
 | AGENT-02 | Phase 5 | Complete |
-| AGENT-03 | Phase 5 | Pending |
+| AGENT-03 | Phase 5 | Complete |
 | AGENT-04 | Phase 5 | Complete |
 | AGENT-05 | Phase 5 | Complete |
-| AGENT-06 | Phase 5 | Pending |
+| AGENT-06 | Phase 5 | Complete |
 | TRANS-01 | Phase 4 | Complete |
 | TRANS-02 | Phase 4 | Complete |
 | TRANS-03 | Phase 4 | Complete |
@@ -109,16 +172,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PATN-04 | Phase 6 | Complete |
 | PATN-05 | Phase 6 | Complete |
 | PATN-06 | Phase 6 | Complete |
-| DEBR-01 | Phase 6 | Pending |
-| DEBR-02 | Phase 6 | Pending |
-| DEBR-03 | Phase 6 | Pending |
+| DEBR-01 | Phase 6 | Complete |
+| DEBR-02 | Phase 6 | Complete |
+| DEBR-03 | Phase 6 | Complete |
 | DEBR-04 | Phase 6 | Complete |
 
-**Coverage:**
-- v1 requirements: 28 total
-- Mapped to phases: 28
-- Unmapped: 0
+**v3.0 Coverage:** 28/28 complete
 
 ---
+
 *Requirements defined: 2026-03-23*
-*Last updated: 2026-03-23 after roadmap creation*
+*Last updated: 2026-03-25 for v4.0 Candidate Simulator*

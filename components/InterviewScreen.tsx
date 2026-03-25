@@ -1,17 +1,20 @@
-'use client';
-
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { Button } from '@/components/ui/button';
-import { Mic, MicOff, PhoneOff, Timer, AlertCircle, MessageSquare, Video, VideoOff } from 'lucide-react';
+import * as React from 'react';
+import { Mic, MicOff, PhoneOff, Timer, AlertCircle, MessageSquare, Video, VideoOff, Square } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from '@/components/ui/button';
 import { GeminiLiveClient } from '@/lib/geminiLiveClient';
 import { AudioRecorder } from '@/lib/audioRecorder';
 import { AudioStreamer } from '@/lib/audioStreamer';
 import { buildSystemInstruction } from '@/lib/promptBuilder';
-import { TranscriptEntry, TranscriptUpdate, DebriefReport, AgentId } from '@/lib/types';
+import { TranscriptEntry, TranscriptUpdate, DebriefReport, AgentId, CandidatePersona, SimulationSpeed, SimulationMessage } from '@/lib/types';
 import { generateDebrief } from '@/lib/debriefGenerator';
+import { AGENT_DEFINITIONS } from '@/lib/agents';
 import { AgentAudioVisualizerAura } from '@/components/agent-audio-visualizer-aura';
-import { LiquidGlassCard, LiveTranscriptPanel } from '@/components/ui/liquid-glass';
+import {
+  LiquidGlassCard,
+  LiquidGlassActionButton,
+  LiveTranscriptPanel,
+} from '@/components/ui/liquid-glass';
 
 interface InterviewScreenProps {
   duration: number;
@@ -19,6 +22,9 @@ interface InterviewScreenProps {
   resume: string;
   jobDescription: string;
   selectedAgent: AgentId;
+  // Simulation mode props (per D-02)
+  simulationMode?: boolean;
+  candidatePersona?: CandidatePersona;
 }
 
 /**
@@ -29,7 +35,8 @@ function MicrophoneGauge({ level, isActive }: { level: number; isActive: boolean
   const activeBars = isActive ? Math.floor((level / 100) * bars) : 0;
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <LiquidGlassCard className="p-4">
+      <div className="relative z-10 flex flex-col items-center gap-2">
       <div className="flex items-end justify-center gap-1.5 h-10">
         {Array.from({ length: bars }).map((_, i) => {
           const height = 10 + (i * 2.5);
@@ -60,7 +67,8 @@ function MicrophoneGauge({ level, isActive }: { level: number; isActive: boolean
       <span className="text-[11px] font-semibold uppercase tracking-widest text-secondary">
         {isActive ? 'Mic Active' : 'Mic Off'}
       </span>
-    </div>
+      </div>
+    </LiquidGlassCard>
   );
 }
 
@@ -74,10 +82,10 @@ function CameraPreview({
   isCameraOn: boolean; 
   onToggle: () => void;
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const streamRef = useRef<MediaStream | null>(null);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const streamRef = React.useRef<MediaStream | null>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isCameraOn) {
       navigator.mediaDevices
         .getUserMedia({ video: { facingMode: 'user', width: 480, height: 360 } })
@@ -109,37 +117,34 @@ function CameraPreview({
 
   return (
     <div className="relative">
-      <div className="w-48 h-36 md:w-56 md:h-42 lg:w-64 lg:h-48 rounded-2xl overflow-hidden bg-surface-container-lowest shadow-lg">
-        {isCameraOn ? (
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            className="w-full h-full object-cover scale-x-[-1]"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="text-center">
-              <VideoOff className="w-10 h-10 text-secondary mx-auto mb-2" />
-              <span className="text-xs text-muted-foreground">Camera off</span>
+      <LiquidGlassCard className="w-48 h-36 md:w-56 md:h-42 lg:w-64 lg:h-48 overflow-hidden">
+        <div className="relative z-10 w-full h-full">
+          {isCameraOn ? (
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className="w-full h-full object-cover scale-x-[-1] rounded-xl"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="text-center">
+                <VideoOff className="w-10 h-10 text-secondary mx-auto mb-2" />
+                <span className="text-xs text-muted-foreground">Camera off</span>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-      <button
+          )}
+        </div>
+      </LiquidGlassCard>
+      <LiquidGlassActionButton
+        variant={isCameraOn ? 'primary' : 'ghost'}
+        size="sm"
         onClick={onToggle}
-        className={`
-          absolute -bottom-3 -right-3 w-10 h-10 rounded-full flex items-center justify-center
-          shadow-lg transition-all
-          ${isCameraOn 
-            ? 'bg-primary text-primary-foreground' 
-            : 'bg-surface-container-high text-secondary'
-          }
-        `}
+        className="absolute -bottom-3 -right-3 w-10 h-10 rounded-full"
       >
         {isCameraOn ? <Video className="w-5 h-5" /> : <VideoOff className="w-5 h-5" />}
-      </button>
+      </LiquidGlassActionButton>
     </div>
   );
 }
@@ -158,11 +163,308 @@ function StatusBadge({ status }: { status: 'connecting' | 'talking' | 'listening
   const config = statusConfig[status];
 
   return (
-    <div className="flex items-center gap-2 bg-surface-container-lowest/90 px-5 py-2.5 rounded-full shadow-sm">
-      <span className={`w-2.5 h-2.5 rounded-full ${config.color} ${status === 'listening' ? 'animate-pulse' : ''}`} />
-      <span className={`text-sm font-semibold uppercase tracking-wider ${config.textColor}`}>
-        {config.label}
-      </span>
+    <LiquidGlassCard className="inline-flex items-center gap-2 px-5 py-2.5">
+      <div className="relative z-10 flex items-center gap-2">
+        <span className={`w-2.5 h-2.5 rounded-full ${config.color} ${status === 'listening' ? 'animate-pulse' : ''}`} />
+        <span className={`text-sm font-semibold uppercase tracking-wider ${config.textColor}`}>
+          {config.label}
+        </span>
+      </div>
+    </LiquidGlassCard>
+  );
+}
+
+/**
+ * Speed Control Component for Simulation
+ * Per D-08: Speed options 1x, 1.5x, 2x
+ */
+function SpeedControl({
+  speed,
+  onSpeedChange,
+  disabled
+}: {
+  speed: SimulationSpeed;
+  onSpeedChange: (speed: SimulationSpeed) => void;
+  disabled?: boolean;
+}) {
+  const speeds: SimulationSpeed[] = ['1x', '1.5x', '2x'];
+
+  return (
+    <LiquidGlassCard className="inline-flex items-center gap-1 px-3 py-2">
+      <div className="relative z-10 flex items-center gap-1">
+        {speeds.map((s) => (
+          <button
+            key={s}
+            onClick={() => onSpeedChange(s)}
+            disabled={disabled}
+            className={`px-2.5 py-1 rounded-lg text-sm font-semibold transition-all ${
+              speed === s
+                ? 'bg-primary text-primary-foreground'
+                : 'text-muted-foreground hover:text-foreground hover:bg-surface-container-high'
+            } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {s}
+          </button>
+        ))}
+      </div>
+    </LiquidGlassCard>
+  );
+}
+
+/**
+ * Simulation Chat Display Component
+ * Per D-04: Display messages as generated
+ */
+function SimulationChatDisplay({
+  messages,
+  isRunning
+}: {
+  messages: SimulationMessage[];
+  isRunning: boolean;
+}) {
+  const messagesEndRef = React.useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom on new messages
+  React.useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  if (messages.length === 0) {
+    return (
+      <div className="flex-1 flex items-center justify-center text-muted-foreground">
+        <div className="text-center">
+          <MessageSquare className="w-12 h-12 mx-auto mb-3 opacity-50" />
+          <p className="text-sm">Waiting for simulation to start...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      {messages.map((msg) => (
+        <motion.div
+          key={msg.id}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={`flex ${msg.speaker === 'interviewer' ? 'justify-start' : 'justify-end'}`}
+        >
+          <div
+            className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+              msg.speaker === 'interviewer'
+                ? 'bg-surface-container-high text-foreground rounded-tl-sm'
+                : 'bg-primary text-primary-foreground rounded-tr-sm'
+            }`}
+          >
+            <div className="text-xs font-medium opacity-70 mb-1">
+              {msg.speaker === 'interviewer' ? 'Interviewer' : 'Candidate'}
+            </div>
+            <p className="text-sm leading-relaxed">{msg.text}</p>
+          </div>
+        </motion.div>
+      ))}
+      <div ref={messagesEndRef} />
+    </div>
+  );
+}
+
+/**
+ * Simulation Mode Component
+ * Per D-02: Uses existing InterviewScreen, but different UI for simulation
+ */
+function SimulationModeComponent({
+  candidatePersona,
+  selectedAgent,
+  resume,
+  jobDescription,
+  onFinish
+}: {
+  candidatePersona: CandidatePersona;
+  selectedAgent: AgentId;
+  resume: string;
+  jobDescription: string;
+  onFinish: (transcript: TranscriptEntry[], report: DebriefReport | null) => void;
+}) {
+  const [speed, setSpeed] = React.useState<SimulationSpeed>('1x'); // Per D-06
+  const [sessionId, setSessionId] = React.useState<string | null>(null);
+  const [messages, setMessages] = React.useState<SimulationMessage[]>([]);
+  const [isRunning, setIsRunning] = React.useState(false);
+  const [isComplete, setIsComplete] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
+  const agent = AGENT_DEFINITIONS[selectedAgent];
+
+  // Start simulation
+  const startSimulation = React.useCallback(async () => {
+    setIsRunning(true);
+    setError(null);
+    setMessages([]);
+
+    try {
+      const response = await fetch('/api/simulation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          config: {
+            candidatePersona,
+            interviewerAgentId: selectedAgent,
+            resume,
+            jobDescription,
+            speed,
+            maxQuestions: 5,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to start simulation');
+      }
+
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error('No response body');
+
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const text = decoder.decode(value);
+        const lines = text.split('\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+
+              switch (data.type) {
+                case 'session':
+                  setSessionId(data.sessionId);
+                  break;
+                case 'message':
+                  setMessages(prev => {
+                    // Avoid duplicates
+                    if (prev.some(m => m.id === data.message.id)) return prev;
+                    return [...prev, data.message];
+                  });
+                  break;
+                case 'complete':
+                  setIsComplete(true);
+                  setIsRunning(false);
+                  // Generate debrief from transcript
+                  generateDebrief(data.transcript).then(report => {
+                    onFinish(data.transcript, report);
+                  });
+                  break;
+                case 'error':
+                  setError(data.error);
+                  setIsRunning(false);
+                  break;
+              }
+            } catch (e) {
+              console.error('Failed to parse SSE data:', e);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Simulation failed');
+      setIsRunning(false);
+    }
+  }, [candidatePersona, selectedAgent, resume, jobDescription, speed, onFinish]);
+
+  // Stop simulation
+  const stopSimulation = React.useCallback(async () => {
+    if (!sessionId) return;
+
+    try {
+      const response = await fetch(`/api/simulation?action=stop&sessionId=${sessionId}`, {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setIsRunning(false);
+        setIsComplete(true);
+        // Generate partial debrief
+        const report = await generateDebrief(data.transcript);
+        onFinish(data.transcript, report);
+      }
+    } catch (e) {
+      console.error('Failed to stop simulation:', e);
+    }
+  }, [sessionId, onFinish]);
+
+  // Auto-start simulation on mount
+  React.useEffect(() => {
+    startSimulation();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <div className="flex-1 flex flex-col overflow-hidden min-h-0">
+      {/* Top Bar */}
+      <header className="px-6 lg:px-12 xl:px-16 py-5 flex justify-between items-center shrink-0">
+        <div className="flex items-center gap-3">
+          <LiquidGlassCard className="flex items-center gap-3 px-5 py-2.5">
+            <div className="relative z-10 flex items-center gap-3">
+              <span className="text-xs font-bold uppercase tracking-widest text-secondary">Observer Mode</span>
+            </div>
+          </LiquidGlassCard>
+          <SpeedControl speed={speed} onSpeedChange={setSpeed} disabled={isRunning} />
+        </div>
+        <LiquidGlassCard className="flex items-center gap-3 px-5 py-2.5">
+          <div className="relative z-10 flex items-center gap-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-secondary">
+              {agent.label}
+            </span>
+            <span className="text-xs text-muted-foreground">
+              Q: {messages.filter(m => m.speaker === 'interviewer').length}/5
+            </span>
+          </div>
+        </LiquidGlassCard>
+      </header>
+
+      {/* Main Chat Area */}
+      <main className="flex-1 flex flex-col px-6 lg:px-12 xl:px-16 py-6 overflow-hidden">
+        <LiquidGlassCard className="flex-1 flex flex-col overflow-hidden">
+          <SimulationChatDisplay messages={messages} isRunning={isRunning} />
+        </LiquidGlassCard>
+      </main>
+
+      {/* Bottom Controls */}
+      <footer className="px-6 lg:px-12 xl:px-16 py-5 shrink-0">
+        <LiquidGlassCard className="flex justify-center items-center gap-4 p-4">
+          <div className="relative z-10 flex justify-center items-center gap-4">
+            {isRunning && (
+              <LiquidGlassActionButton
+                variant="danger"
+                size="lg"
+                onClick={stopSimulation}
+                className="flex flex-col items-center gap-1 h-auto py-3 px-6"
+              >
+                <Square className="w-7 h-7" />
+                <span className="text-[10px] font-semibold uppercase tracking-widest">
+                  Stop
+                </span>
+              </LiquidGlassActionButton>
+            )}
+            {isComplete && (
+              <div className="text-center">
+                <p className="text-sm font-semibold text-secondary">Simulation Complete</p>
+                <p className="text-xs text-muted-foreground">Generating debrief...</p>
+              </div>
+            )}
+            {error && (
+              <div className="text-center">
+                <p className="text-sm font-semibold text-destructive">Error: {error}</p>
+                <Button onClick={startSimulation} size="sm" className="mt-2">
+                  Retry
+                </Button>
+              </div>
+            )}
+          </div>
+        </LiquidGlassCard>
+      </footer>
     </div>
   );
 }
@@ -172,38 +474,54 @@ export default function InterviewScreen({
   onFinish,
   resume,
   jobDescription,
-  selectedAgent
+  selectedAgent,
+  simulationMode = false,
+  candidatePersona,
 }: InterviewScreenProps) {
-  const [timeLeft, setTimeLeft] = useState(duration * 60);
-  const [isRecording, setIsRecording] = useState(true);
-  const [isConnecting, setIsConnecting] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [status, setStatus] = useState<'connecting' | 'talking' | 'listening' | 'finished'>('connecting');
-  const [transcript, setTranscript] = useState<TranscriptEntry[]>([]);
-  const [showTranscript, setShowTranscript] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState<string | null>(null);
-  const [micLevel, setMicLevel] = useState(0);
-  const [isCameraOn, setIsCameraOn] = useState(true);
+  // Per D-02: Use existing InterviewScreen, but render simulation UI when in simulation mode
+  if (simulationMode && candidatePersona) {
+    return (
+      <SimulationModeComponent
+        candidatePersona={candidatePersona}
+        selectedAgent={selectedAgent}
+        resume={resume}
+        jobDescription={jobDescription}
+        onFinish={onFinish}
+      />
+    );
+  }
 
-  const clientRef = useRef<GeminiLiveClient | null>(null);
-  const recorderRef = useRef<AudioRecorder | null>(null);
-  const streamerRef = useRef<AudioStreamer | null>(null);
-  const transcriptRef = useRef<TranscriptEntry[]>([]);
-  const interviewStartTimeRef = useRef<number>(0);
-  const isRecordingRef = useRef(isRecording);
-  const animationFrameRef = useRef<number | null>(null);
+  const [timeLeft, setTimeLeft] = React.useState(duration * 60);
+  const [isRecording, setIsRecording] = React.useState(true);
+  const [isConnecting, setIsConnecting] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+  const [status, setStatus] = React.useState<'connecting' | 'talking' | 'listening' | 'finished'>('connecting');
+  const [transcript, setTranscript] = React.useState<TranscriptEntry[]>([]);
+  const [showTranscript, setShowTranscript] = React.useState(false);
+  const [currentQuestion, setCurrentQuestion] = React.useState<string | null>(null);
+  const [micLevel, setMicLevel] = React.useState(0);
+  const [isCameraOn, setIsCameraOn] = React.useState(true);
+  const [audioAnalyser, setAudioAnalyser] = React.useState<AnalyserNode | null>(null);
+
+  const clientRef = React.useRef<GeminiLiveClient | null>(null);
+  const recorderRef = React.useRef<AudioRecorder | null>(null);
+  const streamerRef = React.useRef<AudioStreamer | null>(null);
+  const transcriptRef = React.useRef<TranscriptEntry[]>([]);
+  const interviewStartTimeRef = React.useRef<number>(0);
+  const isRecordingRef = React.useRef(isRecording);
+  const animationFrameRef = React.useRef<number | null>(null);
 
   // Sync refs with state
-  useEffect(() => {
+  React.useEffect(() => {
     transcriptRef.current = transcript;
   }, [transcript]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     isRecordingRef.current = isRecording;
   }, [isRecording]);
 
   // Microphone level monitoring
-  useEffect(() => {
+  React.useEffect(() => {
     const analyser = recorderRef.current?.getAnalyser();
     
     if (!isRecording || !analyser) {
@@ -247,7 +565,7 @@ export default function InterviewScreen({
     };
   }, [isRecording]);
 
-  const handleFinish = useCallback(async () => {
+  const handleFinish = React.useCallback(async () => {
     setStatus('finished');
     clientRef.current?.disconnect();
     recorderRef.current?.stop();
@@ -269,7 +587,7 @@ export default function InterviewScreen({
     }
   }, [onFinish]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     interviewStartTimeRef.current = Date.now();
 
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
@@ -295,7 +613,13 @@ export default function InterviewScreen({
           setIsConnecting(false);
           setStatus('listening');
           streamerRef.current?.start();
-          recorderRef.current?.start().catch(err => {
+          recorderRef.current?.start().then(() => {
+            // Capture the analyser for audio-reactive visualizer
+            const analyser = recorderRef.current?.getAnalyser();
+            if (analyser) {
+              setAudioAnalyser(analyser);
+            }
+          }).catch(err => {
             console.error('[InterviewScreen] Failed to start recorder:', err);
             setError('Failed to access microphone. Please check permissions.');
           });
@@ -420,10 +744,12 @@ export default function InterviewScreen({
     <div className="flex-1 flex flex-col overflow-hidden min-h-0">
       {/* Top Bar */}
       <header className="px-6 lg:px-12 xl:px-16 py-5 flex justify-between items-center shrink-0">
-        <div className="flex items-center gap-3 bg-surface-container-low px-5 py-2.5 rounded-full">
-          <Timer className="w-5 h-5 text-secondary" />
-          <span className="font-mono text-xl font-medium">{formatTime(timeLeft)}</span>
-        </div>
+        <LiquidGlassCard className="flex items-center gap-3 px-5 py-2.5">
+          <div className="relative z-10 flex items-center gap-3">
+            <Timer className="w-5 h-5 text-secondary" />
+            <span className="font-mono text-xl font-medium">{formatTime(timeLeft)}</span>
+          </div>
+        </LiquidGlassCard>
         <StatusBadge status={status} />
       </header>
 
@@ -454,8 +780,8 @@ export default function InterviewScreen({
           <LiquidGlassCard className="flex-1 max-w-2xl w-full aspect-video flex flex-col items-center justify-center relative overflow-hidden p-8">
             {/* Background Gradient */}
             <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,var(--primary)_0%,transparent_70%)]" />
-            
-            <div className="z-10 flex flex-col items-center gap-6 w-full">
+
+            <div className="relative z-10 flex flex-col items-center gap-6 w-full">
               {/* Status Indicator */}
               <StatusBadge status={status} />
 
@@ -470,6 +796,7 @@ export default function InterviewScreen({
                 color="#1FD5F9"
                 colorShift={0.05}
                 themeMode="dark"
+                analyser={audioAnalyser}
               />
 
               {/* Current Question */}
@@ -517,87 +844,64 @@ export default function InterviewScreen({
       </main>
 
       {/* Bottom Controls */}
-      <footer className="px-6 lg:px-12 xl:px-16 py-5 flex justify-center items-center gap-4 md:gap-6 shrink-0 bg-surface-container-lowest/90 backdrop-blur-xl">
-        {/* Mute Toggle */}
-        <button
-          onClick={() => setIsRecording(!isRecording)}
-          disabled={isConnecting}
-          className={`
-            flex flex-col items-center justify-center gap-2 px-4 py-2 rounded-xl transition-all
-            ${isRecording
-              ? 'text-primary'
-              : 'text-muted-foreground bg-surface-container'
-            }
-          `}
-        >
-          <div className={`
-            w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center
-            ${isRecording ? 'bg-primary-fixed' : 'bg-surface-container-high'}
-          `}>
-            {isRecording ? <Mic className="w-6 h-6 md:w-7 md:h-7" /> : <MicOff className="w-6 h-6 md:w-7 md:h-7" />}
-          </div>
-          <span className="text-[11px] font-semibold uppercase tracking-widest">
-            {isRecording ? 'Mute' : 'Unmute'}
-          </span>
-        </button>
+      <footer className="px-6 lg:px-12 xl:px-16 py-5 shrink-0">
+        <LiquidGlassCard className="flex justify-center items-center gap-3 md:gap-4 p-4">
+          <div className="relative z-10 flex justify-center items-center gap-3 md:gap-4">
+            {/* Mute Toggle */}
+            <LiquidGlassActionButton
+              variant={isRecording ? 'primary' : 'ghost'}
+              size="md"
+              onClick={() => setIsRecording(!isRecording)}
+              disabled={isConnecting}
+              className="flex flex-col items-center gap-1 h-auto py-2"
+            >
+              {isRecording ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
+              <span className="text-[10px] font-semibold uppercase tracking-widest">
+                {isRecording ? 'Mute' : 'Unmute'}
+              </span>
+            </LiquidGlassActionButton>
 
-        {/* End Interview */}
-        <button
-          onClick={handleFinish}
-          disabled={isConnecting}
-          className="flex flex-col items-center justify-center gap-2 bg-destructive text-destructive-foreground rounded-xl px-8 py-2 shadow-lg shadow-destructive/20 transition-all hover:shadow-xl"
-        >
-          <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-destructive-foreground/20 flex items-center justify-center">
-            <PhoneOff className="w-6 h-6 md:w-7 md:h-7" />
-          </div>
-          <span className="text-[11px] font-semibold uppercase tracking-widest">
-            End
-          </span>
-        </button>
+            {/* End Interview */}
+            <LiquidGlassActionButton
+              variant="danger"
+              size="lg"
+              onClick={handleFinish}
+              disabled={isConnecting}
+              className="flex flex-col items-center gap-1 h-auto py-3 px-6"
+            >
+              <PhoneOff className="w-7 h-7" />
+              <span className="text-[10px] font-semibold uppercase tracking-widest">
+                End
+              </span>
+            </LiquidGlassActionButton>
 
-        {/* Camera Toggle */}
-        <button
-          onClick={() => setIsCameraOn(!isCameraOn)}
-          className={`
-            flex flex-col items-center justify-center gap-2 px-4 py-2 rounded-xl transition-all
-            ${isCameraOn
-              ? 'text-primary'
-              : 'text-muted-foreground bg-surface-container'
-            }
-          `}
-        >
-          <div className={`
-            w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center
-            ${isCameraOn ? 'bg-primary-fixed' : 'bg-surface-container-high'}
-          `}>
-            {isCameraOn ? <Video className="w-6 h-6 md:w-7 md:h-7" /> : <VideoOff className="w-6 h-6 md:w-7 md:h-7" />}
-          </div>
-          <span className="text-[11px] font-semibold uppercase tracking-widest">
-            {isCameraOn ? 'Camera' : 'No Cam'}
-          </span>
-        </button>
+            {/* Camera Toggle */}
+            <LiquidGlassActionButton
+              variant={isCameraOn ? 'primary' : 'ghost'}
+              size="md"
+              onClick={() => setIsCameraOn(!isCameraOn)}
+              className="flex flex-col items-center gap-1 h-auto py-2"
+            >
+              {isCameraOn ? <Video className="w-6 h-6" /> : <VideoOff className="w-6 h-6" />}
+              <span className="text-[10px] font-semibold uppercase tracking-widest">
+                {isCameraOn ? 'Camera' : 'No Cam'}
+              </span>
+            </LiquidGlassActionButton>
 
-        {/* Transcript Toggle */}
-        <button
-          onClick={() => setShowTranscript(!showTranscript)}
-          className={`
-            hidden md:flex flex-col items-center justify-center gap-2 px-4 py-2 rounded-xl transition-all
-            ${showTranscript
-              ? 'bg-primary text-primary-foreground'
-              : 'text-muted-foreground'
-            }
-          `}
-        >
-          <div className={`
-            w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center
-            ${showTranscript ? 'bg-primary-container' : 'bg-surface-container'}
-          `}>
-            <MessageSquare className="w-6 h-6 md:w-7 md:h-7" />
+            {/* Transcript Toggle */}
+            <LiquidGlassActionButton
+              variant={showTranscript ? 'primary' : 'ghost'}
+              size="md"
+              onClick={() => setShowTranscript(!showTranscript)}
+              className="hidden md:flex flex-col items-center gap-1 h-auto py-2"
+            >
+              <MessageSquare className="w-6 h-6" />
+              <span className="text-[10px] font-semibold uppercase tracking-widest">
+                Chat
+              </span>
+            </LiquidGlassActionButton>
           </div>
-          <span className="text-[11px] font-semibold uppercase tracking-widest">
-            Chat
-          </span>
-        </button>
+        </LiquidGlassCard>
       </footer>
     </div>
   );

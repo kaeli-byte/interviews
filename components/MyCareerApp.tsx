@@ -25,6 +25,7 @@ export default function MyCareerApp() {
   const [step, setStep] = useState<AppStep>('setup');
   const [personaLoading, setPersonaLoading] = useState(false);
   const [personaError, setPersonaError] = useState<string | null>(null);
+  const [simulationMode, setSimulationMode] = useState(false);
   const [interviewData, setInterviewData] = useState<InterviewData>({
     duration: 10,
     transcript: [],
@@ -101,6 +102,9 @@ export default function MyCareerApp() {
     console.log('[MyCareerApp] transcript length:', transcript.length);
     console.log('[MyCareerApp] report:', report ? 'received' : 'null');
 
+    // Reset simulation mode when returning to debrief
+    setSimulationMode(false);
+
     // Set step to debrief immediately so user sees loading state
     setStep('debrief');
 
@@ -153,8 +157,8 @@ export default function MyCareerApp() {
   };
 
   const handleProceedToSimulation = () => {
-    // For now, go to interview step
-    // Phase 8 will add actual simulation logic
+    // Per D-01: Simulation starts immediately after persona confirmation
+    setSimulationMode(true);
     setStep('interview');
   };
 
@@ -167,6 +171,7 @@ export default function MyCareerApp() {
   };
 
   const handleReset = () => {
+    setSimulationMode(false);
     setStep('setup');
   };
 
@@ -215,6 +220,8 @@ export default function MyCareerApp() {
             resume={interviewData.resume}
             jobDescription={interviewData.jobDescription}
             selectedAgent={interviewData.selectedAgent}
+            simulationMode={simulationMode}
+            candidatePersona={interviewData.candidatePersona || undefined}
           />
         )}
         {step === 'debrief' && (

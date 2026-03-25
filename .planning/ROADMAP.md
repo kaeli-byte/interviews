@@ -36,7 +36,7 @@
 
 ### v4.0 Candidate Simulator (Phases 7-9)
 
-- [ ] **Phase 7: Candidate Persona Generation** - Extract and construct AI candidate personas from resume data
+- [ ] **Phase 7: Candidate Persona Generation** (2/3 complete) - Extract and construct AI candidate personas from resume data
 - [ ] **Phase 8: Text Chat Simulation** - Observer mode for AI-AI interview simulation
 - [ ] **Phase 9: Interviewer Quality Metrics** - Measure and compare interviewer performance quality
 
@@ -55,8 +55,8 @@
 **Plans:** 3 plans in 3 waves
 
 Plans:
-- [ ] 07-01-PLAN.md - Types & Extraction Core (Wave 1) - CAND-01 through CAND-05
-- [ ] 07-02-PLAN.md - PersonaScreen UI (Wave 2) - CAND-06
+- [x] 07-01-PLAN.md - Types & Extraction Core (Wave 1) - CAND-01 through CAND-05
+- [x] 07-02-PLAN.md - PersonaScreen UI (Wave 2) - CAND-06
 - [ ] 07-03-PLAN.md - App Integration (Wave 3) - Full flow integration
 
 ### Phase 8: Text Chat Simulation
@@ -98,7 +98,7 @@ Plans:
 | 5. Agent System | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 6. STAR Analysis & Debrief | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 06.1. Design System | v3.0 | 1/1 | Complete | 2026-03-24 |
-| 7. Candidate Persona Generation | v4.0 | 0/3 | Planned | - |
+| 7. Candidate Persona Generation | v4.0 | 2/3 | In progress | - |
 | 8. Text Chat Simulation | v4.0 | 0/0 | Not started | - |
 | 9. Interviewer Quality Metrics | v4.0 | 0/0 | Not started | - |
 

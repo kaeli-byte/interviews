@@ -133,17 +133,17 @@ export class GeminiLiveClient {
           // API sends incremental chunks, need to accumulate
           const inputTranscription = serverContent.inputTranscription || serverContent.input_transcription;
           if (inputTranscription?.text && typeof inputTranscription.text === 'string') {
-            const trimmedText = inputTranscription.text.trim();
-            if (trimmedText) {
+            const chunkText = inputTranscription.text;
+            if (chunkText) {
               const existing = this.partials.get('candidate');
               if (existing) {
-                // API sends incremental chunks, append without adding spaces
-                // (chunks already contain proper word boundaries)
-                existing.text += trimmedText;
+                // Add space between chunks if needed (neither ends nor starts with space)
+                const needsSpace = !existing.text.endsWith(' ') && !chunkText.startsWith(' ');
+                existing.text += (needsSpace ? ' ' : '') + chunkText;
                 existing.lastUpdate = Date.now();
               } else {
                 this.partials.set('candidate', {
-                  text: trimmedText,
+                  text: chunkText,
                   timestamp: Date.now(),
                   lastUpdate: Date.now()
                 });
@@ -163,17 +163,17 @@ export class GeminiLiveClient {
           // API sends incremental chunks, need to accumulate
           const outputTranscription = serverContent.outputTranscription || serverContent.output_transcription;
           if (outputTranscription?.text && typeof outputTranscription.text === 'string') {
-            const trimmedText = outputTranscription.text.trim();
-            if (trimmedText) {
+            const chunkText = outputTranscription.text;
+            if (chunkText) {
               const existing = this.partials.get('interviewer');
               if (existing) {
-                // API sends incremental chunks, append without adding spaces
-                // (chunks already contain proper word boundaries)
-                existing.text += trimmedText;
+                // Add space between chunks if needed (neither ends nor starts with space)
+                const needsSpace = !existing.text.endsWith(' ') && !chunkText.startsWith(' ');
+                existing.text += (needsSpace ? ' ' : '') + chunkText;
                 existing.lastUpdate = Date.now();
               } else {
                 this.partials.set('interviewer', {
-                  text: trimmedText,
+                  text: chunkText,
                   timestamp: Date.now(),
                   lastUpdate: Date.now()
                 });

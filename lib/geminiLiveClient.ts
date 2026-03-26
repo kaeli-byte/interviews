@@ -55,12 +55,10 @@ export class GeminiLiveClient {
   }
 
   async connect(systemInstruction: string) {
-    // Safety check for existing connections
     if (this.session) {
       this.disconnect();
     }
 
-    console.log('[Gemini] Connecting with model:', this.model);
     this.client = new GoogleGenAI({ apiKey: this.apiKey });
 
     try {
@@ -77,7 +75,6 @@ export class GeminiLiveClient {
         },
         callbacks: {
           onmessage: (event: any) => {
-            console.log('[Gemini] Received message:', JSON.stringify(event).substring(0, 200));
             this.handleMessage(event);
           },
           onerror: (error: any) => {
@@ -85,11 +82,10 @@ export class GeminiLiveClient {
             this.onError(error);
           },
           onclose: (event: any) => {
-            console.log('[Gemini] Closed:', event);
+            console.log('[Gemini] Session closed');
           }
         }
       });
-      console.log('[Gemini] Connected successfully');
     } catch (error) {
       console.error('[Gemini] Failed to connect:', error);
       this.onError(error);
@@ -98,11 +94,6 @@ export class GeminiLiveClient {
 
   private handleMessage(data: any) {
     try {
-      // Check for setupComplete first
-      if (data.setupComplete) {
-        console.log('[Gemini] Setup complete, sessionId:', data.setupComplete.sessionId);
-      }
-
       const serverContent = data.serverContent || data.server_content;
 
       if (serverContent) {
@@ -123,7 +114,6 @@ export class GeminiLiveClient {
         const inputTranscription = serverContent.inputTranscription || serverContent.input_transcription;
         if (inputTranscription?.text && typeof inputTranscription.text === 'string') {
           const chunkText = inputTranscription.text;
-          console.log('[Gemini] User transcription chunk:', JSON.stringify(chunkText));
           if (chunkText) {
             const existing = this.partials.get('candidate');
             if (existing) {
@@ -181,16 +171,12 @@ export class GeminiLiveClient {
 
   sendAudio(base64Data: string) {
     if (this.session) {
-      // Working demo format: {media: {data, mimeType}}
-      console.log('[Gemini] Sending audio chunk, base64 length:', base64Data.length);
       this.session.sendRealtimeInput({
         media: {
           data: base64Data,
           mimeType: 'audio/pcm;rate=16000'
         }
       });
-    } else {
-      console.warn('[Gemini] No session - cannot send audio');
     }
   }
 

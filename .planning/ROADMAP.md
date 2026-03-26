@@ -83,12 +83,15 @@ Plans:
 ### Phase 10: Fix Gemini Live Transcription
 **Goal:** Fix poor transcription quality in Gemini Live voice interviews, investigate migrating to Google ADK
 **Depends on:** Phase 8 (Text Chat Simulation)
-**Requirements:** TRANSC-01, TRANSC-02, TRANSC-03 (TBD)
+**Requirements:** TRANSC-01, TRANSC-02, TRANSC-03
 **Success Criteria** (what must be TRUE):
   1. User speech transcribes without character fragmentation (no "Bu ild a high tru st")
   2. Audio streaming pipeline handles edge cases properly (silence, overlap, interruption)
   3. Decision documented: keep current implementation OR migrate to ADK with rationale
-**Plans:** TBD
+**Plans:** 1 plan in 1 wave
+
+Plans:
+- [ ] 10-01-PLAN.md - Fix WebSocket message format (Wave 1) - TRANSC-01, TRANSC-02, TRANSC-03
 
 **Background:** Current Gemini Live implementation produces fragmented transcriptions. Example: "Bu ild a high tru st, hi gh stand ard culture" instead of "Build a high trust, high standard culture". This affects core interview UX.
 
@@ -121,7 +124,7 @@ Plans:
 | 06.1. Design System | v3.0 | 1/1 | Complete | 2026-03-24 |
 | 7. Candidate Persona Generation | v4.0 | 3/3 | Complete | 2026-03-25 |
 | 8. Text Chat Simulation | v4.0 | 2/3 | In progress | - |
-| 10. Fix Gemini Live Transcription | v4.0 | 0/0 | Not started | - |
+| 10. Fix Gemini Live Transcription | v4.0 | 0/1 | Not started | - |
 | 9. Interviewer Quality Metrics | v4.0 | 0/0 | Not started | - |
 
 ## Dependencies
@@ -166,13 +169,14 @@ v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation
 |----------|-------------|-------|
 | Candidate Persona | CAND-01, CAND-02, CAND-03, CAND-04, CAND-05, CAND-06 | Phase 7 |
 | Text Chat Simulation | SIM-01, SIM-02, SIM-03, SIM-04, SIM-05, SIM-06, SIM-07 | Phase 8 |
+| Transcription Quality | TRANSC-01, TRANSC-02, TRANSC-03 | Phase 10 |
 | Interviewer Quality | QUAL-01, QUAL-02, QUAL-03, QUAL-04, QUAL-05, QUAL-06 | Phase 9 |
 
-**Total v4.0 Coverage:** 19/19 requirements mapped
+**Total v4.0 Coverage:** 22/22 requirements mapped
 
 ---
 
 *For detailed phase information from previous milestones, see `.planning/milestones/v1.0-ROADMAP.md` and `.planning/milestones/v2.0-ROADMAP.md`*
 
 ---
-*Roadmap updated: 2026-03-26 for Phase 10 prioritization*
+*Roadmap updated: 2026-03-26 for Phase 10 planning*

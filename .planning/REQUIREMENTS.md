@@ -28,6 +28,12 @@
 - [x] **SIM-06**: User can stop simulation at any point and receive partial debrief
 - [ ] **SIM-07**: Simulation uses existing transcript and debrief infrastructure
 
+### Transcription Quality
+
+- [ ] **TRANSC-01**: User speech transcribes without character fragmentation (no "Bu ild a high tru st")
+- [ ] **TRANSC-02**: Audio streaming pipeline handles edge cases properly (silence, overlap, interruption)
+- [ ] **TRANSC-03**: Decision documented: keep current implementation OR migrate to ADK with rationale
+
 ### Interviewer Quality Metrics
 
 - [ ] **QUAL-01**: System can measure interviewer persona consistency (staying in character throughout session)
@@ -135,6 +141,9 @@
 | SIM-05 | Phase 8 | Complete |
 | SIM-06 | Phase 8 | Complete |
 | SIM-07 | Phase 8 | Pending |
+| TRANSC-01 | Phase 10 | Pending |
+| TRANSC-02 | Phase 10 | Pending |
+| TRANSC-03 | Phase 10 | Pending |
 | QUAL-01 | Phase 9 | Pending |
 | QUAL-02 | Phase 9 | Pending |
 | QUAL-03 | Phase 9 | Pending |
@@ -142,7 +151,7 @@
 | QUAL-05 | Phase 9 | Pending |
 | QUAL-06 | Phase 9 | Pending |
 
-**v4.0 Coverage:** 19/19 requirements mapped
+**v4.0 Coverage:** 22/22 requirements mapped
 
 ### v3.0 Requirements (COMPLETE)
 
@@ -182,4 +191,4 @@
 ---
 
 *Requirements defined: 2026-03-23*
-*Last updated: 2026-03-25 for v4.0 Candidate Simulator roadmap*
+*Last updated: 2026-03-26 for Phase 10 Transcription Quality requirements*

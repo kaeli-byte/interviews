@@ -120,6 +120,7 @@ export class GeminiLiveClient {
         const inputTranscription = serverContent.inputTranscription || serverContent.input_transcription;
         if (inputTranscription?.text && typeof inputTranscription.text === 'string') {
           const chunkText = inputTranscription.text;
+          console.log('[Gemini] User transcription chunk:', JSON.stringify(chunkText));
           if (chunkText) {
             const existing = this.partials.get('candidate');
             if (existing) {

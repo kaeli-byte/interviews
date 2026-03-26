@@ -209,10 +209,10 @@ export class GeminiLiveClient {
   sendAudio(base64Data: string) {
     if (this.ws?.readyState === WebSocket.OPEN) {
       const msg = {
-        realtimeInput: {
-          media: {
+        realtime_input: {
+          audio: {
             data: base64Data,
-            mimeType: "audio/pcm;rate=16000"
+            mime_type: "audio/pcm;rate=16000"
           }
         }
       };

@@ -197,9 +197,9 @@ export class GeminiLiveClient {
 
   sendAudio(base64Data: string) {
     if (this.session) {
-      // SDK expects {media: {data, mimeType}} format
+      // SDK expects {audio: {data, mimeType}} format for audio streaming
       this.session.sendRealtimeInput({
-        media: {
+        audio: {
           data: base64Data,
           mimeType: 'audio/pcm;rate=16000'
         }

@@ -2,23 +2,23 @@
 gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: Candidate Simulator
-status: in_progress
-last_updated: "2026-03-25T21:49:00.000Z"
-last_activity: 2026-03-25 — Simulation API endpoint completed
+status: completed
+last_updated: "2026-03-26T02:01:58.756Z"
+last_activity: 2026-03-26
 progress:
-  total_phases: 3
-  completed_phases: 1
+  total_phases: 4
+  completed_phases: 2
   total_plans: 6
-  completed_plans: 5
+  completed_plans: 6
   percent: 83
 ---
 
 ## Current Position
 
-Phase: 8 - Text Chat Simulation
-Plan: 02 (API & Streaming) — ✅ Complete
+Phase: 10
+Plan: Not started
 Status: 2/3 plans complete
-Last activity: 2026-03-25 — Simulation API endpoint with SSE streaming completed
+Last activity: 2026-03-26
 
 ## Project Reference
 
@@ -53,6 +53,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 |-------|--------|-------|
 | 7. Candidate Persona Generation | ✅ Complete | 3/3 complete |
 | 8. Text Chat Simulation | In progress | 2/3 complete |
+| 10. Fix Gemini Live Transcription | Not started | TBD (PRIORITY) |
 | 9. Interviewer Quality Metrics | Not started | TBD |
 
 **Progress:** [████████░░] 83%
@@ -66,6 +67,8 @@ See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 - Phase 4-6: v3.0 Agent System — Multi-agent personas and transcript-based STAR debrief
 - Phase 06.1 inserted after Phase 6: Design System Implementation (URGENT) — Implement DESIGN.md specification
 - Phase 7-9: v4.0 Candidate Simulator — AI candidate persona generation, text simulation, quality metrics
+- Phase 10 added: Fix Gemini Live transcription quality - investigate ADK migration
+- Phase 10 prioritized OVER Phase 9 — transcription quality is foundational to UX
 
 ### Key Decisions
 
@@ -125,7 +128,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 
 ### Next Action
 
-Run `/gsd:execute-phase 08` to complete Phase 8 (Plan 08-03 remaining: Observer UI)
+Run `/gsd:plan-phase 10` to research ADK and plan the transcription fix (PRIORITY over Phase 9)
 
 ---
 *State updated: 2026-03-25*

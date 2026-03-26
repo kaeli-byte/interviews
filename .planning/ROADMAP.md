@@ -34,10 +34,11 @@
 
 </details>
 
-### v4.0 Candidate Simulator (Phases 7-9)
+### v4.0 Candidate Simulator (Phases 7-10)
 
-- [ ] **Phase 7: Candidate Persona Generation** (2/3 complete) - Extract and construct AI candidate personas from resume data
-- [ ] **Phase 8: Text Chat Simulation** - Observer mode for AI-AI interview simulation
+- [x] **Phase 7: Candidate Persona Generation** (3/3 complete) - Extract and construct AI candidate personas from resume data
+- [ ] **Phase 8: Text Chat Simulation** (2/3 complete) - Observer mode for AI-AI interview simulation
+- [ ] **Phase 10: Fix Gemini Live Transcription** - Fix poor transcription quality, investigate ADK migration
 - [ ] **Phase 9: Interviewer Quality Metrics** - Measure and compare interviewer performance quality
 
 ## Phase Details
@@ -79,9 +80,23 @@ Plans:
 
 **UI hint:** yes
 
+### Phase 10: Fix Gemini Live Transcription
+**Goal:** Fix poor transcription quality in Gemini Live voice interviews, investigate migrating to Google ADK
+**Depends on:** Phase 8 (Text Chat Simulation)
+**Requirements:** TRANSC-01, TRANSC-02, TRANSC-03 (TBD)
+**Success Criteria** (what must be TRUE):
+  1. User speech transcribes without character fragmentation (no "Bu ild a high tru st")
+  2. Audio streaming pipeline handles edge cases properly (silence, overlap, interruption)
+  3. Decision documented: keep current implementation OR migrate to ADK with rationale
+**Plans:** TBD
+
+**Background:** Current Gemini Live implementation produces fragmented transcriptions. Example: "Bu ild a high tru st, hi gh stand ard culture" instead of "Build a high trust, high standard culture". This affects core interview UX.
+
+**UI hint:** no (infrastructure)
+
 ### Phase 9: Interviewer Quality Metrics
 **Goal:** Users can measure and compare interviewer performance quality across simulation runs
-**Depends on:** Phase 8 (Text Chat Simulation)
+**Depends on:** Phase 10 (Fix Gemini Live Transcription)
 **Requirements:** QUAL-01, QUAL-02, QUAL-03, QUAL-04, QUAL-05, QUAL-06
 **Success Criteria** (what must be TRUE):
   1. System displays persona consistency score showing how well interviewer stayed in character
@@ -104,8 +119,9 @@ Plans:
 | 5. Agent System | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 6. STAR Analysis & Debrief | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 06.1. Design System | v3.0 | 1/1 | Complete | 2026-03-24 |
-| 7. Candidate Persona Generation | v4.0 | 2/3 | In progress | - |
-| 8. Text Chat Simulation | v4.0 | 0/3 | Planned | - |
+| 7. Candidate Persona Generation | v4.0 | 3/3 | Complete | 2026-03-25 |
+| 8. Text Chat Simulation | v4.0 | 2/3 | In progress | - |
+| 10. Fix Gemini Live Transcription | v4.0 | 0/0 | Not started | - |
 | 9. Interviewer Quality Metrics | v4.0 | 0/0 | Not started | - |
 
 ## Dependencies
@@ -135,6 +151,9 @@ v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation
                           Phase 8: Text Chat Simulation
                                   |
                                   v
+                          Phase 10: Fix Gemini Live Transcription
+                                  |
+                                  v
                           Phase 9: Interviewer Quality Metrics
                                   |
                                   v
@@ -156,4 +175,4 @@ v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation
 *For detailed phase information from previous milestones, see `.planning/milestones/v1.0-ROADMAP.md` and `.planning/milestones/v2.0-ROADMAP.md`*
 
 ---
-*Roadmap updated: 2026-03-25 for Phase 8 planning*
+*Roadmap updated: 2026-03-26 for Phase 10 prioritization*

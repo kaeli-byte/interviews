@@ -137,9 +137,9 @@ export class GeminiLiveClient {
             if (trimmedText) {
               const existing = this.partials.get('candidate');
               if (existing) {
-                // API sends incremental chunks, append them
-                existing.text += ' ' + trimmedText;
-                existing.text = existing.text.replace(/\s+/g, ' ').trim(); // Normalize whitespace
+                // API sends incremental chunks, append without adding spaces
+                // (chunks already contain proper word boundaries)
+                existing.text += trimmedText;
                 existing.lastUpdate = Date.now();
               } else {
                 this.partials.set('candidate', {
@@ -167,9 +167,9 @@ export class GeminiLiveClient {
             if (trimmedText) {
               const existing = this.partials.get('interviewer');
               if (existing) {
-                // API sends incremental chunks, append them
-                existing.text += ' ' + trimmedText;
-                existing.text = existing.text.replace(/\s+/g, ' ').trim(); // Normalize whitespace
+                // API sends incremental chunks, append without adding spaces
+                // (chunks already contain proper word boundaries)
+                existing.text += trimmedText;
                 existing.lastUpdate = Date.now();
               } else {
                 this.partials.set('interviewer', {

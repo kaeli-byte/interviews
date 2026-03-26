@@ -31,7 +31,7 @@ export class GeminiLiveClient {
     onTranscript: (entry: TranscriptUpdate) => void
   ) {
     this.apiKey = apiKey;
-    this.model = 'gemini-live-2.5-flash-preview'; // Live API model
+    this.model = 'gemini-2.5-flash-native-audio-preview-12-2025'; // Live API model (preview)
     this.onMessage = onMessage;
     this.onError = onError;
     this.onTranscript = onTranscript;

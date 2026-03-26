@@ -31,7 +31,7 @@ export class GeminiLiveClient {
     onTranscript: (entry: TranscriptUpdate) => void
   ) {
     this.apiKey = apiKey;
-    this.model = 'gemini-2.5-flash-native-audio-preview-12-2025';
+    this.model = 'gemini-live-2.5-flash-preview'; // Live API model
     this.onMessage = onMessage;
     this.onError = onError;
     this.onTranscript = onTranscript;
@@ -99,33 +99,8 @@ export class GeminiLiveClient {
         const turnComplete = serverContent.turnComplete || serverContent.turn_complete;
         const modelTurn = serverContent.modelTurn || serverContent.model_turn;
 
-        // Handle text chunks directly from modelTurn (alternative path)
+        // Handle model turn - finalize user's partial when AI starts speaking
         if (modelTurn?.parts) {
-          for (const part of modelTurn.parts) {
-            // Text chunk for chat box
-            if (part.text && !part.thought) {
-              console.log(`[Gemini] AI text chunk: "${part.text}"`);
-              const existing = this.partials.get('interviewer');
-              if (existing) {
-                const needsSpace = !existing.text.endsWith(' ') && !part.text.startsWith(' ');
-                existing.text += (needsSpace ? ' ' : '') + part.text;
-                existing.lastUpdate = Date.now();
-              } else {
-                this.partials.set('interviewer', {
-                  text: part.text,
-                  timestamp: Date.now(),
-                  lastUpdate: Date.now()
-                });
-              }
-              this.onTranscript({
-                speaker: 'interviewer',
-                text: this.partials.get('interviewer')!.text,
-                timestamp: this.partials.get('interviewer')!.timestamp,
-                isPartial: true
-              });
-            }
-          }
-          // Finalize user's partial when AI starts speaking
           this.finalizePartial('candidate');
         }
 
@@ -141,8 +116,7 @@ export class GeminiLiveClient {
           if (chunkText) {
             const existing = this.partials.get('candidate');
             if (existing) {
-              const needsSpace = !existing.text.endsWith(' ') && !chunkText.startsWith(' ');
-              existing.text += (needsSpace ? ' ' : '') + chunkText;
+              existing.text += chunkText;
               existing.lastUpdate = Date.now();
             } else {
               this.partials.set('candidate', {
@@ -168,8 +142,7 @@ export class GeminiLiveClient {
           if (chunkText) {
             const existing = this.partials.get('interviewer');
             if (existing) {
-              const needsSpace = !existing.text.endsWith(' ') && !chunkText.startsWith(' ');
-              existing.text += (needsSpace ? ' ' : '') + chunkText;
+              existing.text += chunkText;
               existing.lastUpdate = Date.now();
             } else {
               this.partials.set('interviewer', {
@@ -197,9 +170,9 @@ export class GeminiLiveClient {
 
   sendAudio(base64Data: string) {
     if (this.session) {
-      // SDK expects {audio: {data, mimeType}} format for audio streaming
+      // Working demo format: {media: {data, mimeType}}
       this.session.sendRealtimeInput({
-        audio: {
+        media: {
           data: base64Data,
           mimeType: 'audio/pcm;rate=16000'
         }

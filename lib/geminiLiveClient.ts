@@ -209,11 +209,11 @@ export class GeminiLiveClient {
   sendAudio(base64Data: string) {
     if (this.ws?.readyState === WebSocket.OPEN) {
       const msg = {
-        realtime_input: {
-          mediaChunks: [{
+        realtimeInput: {
+          media: {
             data: base64Data,
             mimeType: "audio/pcm;rate=16000"
-          }]
+          }
         }
       };
       this.ws.send(JSON.stringify(msg));

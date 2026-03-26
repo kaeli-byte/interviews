@@ -1,13 +1,15 @@
-# Phase 10: ADK Migration Decision
+# Phase 10: Transcription Fix Decision
 
 **Date:** 2026-03-26
-**Status:** Decided
+**Status:** DECIDED
 
 ## Problem
 
 Gemini Live voice interviews produce fragmented transcriptions where user speech appears as individual characters separated by spaces (e.g., "Bu ild a high tru st" instead of "Build a high trust").
 
-**Root Cause:** Incorrect WebSocket message format in `sendAudio()` method. The code used snake_case field names (`realtime_input`, `media_chunks`, `mime_type`) instead of the correct camelCase format (`realtimeInput`, `media`, `mimeType`).
+**Root Cause:** Two issues found:
+1. `needsSpace` logic in `handleMessage()` was adding spaces between transcription chunks
+2. Raw WebSocket message format was error-prone
 
 ## Options Evaluated
 
@@ -19,41 +21,52 @@ Gemini Live voice interviews produce fragmented transcriptions where user speech
 
 ## Decision
 
-**Fix existing WebSocket message format (Option A)**
+**Migrate to `@google/genai` SDK (Option B)** with additional fixes
 
 ## Rationale
 
-1. **ADK Web export does not include Live API session management** - The ADK's web export only includes agent orchestration features, not the Live API WebSocket connectivity needed for real-time voice interviews.
+1. **SDK simplifies code** - The SDK handles message formatting correctly, reducing error surface.
 
-2. **`@google/genai` SDK migration is optional** - The raw WebSocket approach works correctly when the message format is proper. SDK migration would provide cleaner code but is not required for functionality.
+2. **ADK Web export does not include Live API session management** - ADK's web export only includes agent orchestration features, not the Live API WebSocket connectivity.
 
-3. **Fix is minimal and LOW risk** - A simple 5-line change corrects the message format without any application restructuring.
+3. **needsSpace logic was the real culprit** - Removing the space-adding logic fixed fragmentation. The SDK migration provides cleaner code.
 
-4. **No breaking changes** - The fix only affects the `sendAudio()` method. All other code remains unchanged.
+4. **turnCoverage: TURN_INCLUDES_ALL_INPUT** - This config ensures complete transcription of user speech.
 
 ## Implementation
 
-Changed `lib/geminiLiveClient.ts` lines 209-223:
+Key changes in `lib/geminiLiveClient.ts`:
 
 ```typescript
-// Before (incorrect)
-realtime_input: {
-  media_chunks: [{ data, mime_type }]
+// 1. SDK import
+import { GoogleGenAI, Modality, TurnCoverage } from '@google/genai';
+
+// 2. Connection config
+config: {
+  responseModalities: [Modality.AUDIO],
+  realtimeInputConfig: {
+    turnCoverage: TurnCoverage.TURN_INCLUDES_ALL_INPUT
+  },
+  inputAudioTranscription: {},
+  outputAudioTranscription: {}
 }
 
-// After (correct)
-realtimeInput: {
-  media: { data, mimeType }
-}
+// 3. Direct concatenation (no needsSpace logic)
+// BEFORE (wrong - caused fragmentation):
+const needsSpace = !existing.text.endsWith(' ') && !chunkText.startsWith(' ');
+existing.text += (needsSpace ? ' ' : '') + chunkText;
+
+// AFTER (correct):
+existing.text += chunkText;
 ```
 
 ## Future Considerations
 
-1. **Consider `@google/genai` SDK migration** - For cleaner code and better TypeScript support, consider migrating from raw WebSocket to the official SDK in a future phase.
+1. **AudioWorkletNode migration** - ScriptProcessorNode is deprecated but functional. Consider migrating for production.
 
-2. **Consider ADK for multi-agent orchestration** - If the application evolves to require multi-agent workflows, ADK provides useful orchestration features for server-side code.
+2. **Model updates** - When newer Live API models become available, test and update model name.
 
-3. **Consider AudioWorkletNode migration** - The current `ScriptProcessorNode` in `audioRecorder.ts` is deprecated. Migrate to AudioWorkletNode for better performance and future compatibility.
+3. **Latency optimization** - Explore `automaticActivityDetection` config for faster response times if needed.
 
 ---
 

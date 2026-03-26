@@ -25,7 +25,7 @@ export class GeminiLiveClient {
     apiKey: string,
     onMessage: (msg: any) => void,
     onError: (err: any) => void,
-    onTranscript: (entry: TranscriptEntry) => void
+    onTranscript: (entry: TranscriptUpdate) => void
   ) {
     this.apiKey = apiKey;
     this.model = 'gemini-2.5-flash-native-audio-preview-12-2025'; // Validated model for Live API
@@ -209,13 +209,11 @@ export class GeminiLiveClient {
   sendAudio(base64Data: string) {
     if (this.ws?.readyState === WebSocket.OPEN) {
       const msg = {
-        realtime_input: {
-          media_chunks: [
-            {
-              data: base64Data,
-              mime_type: "audio/pcm;rate=16000"
-            }
-          ]
+        realtimeInput: {
+          media: {
+            data: base64Data,
+            mimeType: "audio/pcm;rate=16000"
+          }
         }
       };
       this.ws.send(JSON.stringify(msg));

@@ -60,6 +60,7 @@ export class GeminiLiveClient {
       this.disconnect();
     }
 
+    console.log('[Gemini] Connecting with model:', this.model);
     this.client = new GoogleGenAI({ apiKey: this.apiKey });
 
     try {
@@ -73,26 +74,32 @@ export class GeminiLiveClient {
         },
         callbacks: {
           onmessage: (event: any) => {
+            console.log('[Gemini] Received message:', JSON.stringify(event).substring(0, 200));
             this.handleMessage(event);
           },
           onerror: (error: any) => {
-            console.error('Gemini Live Error', error);
+            console.error('[Gemini] Error:', error);
             this.onError(error);
           },
           onclose: (event: any) => {
-            console.log('Gemini Live Closed', event);
+            console.log('[Gemini] Closed:', event);
           }
         }
       });
-      console.log('Gemini Live Connected');
+      console.log('[Gemini] Connected successfully');
     } catch (error) {
-      console.error('Failed to connect to Gemini Live', error);
+      console.error('[Gemini] Failed to connect:', error);
       this.onError(error);
     }
   }
 
   private handleMessage(data: any) {
     try {
+      // Check for setupComplete first
+      if (data.setupComplete) {
+        console.log('[Gemini] Setup complete, sessionId:', data.setupComplete.sessionId);
+      }
+
       const serverContent = data.serverContent || data.server_content;
 
       if (serverContent) {
@@ -171,12 +178,15 @@ export class GeminiLiveClient {
   sendAudio(base64Data: string) {
     if (this.session) {
       // Working demo format: {media: {data, mimeType}}
+      console.log('[Gemini] Sending audio chunk, base64 length:', base64Data.length);
       this.session.sendRealtimeInput({
         media: {
           data: base64Data,
           mimeType: 'audio/pcm;rate=16000'
         }
       });
+    } else {
+      console.warn('[Gemini] No session - cannot send audio');
     }
   }
 

@@ -3,7 +3,7 @@
  * Based on: https://github.com/jaydanurwin/gemini-live-agent-demo
  */
 
-import { GoogleGenAI, Modality, MediaResolution, TurnCoverage } from '@google/genai';
+import { GoogleGenAI, Modality, TurnCoverage } from '@google/genai';
 import { TranscriptEntry, TranscriptUpdate } from './types';
 import { Buffer } from 'buffer';
 
@@ -31,7 +31,7 @@ export class GeminiLiveClient {
     onTranscript: (entry: TranscriptUpdate) => void
   ) {
     this.apiKey = apiKey;
-    this.model = 'models/gemini-2.5-flash-native-audio-preview-12-2025'; // Live API model (with models/ prefix)
+    this.model = 'gemini-2.5-flash-native-audio-preview-12-2025'; // Live API model
     this.onMessage = onMessage;
     this.onError = onError;
     this.onTranscript = onTranscript;
@@ -68,14 +68,6 @@ export class GeminiLiveClient {
         model: this.model,
         config: {
           responseModalities: [Modality.AUDIO],
-          mediaResolution: MediaResolution.MEDIA_RESOLUTION_MEDIUM,
-          speechConfig: {
-            voiceConfig: {
-              prebuiltVoiceConfig: {
-                voiceName: 'Aoede'
-              }
-            }
-          },
           realtimeInputConfig: {
             turnCoverage: TurnCoverage.TURN_INCLUDES_ALL_INPUT
           },

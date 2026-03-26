@@ -7,6 +7,17 @@ import { GoogleGenAI, Modality } from '@google/genai';
 import { TranscriptEntry, TranscriptUpdate } from './types';
 import { Buffer } from 'buffer';
 
+// Type definitions for realtime input config
+interface AutomaticActivityDetection {
+  disabled?: boolean;
+  silenceDurationMs?: number;
+  prefixPaddingMs?: number;
+}
+
+interface RealtimeInputConfig {
+  automaticActivityDetection?: AutomaticActivityDetection;
+}
+
 // Track partial transcriptions per speaker
 interface PartialTranscription {
   text: string;
@@ -70,7 +81,14 @@ export class GeminiLiveClient {
           responseModalities: [Modality.AUDIO],
           systemInstruction: systemInstruction,
           inputAudioTranscription: {},
-          outputAudioTranscription: {}
+          outputAudioTranscription: {},
+          // Reduce latency: trigger response after 500ms silence (default is longer)
+          realtimeInputConfig: {
+            automaticActivityDetection: {
+              silenceDurationMs: 500,
+              prefixPaddingMs: 100
+            }
+          } as RealtimeInputConfig
         },
         callbacks: {
           onmessage: (event: any) => {

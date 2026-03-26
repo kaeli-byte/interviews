@@ -212,7 +212,7 @@ export class GeminiLiveClient {
         realtime_input: {
           audio: {
             data: base64Data,
-            mimeType: "audio/pcm;rate=16000"
+            mimeType: "audio/pcm"
           }
         }
       };

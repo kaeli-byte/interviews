@@ -3,20 +3,9 @@
  * Based on: https://github.com/jaydanurwin/gemini-live-agent-demo
  */
 
-import { GoogleGenAI, Modality } from '@google/genai';
+import { GoogleGenAI, Modality, MediaResolution, TurnCoverage } from '@google/genai';
 import { TranscriptEntry, TranscriptUpdate } from './types';
 import { Buffer } from 'buffer';
-
-// Type definitions for realtime input config
-interface AutomaticActivityDetection {
-  disabled?: boolean;
-  silenceDurationMs?: number;
-  prefixPaddingMs?: number;
-}
-
-interface RealtimeInputConfig {
-  automaticActivityDetection?: AutomaticActivityDetection;
-}
 
 // Track partial transcriptions per speaker
 interface PartialTranscription {
@@ -42,7 +31,7 @@ export class GeminiLiveClient {
     onTranscript: (entry: TranscriptUpdate) => void
   ) {
     this.apiKey = apiKey;
-    this.model = 'gemini-2.5-flash-native-audio-preview-12-2025'; // Live API model (preview)
+    this.model = 'models/gemini-2.5-flash-native-audio-preview-12-2025'; // Live API model (with models/ prefix)
     this.onMessage = onMessage;
     this.onError = onError;
     this.onTranscript = onTranscript;
@@ -79,16 +68,20 @@ export class GeminiLiveClient {
         model: this.model,
         config: {
           responseModalities: [Modality.AUDIO],
+          mediaResolution: MediaResolution.MEDIA_RESOLUTION_MEDIUM,
+          speechConfig: {
+            voiceConfig: {
+              prebuiltVoiceConfig: {
+                voiceName: 'Aoede'
+              }
+            }
+          },
+          realtimeInputConfig: {
+            turnCoverage: TurnCoverage.TURN_INCLUDES_ALL_INPUT
+          },
           systemInstruction: systemInstruction,
           inputAudioTranscription: {},
-          outputAudioTranscription: {},
-          // Reduce latency: trigger response after 500ms silence (default is longer)
-          realtimeInputConfig: {
-            automaticActivityDetection: {
-              silenceDurationMs: 500,
-              prefixPaddingMs: 100
-            }
-          } as RealtimeInputConfig
+          outputAudioTranscription: {}
         },
         callbacks: {
           onmessage: (event: any) => {

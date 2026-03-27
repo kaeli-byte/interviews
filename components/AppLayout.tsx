@@ -1,113 +1,80 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { LiquidGlassSidebar, type NavigationItem } from '@/components/ui/liquid-glass';
+import type { AppStep } from '@/components/MyCareerApp';
+import { Play, User, Mic, FileText } from 'lucide-react';
 
 interface AppLayoutProps {
   children: React.ReactNode;
-  sidebar: React.ReactNode;
-  header?: React.ReactNode;
-  footer?: React.ReactNode;
-  mobileMenuOpen: boolean;
-  onMobileMenuToggle: () => void;
+  currentStep: AppStep;
+  onNavigate: (step: AppStep) => void;
+  disabledSteps?: AppStep[];
+  userName?: string;
+  userRole?: string;
+  userInitials?: string;
 }
+
+// Navigation items for MyCareer app
+const appNavigationItems: NavigationItem[] = [
+  { id: 'setup', name: 'Start Interview', icon: Play, href: '/setup' },
+  { id: 'persona', name: 'Candidate Profile', icon: User, href: '/persona' },
+  { id: 'interview', name: 'Interview', icon: Mic, href: '/interview' },
+  { id: 'debrief', name: 'Results', icon: FileText, href: '/debrief' },
+];
 
 export function AppLayout({
   children,
-  sidebar,
-  header,
-  footer,
-  mobileMenuOpen,
-  onMobileMenuToggle,
+  currentStep,
+  onNavigate,
+  disabledSteps = [],
+  userName = 'User',
+  userRole = 'Candidate',
+  userInitials = 'U',
 }: AppLayoutProps) {
+  // Build navigation items with disabled state
+  const navigationItems: NavigationItem[] = appNavigationItems.map(item => ({
+    ...item,
+    disabled: disabledSteps.includes(item.id as AppStep),
+  }));
+
+  const handleNavigation = (itemId: string, href: string) => {
+    onNavigate(itemId as AppStep);
+  };
+
   return (
     <div className="flex h-screen relative overflow-hidden">
       {/* Background Image with Overlay */}
       <div
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'url(/hero-bg-01.jpg)',
+          backgroundImage: 'url(/hero-bg-03.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
       />
       {/* Dark gradient overlay for readability */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-br from-black/0 via-black/0 to-black/0" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-black/90 via-black/50 to-black/90" />
 
-      {/* Desktop sidebar - visible at lg breakpoint and up */}
-      <div className="hidden lg:block w-64 shrink-0 z-10 glass-panel border-r border-white/10">
-        {sidebar}
-      </div>
-
-      {/* Mobile sidebar overlay */}
-      <>
-        {/* Backdrop */}
-        <div
-          className={cn(
-            'fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 lg:hidden',
-            mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-          )}
-          onClick={onMobileMenuToggle}
-          aria-hidden="true"
-        />
-
-        {/* Mobile sidebar drawer */}
-        <div
-          className={cn(
-            'fixed left-0 top-0 h-full z-50 w-64 transition-transform duration-300 ease-in-out lg:hidden glass-panel border-r border-white/10',
-            mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-          )}
-        >
-          {/* Close button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-4 right-4"
-            onClick={onMobileMenuToggle}
-            aria-label="Close menu"
-          >
-            <X className="size-4" />
-          </Button>
-
-          {sidebar}
-        </div>
-      </>
-
-      {/* Mobile menu toggle button */}
-      <div className="lg:hidden fixed top-4 left-4 z-30">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onMobileMenuToggle}
-          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={mobileMenuOpen}
-        >
-          <Menu className="size-5" />
-        </Button>
-      </div>
+      {/* Liquid Glass Sidebar - handles its own mobile responsiveness */}
+      <LiquidGlassSidebar
+        navigationItems={navigationItems}
+        activeItem={currentStep}
+        onNavigate={handleNavigation}
+        brandName="MyCareer"
+        brandSubtitle="AI Interview Coach"
+        userName={userName}
+        userRole={userRole}
+        userInitials={userInitials}
+      />
 
       {/* Main content area */}
-      <div className="flex-1 flex flex-col min-w-0 z-10">
-        {/* Header slot (optional) */}
-        {header && (
-          <div className="shrink-0">
-            {header}
-          </div>
-        )}
-
+      <div className="flex-1 flex flex-col min-w-0 relative z-10">
         {/* Body container with overflow handling */}
         <main className="flex-1 overflow-auto">
           {children}
         </main>
-
-        {/* Footer slot (optional) */}
-        {footer && (
-          <div className="shrink-0">
-            {footer}
-          </div>
-        )}
       </div>
     </div>
   );

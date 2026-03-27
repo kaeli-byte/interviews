@@ -183,4 +183,33 @@ describe('buildSystemInstruction', () => {
 
     expect(result).toContain('hiring manager');
   });
+
+  it('includes interruption behavior for story-architect agent', () => {
+    const ctx: PromptContext = {
+      resume: 'Test resume',
+      jobDescription: 'Test JD',
+      agentId: 'story-architect'
+    };
+
+    const result = buildSystemInstruction(ctx);
+
+    expect(result).toContain('<interruption_style>');
+    expect(result).toContain('Approach: buffered-controlled');
+    expect(result).toContain('Rules:');
+    expect(result).toContain('Key phrases:');
+    expect(result).toContain('Give me the concise version');
+    expect(result).toContain('What was the measurable result?');
+  });
+
+  it('does not include interruption style for agents without interruptionBehavior', () => {
+    const ctx: PromptContext = {
+      resume: 'Test resume',
+      jobDescription: 'Test JD',
+      agentId: 'hiring-manager'
+    };
+
+    const result = buildSystemInstruction(ctx);
+
+    expect(result).not.toContain('<interruption_style>');
+  });
 });

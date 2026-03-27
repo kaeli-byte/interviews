@@ -4,12 +4,13 @@ import { useState, useEffect } from 'react';
 import SetupScreen from '@/components/SetupScreen';
 import InterviewScreen from '@/components/InterviewScreen';
 import DebriefScreen from '@/components/DebriefScreen';
+import PersonaScreen from '@/components/PersonaScreen';
+import SimulationScreen from '@/components/SimulationScreen';
 import { AppLayout } from '@/components/AppLayout';
-import { Sidebar } from '@/components/Sidebar';
-import { TranscriptEntry, DebriefReport, AgentId } from '@/lib/types';
+import { TranscriptEntry, DebriefReport, AgentId, CandidatePersona } from '@/lib/types';
 import { DEFAULT_AGENT_ID } from '@/lib/agents';
 
-export type AppStep = 'setup' | 'interview' | 'debrief';
+export type AppStep = 'setup' | 'persona' | 'interview' | 'debrief';
 
 export interface InterviewData {
   duration: number;
@@ -18,11 +19,14 @@ export interface InterviewData {
   resume: string;
   jobDescription: string;
   selectedAgent: AgentId;
+  candidatePersona: CandidatePersona | null;
 }
 
 export default function MyCareerApp() {
   const [step, setStep] = useState<AppStep>('setup');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [personaLoading, setPersonaLoading] = useState(false);
+  const [personaError, setPersonaError] = useState<string | null>(null);
+  const [simulationMode, setSimulationMode] = useState(false);
   const [interviewData, setInterviewData] = useState<InterviewData>({
     duration: 10,
     transcript: [],
@@ -30,6 +34,7 @@ export default function MyCareerApp() {
     resume: '',
     jobDescription: '',
     selectedAgent: DEFAULT_AGENT_ID,
+    candidatePersona: null,
   });
 
   // Load from localStorage on mount
@@ -47,14 +52,9 @@ export default function MyCareerApp() {
 
   const handleNavigate = (newStep: AppStep) => {
     setStep(newStep);
-    setMobileMenuOpen(false);
   };
 
-  const handleMobileMenuToggle = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-
-  const handleStartInterview = (duration: number) => {
+  const handleStartInterview = async (duration: number) => {
     if (!interviewData.resume.trim() || !interviewData.jobDescription.trim()) {
       return;
     }
@@ -63,8 +63,36 @@ export default function MyCareerApp() {
       duration,
       transcript: [],
       report: null,
+      candidatePersona: null,
     }));
-    setStep('interview');
+
+    // Trigger persona extraction
+    setPersonaLoading(true);
+    setPersonaError(null);
+
+    try {
+      const response = await fetch('/api/extract-persona', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          resume: interviewData.resume,
+          jobDescription: interviewData.jobDescription,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to extract persona');
+      }
+
+      const persona: CandidatePersona = await response.json();
+      setInterviewData(prev => ({ ...prev, candidatePersona: persona }));
+      setStep('persona');
+    } catch (e) {
+      setPersonaError(e instanceof Error ? e.message : 'Failed to extract persona');
+      setStep('persona'); // Still navigate to show error
+    } finally {
+      setPersonaLoading(false);
+    }
   };
 
   const handleFinishInterview = async (
@@ -74,6 +102,9 @@ export default function MyCareerApp() {
     console.log('[MyCareerApp] handleFinishInterview called');
     console.log('[MyCareerApp] transcript length:', transcript.length);
     console.log('[MyCareerApp] report:', report ? 'received' : 'null');
+
+    // Reset simulation mode when returning to debrief
+    setSimulationMode(false);
 
     // Set step to debrief immediately so user sees loading state
     setStep('debrief');
@@ -122,6 +153,16 @@ export default function MyCareerApp() {
     setInterviewData(prev => ({ ...prev, selectedAgent: agentId }));
   };
 
+  const handlePersonaChange = (persona: CandidatePersona) => {
+    setInterviewData(prev => ({ ...prev, candidatePersona: persona }));
+  };
+
+  const handleProceedToSimulation = () => {
+    // Per D-01: Simulation starts immediately after persona confirmation
+    setSimulationMode(true);
+    setStep('interview');
+  };
+
   const handleFileParsed = (type: 'resume' | 'jd', text: string) => {
     if (type === 'resume') {
       setInterviewData(prev => ({ ...prev, resume: text }));
@@ -131,25 +172,22 @@ export default function MyCareerApp() {
   };
 
   const handleReset = () => {
+    setSimulationMode(false);
     setStep('setup');
   };
 
   return (
     <AppLayout
-      sidebar={
-        <Sidebar
-          currentStep={step}
-          onNavigate={handleNavigate}
-          disabledSteps={[
-            // Interview disabled until user has entered resume and JD
-            ...(step === 'setup' && (!interviewData.resume.trim() || !interviewData.jobDescription.trim()) ? ['interview' as const] : []),
-            // Results disabled until interview completed (has report)
-            ...(!interviewData.report ? ['debrief' as const] : []),
-          ]}
-        />
-      }
-      mobileMenuOpen={mobileMenuOpen}
-      onMobileMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
+      currentStep={step}
+      onNavigate={handleNavigate}
+      disabledSteps={[
+        // Persona disabled until user has entered resume and JD
+        ...(step === 'setup' && (!interviewData.resume.trim() || !interviewData.jobDescription.trim()) ? ['persona' as const] : []),
+        // Interview disabled until persona is confirmed (from persona step)
+        ...(step !== 'persona' && step !== 'interview' && step !== 'debrief' ? ['interview' as const] : []),
+        // Results disabled until interview completed (has report)
+        ...(!interviewData.report ? ['debrief' as const] : []),
+      ]}
     >
       <div className="flex-1 flex flex-col min-h-0">
         {step === 'setup' && (
@@ -166,14 +204,34 @@ export default function MyCareerApp() {
             onFileParsed={handleFileParsed}
           />
         )}
-        {step === 'interview' && (
-          <InterviewScreen
-            duration={interviewData.duration}
-            onFinish={handleFinishInterview}
-            resume={interviewData.resume}
-            jobDescription={interviewData.jobDescription}
-            selectedAgent={interviewData.selectedAgent}
+        {step === 'persona' && (
+          <PersonaScreen
+            persona={interviewData.candidatePersona}
+            isLoading={personaLoading}
+            error={personaError}
+            onPersonaChange={handlePersonaChange}
+            onProceed={handleProceedToSimulation}
+            onBack={() => setStep('setup')}
           />
+        )}
+        {step === 'interview' && (
+          simulationMode ? (
+            <SimulationScreen
+              candidatePersona={interviewData.candidatePersona!}
+              selectedAgent={interviewData.selectedAgent}
+              resume={interviewData.resume}
+              jobDescription={interviewData.jobDescription}
+              onFinish={handleFinishInterview}
+            />
+          ) : (
+            <InterviewScreen
+              duration={interviewData.duration}
+              onFinish={handleFinishInterview}
+              resume={interviewData.resume}
+              jobDescription={interviewData.jobDescription}
+              selectedAgent={interviewData.selectedAgent}
+            />
+          )
         )}
         {step === 'debrief' && (
           <DebriefScreen

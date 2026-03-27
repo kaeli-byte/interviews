@@ -1,28 +1,31 @@
 ---
 gsd_state_version: 1.0
-milestone: v3.0
-milestone_name: Agent System & Smart Debrief
-status: Milestone complete
-last_updated: "2026-03-24T07:30:21.571Z"
+milestone: v4.0
+milestone_name: Candidate Simulator
+status: completed
+last_updated: "2026-03-26T02:01:58.756Z"
+last_activity: 2026-03-26
 progress:
   total_phases: 4
-  completed_phases: 3
-  total_plans: 10
-  completed_plans: 9
-  percent: 90
+  completed_phases: 2
+  total_plans: 6
+  completed_plans: 6
+  percent: 83
 ---
 
 ## Current Position
 
-Phase: 06.1
+Phase: 10
 Plan: Not started
+Status: 2/3 plans complete
+Last activity: 2026-03-26
 
 ## Project Reference
 
-See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
+See: `.planning/PROJECT.md` (updated 2026-03-25 for v4.0 milestone)
 
 **Core value:** The AI interviewer must feel conversational, adaptive, and highly personalized from the moment the user starts the interview, accurately grounding its responses in the provided resume and job description.
-**Current focus:** Phase 06.1 — Design System Implementation
+**Current focus:** v4.0 — Candidate Simulator
 
 ## Milestone Status
 
@@ -35,7 +38,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 
 - Phase 3: Layout System (2/2 plans)
 
-**v3.0 milestone** — 🔄 In progress
+**v3.0 milestone** — ✅ Completed 2026-03-25
 
 | Phase | Status | Plans |
 |-------|--------|-------|
@@ -44,7 +47,16 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 | 6. STAR Analysis & Debrief | ✅ Complete | 3/3 complete |
 | 06.1. Design System | ✅ Complete | 1/1 complete |
 
-**Progress:** [█████████░] 90%
+**v4.0 milestone** — 🔄 In Progress
+
+| Phase | Status | Plans |
+|-------|--------|-------|
+| 7. Candidate Persona Generation | ✅ Complete | 3/3 complete |
+| 8. Text Chat Simulation | In progress | 2/3 complete |
+| 10. Fix Gemini Live Transcription | Not started | TBD (PRIORITY) |
+| 9. Interviewer Quality Metrics | Not started | TBD |
+
+**Progress:** [████████░░] 83%
 
 ## Accumulated Context
 
@@ -54,6 +66,9 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 - Phase 3: v2.0 Layout — Sidebar navigation and responsive layout
 - Phase 4-6: v3.0 Agent System — Multi-agent personas and transcript-based STAR debrief
 - Phase 06.1 inserted after Phase 6: Design System Implementation (URGENT) — Implement DESIGN.md specification
+- Phase 7-9: v4.0 Candidate Simulator — AI candidate persona generation, text simulation, quality metrics
+- Phase 10 added: Fix Gemini Live transcription quality - investigate ADK migration
+- Phase 10 prioritized OVER Phase 9 — transcription quality is foundational to UX
 
 ### Key Decisions
 
@@ -71,6 +86,9 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 - **06-02**: Combined Task 2 and Task 3 into single commit since validation helpers are integral to the pipeline
 - **06-02**: Pattern threshold (D-03) enforced at validation time, not in AI prompt alone
 - **06.1-01**: Used oklch color space for design tokens with -webkit-backdrop-filter for Safari compatibility in glass effects
+- **v4.0 Roadmap**: Text simulation (no voice) for simplicity; 3-phase structure mirrors requirement categories
+- **07-02**: PersonaScreen uses LiquidGlassCard design system with editable Select/Textarea fields for all persona attributes
+- **08-02**: SSE streaming API with in-memory session Map for stop functionality; session ID emitted as first event
 
 ### Critical Pitfalls (from research)
 
@@ -88,30 +106,29 @@ See: `.planning/PROJECT.md` (updated 2026-03-23 for v3.0 milestone)
 
 ### Last Session
 
-- Completed 06.1-01-PLAN.md: CSS Design Tokens & Typography
-- Added surface hierarchy tokens, tertiary colors, fixed variants, glass tints
-- Created Liquid Glass utility classes (.glass, .glass-panel, .glass-shadow, .glass-shine)
-- Updated font loading from Geist to Manrope (headings) + Inter (body)
-- All DESIGN.md specifications implemented
+- Completed Plan 08-02: API & Streaming
+- Created simulation API endpoint with SSE streaming
+- Implemented stop functionality with partial transcript return
+- Phase 8 progress: 2/3 plans complete
 
 ### Key Files
 
-- `.planning/ROADMAP.md` — Phase structure and goals (this milestone)
-- `.planning/REQUIREMENTS.md` — 28 v1 requirements with traceability
-- `.planning/research/SUMMARY.md` — Architecture research and pitfall analysis
-- `lib/agents.ts` — 7 agent definitions with AGENT_SELECTIONS grouping
-- `lib/types.ts` — Type definitions including AgentId, AgentDefinition, QAPair, DebriefReport, STAR types
+- `.planning/ROADMAP.md` — Phase structure and goals for v4.0
+- `.planning/REQUIREMENTS.md` — Requirements with traceability (19 v4.0 requirements mapped)
+- `lib/agents.ts` — 7 agent definitions (used as simulation interviewers)
+- `lib/types.ts` — Type definitions including CandidatePersona, SimulationConfig
+- `lib/personaExtractor.ts` — AI-powered persona extraction from resume/JD
+- `lib/personaPrompts.ts` — Structured prompts for Gemini extraction
+- `components/PersonaScreen.tsx` — Persona review/edit UI
+- `app/api/extract-persona/route.ts` — API endpoint for persona extraction
+- `app/api/simulation/route.ts` — SSE streaming endpoint for simulation
+- `lib/simulationRunner.ts` — Simulation engine with alternating API calls
 - `lib/promptBuilder.ts` — Agent-aware system instruction generation
-- `lib/audioRecorder.ts` — Audio recording with analyser for level monitoring
-- `lib/analysisPrompts.ts` — Structured AI prompts for STAR analysis
-- `lib/debriefGenerator.ts` — Interview debrief with STAR evaluation and coaching
-- `components/MyCareerApp.tsx` — App state with selectedAgent
-- `components/SetupScreen.tsx` — Agent selector UI with grouped sections
-- `components/InterviewScreen.tsx` — Interview screen with agent-specific prompts
+- `lib/debriefGenerator.ts` — Interview debrief (will need quality metrics extension)
 
 ### Next Action
 
-v3.0 milestone complete — Ready for final verification and deployment
+Run `/gsd:plan-phase 10` to research ADK and plan the transcription fix (PRIORITY over Phase 9)
 
 ---
-*State updated: 2026-03-24*
+*State updated: 2026-03-25*

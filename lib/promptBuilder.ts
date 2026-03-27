@@ -81,11 +81,22 @@ ${agent.boundaries.map((b: string) => `- ${b}`).join('\n')}
 - Help request: ${agent.edgeCaseHandling.helpRequest}
 </edge_cases>
 
+${agent.interruptionBehavior ? `
+<interruption_style>
+Approach: ${agent.interruptionBehavior.approach}
+
+Rules:
+${agent.interruptionBehavior.rules.map((r: string) => `- ${r}`).join('\n')}
+
+Key phrases:
+${Object.entries(agent.interruptionBehavior.phrases).map(([key, phrase]) => `- ${key}: "${phrase}"`).join('\n')}
+</interruption_style>
+` : ''}
+
 <opening>
 Begin with a warm, personalized icebreaker that references 1-2 specific details
 from the candidate's resume (e.g., their current role, a notable achievement,
-or a relevant skill mentioned above). After your icebreaker, ask your first
-interview question to begin the conversation.
+or a relevant skill mentioned above). After your icebreaker, ask if the candidate is ready to begin the conversation.
 </opening>
 
 <constraints>

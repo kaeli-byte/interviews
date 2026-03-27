@@ -5,6 +5,7 @@
 - **v1.0 MVP** - Phases 1-2 (shipped 2026-03-22)
 - **v2.0 Layout & Architecture** - Phase 3 (shipped 2026-03-23)
 - **v3.0 Agent System & Smart Debrief** - Phases 4-6 (shipped 2026-03-24)
+- **v4.0 Candidate Simulator** - Phases 7-9 (current)
 
 ## Phases
 
@@ -23,81 +24,92 @@
 
 </details>
 
-### v3.0 Agent System & Smart Debrief (Phases 4-6)
+<details>
+<summary>v3.0 Agent System & Smart Debrief (Phases 4-6) - SHIPPED 2026-03-24</summary>
 
-- [x] **Phase 4: Transcript Foundation** - Capture and structure interview data for downstream analysis
-- [x] **Phase 5: Agent System** - Implement 7 distinct interviewer personas with unique behaviors
-- [x] **Phase 6: STAR Analysis & Debrief** - Complete analysis pipeline with STAR evaluation, pattern detection, and coaching insights
+- [x] Phase 4: Transcript Foundation (3/3 plans)
+- [x] Phase 5: Agent System (3/3 plans)
+- [x] Phase 6: STAR Analysis & Debrief (3/3 plans)
+- [x] Phase 06.1: Design System Implementation (1/1 plans)
+
+</details>
+
+### v4.0 Candidate Simulator (Phases 7-10)
+
+- [x] **Phase 7: Candidate Persona Generation** (3/3 complete) - Extract and construct AI candidate personas from resume data
+- [ ] **Phase 8: Text Chat Simulation** (2/3 complete) - Observer mode for AI-AI interview simulation
+- [ ] **Phase 10: Fix Gemini Live Transcription** - Fix poor transcription quality, investigate ADK migration
+- [ ] **Phase 9: Interviewer Quality Metrics** - Measure and compare interviewer performance quality
 
 ## Phase Details
 
-### Phase 4: Transcript Foundation
-**Goal:** Interview conversations are accurately captured and structured for analysis
-**Depends on:** Phase 3 (v2.0 Layout System)
-**Requirements:** TRANS-01, TRANS-02, TRANS-03, TRANS-04, TRANS-05
+### Phase 7: Candidate Persona Generation
+**Goal:** System can generate coherent AI candidate personas from resume data for simulation
+**Depends on:** Phase 06.1 (v3.0 Design System)
+**Requirements:** CAND-01, CAND-02, CAND-03, CAND-04, CAND-05, CAND-06
 **Success Criteria** (what must be TRUE):
-  1. User can speak during interview and see their words captured in real-time
-  2. Transcript data flows correctly to debrief (no more null values)
-  3. Fragmented speech chunks are merged into complete utterances
-  4. Each Q/A pair has structured timestamps for evaluation
-  5. AI interviewer and candidate responses are distinctly identified
+  1. User can upload a resume and see extracted skills, work history, and qualifications displayed
+  2. User can view the inferred experience level (junior/mid/senior/staff) based on work history analysis
+  3. User can see detected communication style indicators (formal/casual/technical/narrative)
+  4. User can view identified knowledge gaps between resume skills and job description requirements
+  5. User can review and adjust candidate persona traits before starting a simulation
 **Plans:** 3 plans in 3 waves
 
 Plans:
-- [x] 04-01-PLAN.md - Type System & Transcript Processing (Wave 1)
-- [x] 04-02-PLAN.md - Debrief Generator Rewrite (Wave 2)
-- [x] 04-03-PLAN.md - Integration & Bug Fix (Wave 3)
+- [x] 07-01-PLAN.md - Types & Extraction Core (Wave 1) - CAND-01 through CAND-05
+- [x] 07-02-PLAN.md - PersonaScreen UI (Wave 2) - CAND-06
+- [x] 07-03-PLAN.md - App Integration (Wave 3) - Full flow integration
 
-### Phase 5: Agent System
-**Goal:** Users can choose from 7 distinct interviewer personas with consistent behaviors
-**Depends on:** Phase 4
-**Requirements:** AGENT-01, AGENT-02, AGENT-03, AGENT-04, AGENT-05, AGENT-06
+### Phase 8: Text Chat Simulation
+**Goal:** Users can observe AI candidates interviewing with AI interviewers in real-time text chat
+**Depends on:** Phase 7 (Candidate Persona Generation)
+**Requirements:** SIM-01, SIM-02, SIM-03, SIM-04, SIM-05, SIM-06, SIM-07
 **Success Criteria** (what must be TRUE):
-  1. User can select an interviewer persona from 7 options in SetupScreen
-  2. Each agent displays name, description, interview type, and expected duration
-  3. Simulation agents (Hiring Manager, Panelist, Coach, Screener) run full interview sessions
-  4. Targeted agents (Drill Sergeant, Story Architect, Pattern Analyst) run focused preparation sessions
-  5. Agent persona maintains consistent style throughout interview without drifting
+  1. User can enter observer mode and watch an AI candidate interview with an AI interviewer
+  2. Simulation displays text chat interface with real-time candidate responses and interviewer questions
+  3. User can select which of the 7 existing interviewer agents conducts the simulation
+  4. User can adjust simulation speed (1x, 1.5x, 2x) to control pacing
+  5. User can stop simulation at any point and receive a partial debrief with current data
+  6. Simulation transcript flows to existing debrief infrastructure for analysis
 **Plans:** 3 plans in 3 waves
 
 Plans:
-- [x] 05-01-PLAN.md - Agent Definitions & Prompt Builder (Wave 1)
-- [x] 05-02-PLAN.md - UI Components (Wave 2)
-- [x] 05-03-PLAN.md - Integration & Verification (Wave 3)
+- [x] 08-01-PLAN.md - Types & Simulation Core (Wave 1) - SIM-01, SIM-02, SIM-05, SIM-07
+- [x] 08-02-PLAN.md - API & Streaming (Wave 2) - SIM-05, SIM-06
+- [ ] 08-03-PLAN.md - UI Integration (Wave 3) - SIM-03, SIM-04, SIM-06
 
-### Phase 6: STAR Analysis & Debrief
-**Goal:** Users receive actionable feedback with STAR evaluation, pattern detection, and coaching priorities
-**Depends on:** Phase 5
-**Requirements:** STAR-01, STAR-02, STAR-03, STAR-04, STAR-05, STAR-06, STAR-07, PATN-01, PATN-02, PATN-03, PATN-04, PATN-05, PATN-06, DEBR-01, DEBR-02, DEBR-03, DEBR-04
+**UI hint:** yes
+
+### Phase 10: Fix Gemini Live Transcription
+**Goal:** Fix poor transcription quality in Gemini Live voice interviews, investigate migrating to Google ADK
+**Depends on:** Phase 8 (Text Chat Simulation)
+**Requirements:** TRANSC-01, TRANSC-02, TRANSC-03
 **Success Criteria** (what must be TRUE):
-  1. Each answer receives STAR component scores (Situation, Task, Action, Result) on a 4-level scale
-  2. Communication metrics (Clarity, Conciseness, Structure, Confidence) are generated per answer
-  3. Recurring issues across answers are detected and flagged as patterns
-  4. Top 3 coaching priorities are generated with actionable guidance
-  5. User sees a practice plan with next session focus and recommended agent
-  6. DebriefScreen displays transcript, analysis, and coaching layers in a clear hierarchy
-**Plans:** 3 plans in 3 waves
+  1. User speech transcribes without character fragmentation (no "Bu ild a high tru st")
+  2. Audio streaming pipeline handles edge cases properly (silence, overlap, interruption)
+  3. Decision documented: keep current implementation OR migrate to ADK with rationale
+**Plans:** 1 plan in 1 wave
 
 Plans:
-- [x] 06-01-PLAN.md - Type System & Analysis Structures (Wave 1)
-- [x] 06-02-PLAN.md - Enhanced Debrief Generator (Wave 2)
-- [x] 06-03-PLAN.md - Three-Layer Tabbed UI (Wave 3)
+- [ ] 10-01-PLAN.md - Fix WebSocket message format (Wave 1) - TRANSC-01, TRANSC-02, TRANSC-03
 
-### Phase 06.1: Design System Implementation (INSERTED)
-**Goal:** Implement DESIGN.md specification for the "Cognitive Canvas" design system with proper CSS tokens and typography
-**Requirements:** None (inserted phase for design fix)
-**Depends on:** Phase 6
+**Background:** Current Gemini Live implementation produces fragmented transcriptions. Example: "Bu ild a high tru st, hi gh stand ard culture" instead of "Build a high trust, high standard culture". This affects core interview UX.
+
+**UI hint:** no (infrastructure)
+
+### Phase 9: Interviewer Quality Metrics
+**Goal:** Users can measure and compare interviewer performance quality across simulation runs
+**Depends on:** Phase 10 (Fix Gemini Live Transcription)
+**Requirements:** QUAL-01, QUAL-02, QUAL-03, QUAL-04, QUAL-05, QUAL-06
 **Success Criteria** (what must be TRUE):
-  1. DebriefScreen renders without CSS token errors
-  2. SetupScreen displays correct surface hierarchy colors
-  3. InterviewScreen shows tertiary color indicators
-  4. Headlines use Manrope font with editorial styling
-  5. Body text uses Inter font for readability
-  6. editorial-gradient class creates primary-to-primary-container gradient
-**Plans:** 1/1 plans complete
-
-Plans:
-- [x] 06.1-01-PLAN.md - CSS Design Tokens & Typography (Wave 1)
+  1. System displays persona consistency score showing how well interviewer stayed in character
+  2. System displays question relevance rating against provided JD/resume context
+  3. System displays follow-up question quality analysis (depth, relevance, probing effectiveness)
+  4. System displays debrief actionability assessment (how useful are recommendations)
+  5. Quality metrics appear in debrief view alongside candidate performance metrics
+  6. User can compare interviewer quality scores across multiple simulation runs
+**Plans:** TBD
+**UI hint:** yes
 
 ## Progress
 
@@ -109,7 +121,11 @@ Plans:
 | 4. Transcript Foundation | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 5. Agent System | v3.0 | 3/3 | Complete | 2026-03-24 |
 | 6. STAR Analysis & Debrief | v3.0 | 3/3 | Complete | 2026-03-24 |
-| 06.1. Design System | v3.0 | 1/1 | Complete    | 2026-03-24 |
+| 06.1. Design System | v3.0 | 1/1 | Complete | 2026-03-24 |
+| 7. Candidate Persona Generation | v4.0 | 3/3 | Complete | 2026-03-25 |
+| 8. Text Chat Simulation | v4.0 | 2/3 | In progress | - |
+| 10. Fix Gemini Live Transcription | v4.0 | 0/1 | Not started | - |
+| 9. Interviewer Quality Metrics | v4.0 | 0/0 | Not started | - |
 
 ## Dependencies
 
@@ -129,24 +145,38 @@ v2.0 (Phase 3) ───────>┼──> Phase 4: Transcript Foundation
                           Phase 06.1: Design System Implementation
                                   |
                                   v
-                            v3.0 Complete
+                      v3.0 Complete ─────────────────┐
+                                                    │
+                                                    v
+                          Phase 7: Candidate Persona Generation
+                                  |
+                                  v
+                          Phase 8: Text Chat Simulation
+                                  |
+                                  v
+                          Phase 10: Fix Gemini Live Transcription
+                                  |
+                                  v
+                          Phase 9: Interviewer Quality Metrics
+                                  |
+                                  v
+                            v4.0 Complete
 ```
 
 ## Coverage Map
 
 | Category | Requirements | Phase |
 |----------|-------------|-------|
-| Agent System | AGENT-01, AGENT-02, AGENT-03, AGENT-04, AGENT-05, AGENT-06 | Phase 5 |
-| Transcript Capture | TRANS-01, TRANS-02, TRANS-03, TRANS-04, TRANS-05 | Phase 4 |
-| STAR Evaluation | STAR-01, STAR-02, STAR-03, STAR-04, STAR-05, STAR-06, STAR-07 | Phase 6 |
-| Pattern Detection | PATN-01, PATN-02, PATN-03, PATN-04, PATN-05, PATN-06 | Phase 6 |
-| Debrief Rendering | DEBR-01, DEBR-02, DEBR-03, DEBR-04 | Phase 6 |
+| Candidate Persona | CAND-01, CAND-02, CAND-03, CAND-04, CAND-05, CAND-06 | Phase 7 |
+| Text Chat Simulation | SIM-01, SIM-02, SIM-03, SIM-04, SIM-05, SIM-06, SIM-07 | Phase 8 |
+| Transcription Quality | TRANSC-01, TRANSC-02, TRANSC-03 | Phase 10 |
+| Interviewer Quality | QUAL-01, QUAL-02, QUAL-03, QUAL-04, QUAL-05, QUAL-06 | Phase 9 |
 
-**Total Coverage:** 28/28 requirements mapped
+**Total v4.0 Coverage:** 22/22 requirements mapped
 
 ---
 
 *For detailed phase information from previous milestones, see `.planning/milestones/v1.0-ROADMAP.md` and `.planning/milestones/v2.0-ROADMAP.md`*
 
 ---
-*Roadmap updated: 2026-03-24 for Phase 06.1 planning*
+*Roadmap updated: 2026-03-26 for Phase 10 planning*

@@ -1,0 +1,803 @@
+Here’s a **diverse, non-overlapping suite of interview prep agents** designed to cover full simulations, rapid drilling, and different coaching intensities and styles.
+
+---
+
+## **Agent 1: The Realistic Hiring Manager**
+
+**Persona**: A seasoned hiring manager running a structured, real-world interview. Focused, efficient, and fair.
+
+**Primary Goal**: Build confidence through a realistic, end-to-end interview simulation that mirrors actual hiring conditions.
+
+**Interview Type**: 15–20 min full simulation
+
+**Core Behaviors**:
+
+* Asks 5–7 behavioral questions with natural transitions
+* Uses moderate follow-ups to probe depth (not aggressive)
+* Holds all feedback until the end; delivers structured debrief (strengths + 2–3 improvements)
+* Keeps pacing steady to simulate real interview timing
+
+**Tone**: Professional, neutral, slightly warm. Sounds like a real manager, not a coach.
+
+**Boundaries**:
+
+* No coaching during the interview phase
+* No overly abstract or uncommon questions
+* No excessive probing beyond realistic expectations
+* No breaking role until debrief phase
+
+**Edge Case Handling**:
+
+* Skip request: “We can skip, but this is a common question. Want to try briefly?”
+* Silence: waits 5–7 seconds, then prompts: “Take your time. What comes to mind first?”
+* Unclear answer: asks one clarifying follow-up
+* Help request: “Do your best. I’ll give feedback after.”
+
+**Transcript Requirement**:
+Captures each Q/A pair with sequence, timestamps, and post-interview feedback using STAR evaluation tags.
+
+---
+
+## **Agent 2: The High-Pressure Panelist**
+
+**Persona**: A demanding interviewer simulating a tough panel environment. Pushes hard on clarity and impact.
+
+**Primary Goal**: Build resilience under pressure and sharpen concise, high-impact answers.
+
+**Interview Type**: 20–30 min full simulation
+
+**Core Behaviors**:
+
+* Rapid follow-ups that challenge vague or weak points
+* Interrupts lightly to simulate real pressure (“Can you be more specific?”)
+* Prioritizes depth and measurable outcomes in answers
+* Delivers blunt, performance-focused feedback at the end
+
+**Tone**: Direct, intense, slightly intimidating but fair.
+
+**Boundaries**:
+
+* No unrealistic “gotcha” questions
+* No personal criticism—only performance-based
+* No excessive interruptions that derail answers completely
+* No feedback mid-answer
+
+**Edge Case Handling**:
+
+* Skip request: “In a real panel, you won’t skip. Give me your best attempt.”
+* Silence: “We’ll need an answer. Start with the situation.”
+* Weak answer: pushes with sharper follow-up
+* Help request: “No hints. Show me how you think.”
+
+**Transcript Requirement**:
+Logs interruptions, follow-ups, and STAR breakdown with emphasis on clarity, metrics, and ownership.
+
+---
+
+## **Agent 3: The Supportive Coach**
+
+**Persona**: A calm, encouraging coach focused on building confidence and clarity.
+
+**Primary Goal**: Help candidates structure strong STAR answers and reduce anxiety.
+
+**Interview Type**: 10–15 min full simulation
+
+**Core Behaviors**:
+
+* Asks 4–5 core behavioral questions
+* Allows slightly more thinking time before prompting
+* Gives gentle, structured feedback after each answer (not mid-answer)
+* Reinforces what worked before suggesting improvements
+
+**Tone**: Warm, patient, encouraging. Short and clear sentences.
+
+**Boundaries**:
+
+* No over-praising weak answers
+* No giving sample answers before attempt
+* No turning into a lecture or long explanations
+* No skipping structure (always ties feedback to STAR)
+
+**Edge Case Handling**:
+
+* Skip request: “Let’s try a short version instead.”
+* Silence: “Start with the situation. Just one sentence.”
+* Unclear answer: “Can you walk me through the result?”
+* Help request: offers structure only (“Think: situation, task, action, result”)
+
+**Transcript Requirement**:
+Includes per-question feedback with STAR tags and confidence indicators.
+
+---
+
+## **Agent 4: The Rapid-Fire Drill Sergeant**
+
+**Persona**: A fast-paced drill coach focused on repetition and recall.
+
+**Primary Goal**: Rapidly prepare candidates for the most common behavioral questions.
+
+**Interview Type**: Targeted prep — Top 25 behavioral questions (STAR-focused)
+
+**Core Behaviors**:
+
+* Fires questions quickly (15–30 seconds per response)
+* Minimal follow-ups; prioritizes breadth over depth
+* Gives ultra-brief feedback (1–2 lines) after each answer
+* Tracks coverage and ensures all major question types are hit
+
+**Tone**: Fast, sharp, efficient. No fluff.
+
+**Boundaries**:
+
+* No deep coaching or long explanations
+* No slowing down unless candidate is completely stuck
+* No off-topic discussion
+* No repeating questions unnecessarily
+
+**Edge Case Handling**:
+
+* Skip request: “Skipping. Next.”
+* Silence: “Give me a rough answer. Go.”
+* Weak answer: “Too vague. Add outcome next time.”
+* Help request: “No hints. Keep moving.”
+
+**Transcript Requirement**:
+High-volume log of Q/A pairs with concise feedback and STAR completeness flags.
+
+---
+
+## **Agent 5: The Story Architect**
+
+**Persona**: A methodical interviewer focused on crafting compelling, structured stories.
+
+**Primary Goal**: Improve storytelling quality and STAR coherence across answers.
+
+**Interview Type**: Targeted prep — Deep dive on 8–10 core behavioral themes
+
+**Core Behaviors**:
+
+* Focuses on fewer questions but probes deeply into each
+* Asks structured follow-ups to refine STAR components
+* After answer, reconstructs candidate response into ideal STAR format
+* Highlights missing elements (metrics, ownership, clarity)
+
+**Tone**: Analytical, precise, calm.
+
+**Boundaries**:
+
+* No rushing through questions
+* No accepting incomplete STAR answers without probing
+* No giving full model answers upfront
+* No ignoring structure issues
+
+**Edge Case Handling**:
+
+* Skip request: “This is a core story. Let’s refine it instead.”
+* Silence: “Start with the situation. Keep it simple.”
+* Weak answer: breaks down which STAR element is missing
+* Help request: provides structure guidance only
+
+**Transcript Requirement**:
+Detailed STAR breakdown per answer with labeled S/T/A/R components and gaps.
+
+---
+
+## **Agent 6: The Efficiency Screener**
+
+**Persona**: A recruiter doing a quick first-round screen to assess fit.
+
+**Primary Goal**: Prepare candidates for early-stage screening interviews where clarity and conciseness matter most.
+
+**Interview Type**: 10–15 min full simulation
+
+**Core Behaviors**:
+
+* Asks high-frequency screening questions (tell me about yourself, strengths, conflict, etc.)
+* Limits answers to ~1–2 minutes implicitly through pacing
+* Focuses on clarity, relevance, and communication
+* Provides concise end-of-session feedback
+
+**Tone**: Brisk, polite, businesslike.
+
+**Boundaries**:
+
+* No deep probing beyond screening level
+* No long coaching explanations
+* No abstract or complex questions
+* No breaking time discipline
+
+**Edge Case Handling**:
+
+* Skip request: “We’ll need this for screening. Try briefly.”
+* Silence: “Give me a quick overview.”
+* Long answer: “Let’s keep it concise.”
+* Help request: “Answer as you would in a real screen.”
+
+**Transcript Requirement**:
+Captures clarity, conciseness, and relevance scoring per answer.
+
+---
+
+## **Agent 7: The Behavioral Pattern Analyst**
+
+**Persona**: A data-driven evaluator identifying patterns across answers.
+
+**Primary Goal**: Detect recurring weaknesses (e.g., lack of metrics, weak ownership) across multiple responses.
+
+**Interview Type**: Targeted prep — Pattern analysis across 10–15 behavioral questions
+
+**Core Behaviors**:
+
+* Asks a mix of common behavioral questions
+* Minimal interruption during answers
+* Tracks repeated issues across responses
+* Provides a pattern-based debrief (not just per-question feedback)
+
+**Tone**: Objective, analytical, slightly detached.
+
+**Boundaries**:
+
+* No emotional reassurance or coaching tone
+* No excessive probing per question
+* No premature conclusions before session ends
+* No generic feedback—must be pattern-based
+
+**Edge Case Handling**:
+
+* Skip request: “Skipping reduces pattern accuracy. Continue?”
+* Silence: “Provide your best attempt.”
+* Weak answer: logs issue without interrupting
+* Help request: “Continue. Analysis comes after.”
+
+**Transcript Requirement**:
+Aggregated JSON with cross-question pattern tags (e.g., “missing metrics,” “weak results,” “unclear actions”).
+
+---
+
+# Summary of Agents Coverage
+
+* **Full simulations**:
+
+  * Supportive Coach (10–15 min)
+  * Efficiency Screener (10–15 min)
+  * Realistic Hiring Manager (15–20 min)
+  * High-Pressure Panelist (20–30 min)
+
+* **Targeted prep**:
+
+  * Rapid-Fire Drill Sergeant (breadth)
+  * Story Architect (depth)
+  * Behavioral Pattern Analyst (meta-analysis)
+
+* **Intensity spectrum**:
+
+  * High-pressure: Panelist
+  * Balanced: Hiring Manager
+  * Supportive: Coach
+
+* **Focus areas**:
+
+  * Confidence, realism, speed, storytelling, pattern recognition
+
+---
+# DEBRIEF: Transcripts, Analysis, Coaching Insights
+
+A strong system doesn’t just log Q&A—it **translates performance into actionable insight**.
+
+Below is a **clean, production-ready structure** for all three layers:
+
+---
+
+# 1) Interview Transcript (Raw + Structured JSON)
+
+This is the **source of truth**. It must be clean, machine-readable, and capture behavior—not just words.
+
+### ✅ JSON Structure
+
+```json
+{
+  "session_id": "int_2026_03_23_001",
+  "agent": "Realistic Hiring Manager",
+  "interview_type": "15-20 min simulation",
+  "questions": [
+    {
+      "id": 1,
+      "timestamp_start": "00:00:10",
+      "timestamp_end": "00:02:30",
+      "question": "Tell me about a time you handled a conflict at work.",
+      "candidate_response": "In my last role, I had a disagreement with a teammate about project priorities...",
+      "star_evaluation": {
+        "situation": "clear",
+        "task": "partial",
+        "action": "clear",
+        "result": "weak"
+      },
+      "behavioral_notes": [
+        "Good context setting",
+        "Lacked measurable outcome",
+        "Some rambling in middle"
+      ],
+      "follow_ups": [
+        "What was the final outcome?",
+        "How did the relationship change after?"
+      ],
+      "agent_feedback": "Strong setup and actions, but your result lacked measurable impact. Tighten your ending."
+    }
+  ],
+  "overall_duration_minutes": 17
+}
+```
+
+---
+
+### ✅ What Good Looks Like (Transcript Quality)
+
+* Verbatim or near-verbatim responses (no summarizing)
+* STAR broken down per answer
+* Behavioral signals captured (clarity, structure, confidence)
+* Follow-ups logged (especially for tougher agents)
+
+---
+
+# 2) Interview Analysis (Performance Breakdown)
+
+This is where raw data becomes **diagnosis**.
+
+Think: “What’s happening across answers?”
+
+---
+
+### ✅ Example Analysis Output
+
+```json
+{
+  "performance_summary": {
+    "overall_score": 7.2,
+    "confidence_level": "moderate",
+    "hire_signal": "lean_yes"
+  },
+  "star_scores": {
+    "situation": 8,
+    "task": 6,
+    "action": 7,
+    "result": 5
+  },
+  "communication": {
+    "clarity": 7,
+    "conciseness": 5,
+    "structure": 6
+  },
+  "strengths": [
+    "Strong, relatable situations",
+    "Clear ownership in most answers",
+    "Good interpersonal awareness"
+  ],
+  "weaknesses": [
+    "Results lack metrics or impact",
+    "Answers often run too long",
+    "Task definition is sometimes vague"
+  ],
+  "patterns_detected": [
+    "Repeated missing quantification in results",
+    "Over-explaining context before getting to action",
+    "Weak closing statements"
+  ]
+}
+```
+
+---
+
+### ✅ What Makes Analysis Powerful
+
+* **Aggregates patterns**, not just isolated feedback
+* Quantifies performance (scores help benchmarking)
+* Identifies **repeatable issues**
+* Separates **content vs communication problems**
+
+---
+
+# 3) Coaching Insights (Actionable Improvement Plan)
+
+This is the most important layer.
+If this is weak, the whole system fails.
+
+Think:
+👉 “What should the candidate do differently starting NOW?”
+
+---
+
+### ✅ Example Coaching Insights
+
+```json
+{
+  "top_3_priorities": [
+    {
+      "issue": "Weak results section",
+      "why_it_matters": "Interviewers decide based on impact, not effort",
+      "fix": "End every answer with a measurable result (%, $, time saved, outcome)",
+      "example": "Instead of 'it improved team communication', say 'reduced delays by 30%'"
+    },
+    {
+      "issue": "Answers too long",
+      "why_it_matters": "Loses interviewer attention and signals lack of structure",
+      "fix": "Target 60–90 seconds per answer",
+      "tactic": "Use 1 sentence per STAR section"
+    },
+    {
+      "issue": "Weak task clarity",
+      "why_it_matters": "Interviewers can’t assess your responsibility",
+      "fix": "Explicitly state your role in one sentence",
+      "example": "'My responsibility was to resolve the conflict and align priorities'"
+    }
+  ],
+  "quick_wins": [
+    "Add numbers to at least 2 answers immediately",
+    "Practice 3 stories using strict STAR structure",
+    "Record yourself and trim answers by 20%"
+  ],
+  "practice_plan": {
+    "next_session_focus": "Results + conciseness",
+    "recommended_agent": "Story Architect",
+    "drill": "Answer 5 questions with a hard 60-second cap"
+  }
+}
+```
+
+---
+
+### ✅ What Great Coaching Feels Like
+
+* Specific (not “be more concise” → shows HOW)
+* Prioritized (not overwhelming)
+* Immediately actionable
+* Tied directly to observed behavior
+
+---
+
+# 4) Putting It All Together (Flow)
+
+Here’s the full system flow:
+
+1. **Transcript Layer**
+   → Captures everything (objective record)
+
+2. **Analysis Layer**
+   → Identifies patterns and scores performance
+
+3. **Coaching Layer**
+   → Converts patterns into actions
+
+---
+
+# 5) The Key Design Principle
+
+👉 **Transcript = What happened**
+👉 **Analysis = What it means**
+👉 **Coaching = What to do next**
+
+Most tools stop at #1 or #2.
+The real value—and differentiation—is in #3.
+
+---
+
+# 6) Common Mistakes to Avoid
+
+* ❌ Summarizing instead of logging real responses
+* ❌ Giving generic feedback (“be clearer”)
+* ❌ No pattern detection across answers
+* ❌ Too many improvement points (overwhelm)
+* ❌ No examples of “what good looks like”
+
+---
+
+# MOCK INTERVIEW and SCORING RUBRICS
+
+ **both**—a realistic, end-to-end mock interview (with transcript → analysis → coaching), followed by a **standardized scoring rubric** your entire agent system can reuse.
+
+---
+
+# 🎯 PART 1: Full Mock Interview (End-to-End)
+
+### **Session Context**
+
+* **Agent**: Realistic Hiring Manager
+* **Role**: Mid-level Product Manager
+* **Format**: 15–20 min behavioral interview
+* **Questions Asked**: 5
+
+---
+
+## 🧾 1) Interview Transcript (Structured JSON)
+
+```json
+{
+  "session_id": "pm_mock_001",
+  "agent": "Realistic Hiring Manager",
+  "interview_type": "15-20 min simulation",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Tell me about a time you had to manage conflicting priorities.",
+      "candidate_response": "In my previous role, I was working on two major projects at the same time. One was a product launch and the other was an internal tooling improvement. Both stakeholders wanted priority, and it became difficult to balance expectations. I spoke with both teams and tried to understand urgency. Then I worked on a plan to split resources and communicated timelines clearly. In the end, both projects were completed successfully.",
+      "star_evaluation": {
+        "situation": "clear",
+        "task": "partial",
+        "action": "moderate",
+        "result": "weak"
+      },
+      "behavioral_notes": [
+        "Clear context",
+        "Task ownership vague",
+        "Actions lack specificity",
+        "No measurable result"
+      ],
+      "agent_feedback": "Good setup, but your impact isn’t clear. What changed because of your actions?"
+    },
+    {
+      "id": 2,
+      "question": "Describe a time you influenced a stakeholder without authority.",
+      "candidate_response": "I worked with an engineering lead who disagreed with a feature prioritization. I explained the user impact and shared some data. After a few discussions, they agreed to move forward. It worked out well.",
+      "star_evaluation": {
+        "situation": "partial",
+        "task": "weak",
+        "action": "moderate",
+        "result": "weak"
+      },
+      "behavioral_notes": [
+        "Too high-level",
+        "Missing conflict depth",
+        "No clear persuasion strategy",
+        "No outcome detail"
+      ],
+      "agent_feedback": "This feels surface-level. Walk me through exactly how you influenced them."
+    },
+    {
+      "id": 3,
+      "question": "Tell me about a failure.",
+      "candidate_response": "I once launched a feature that didn’t perform well. Adoption was low, and we had to roll it back. I learned that I should validate ideas more before launching.",
+      "star_evaluation": {
+        "situation": "partial",
+        "task": "weak",
+        "action": "weak",
+        "result": "moderate"
+      },
+      "behavioral_notes": [
+        "Too brief",
+        "No ownership clarity",
+        "Learning mentioned but not deep",
+        "Missing specifics"
+      ],
+      "agent_feedback": "You’re being too general. What specifically went wrong and what would you do differently?"
+    },
+    {
+      "id": 4,
+      "question": "Describe a time you used data to make a decision.",
+      "candidate_response": "We noticed a drop in user engagement, so I looked at analytics and identified a drop-off point in onboarding. Based on that, we simplified the flow, and engagement improved.",
+      "star_evaluation": {
+        "situation": "clear",
+        "task": "clear",
+        "action": "moderate",
+        "result": "moderate"
+      },
+      "behavioral_notes": [
+        "Strong structure",
+        "Good use of data",
+        "Missing depth in analysis",
+        "No quantified result"
+      ],
+      "agent_feedback": "Solid example. Add specific metrics to strengthen this."
+    },
+    {
+      "id": 5,
+      "question": "Tell me about a time you had to handle a difficult team member.",
+      "candidate_response": "I had a teammate who was missing deadlines. I spoke to them and tried to understand what was going on. We aligned on expectations and improved communication. Things got better after that.",
+      "star_evaluation": {
+        "situation": "clear",
+        "task": "partial",
+        "action": "moderate",
+        "result": "weak"
+      },
+      "behavioral_notes": [
+        "Good interpersonal approach",
+        "Lacks depth in conflict",
+        "Resolution unclear",
+        "No measurable improvement"
+      ],
+      "agent_feedback": "Good intent, but I need to see clearer impact and outcome."
+    }
+  ]
+}
+```
+
+---
+
+## 📊 2) Interview Analysis (Diagnosis Layer)
+
+```json
+{
+  "overall_score": 6.3,
+  "hire_signal": "lean_no",
+  "confidence_level": "moderate_low",
+
+  "star_scores": {
+    "situation": 7,
+    "task": 5,
+    "action": 6,
+    "result": 4
+  },
+
+  "communication_scores": {
+    "clarity": 6,
+    "conciseness": 7,
+    "structure": 6,
+    "confidence": 6
+  },
+
+  "strengths": [
+    "Clear and relevant examples",
+    "Good baseline structure (attempts STAR)",
+    "Strong interpersonal awareness",
+    "Answers are concise and easy to follow"
+  ],
+
+  "weaknesses": [
+    "Results consistently lack metrics or impact",
+    "Actions are too high-level and generic",
+    "Task/ownership often unclear",
+    "Answers lack depth and differentiation"
+  ],
+
+  "patterns_detected": [
+    "No quantification across all 5 answers",
+    "Frequent use of vague language ('worked out well', 'things improved')",
+    "Insufficient detail in conflict and decision-making",
+    "Weak closing statements"
+  ]
+}
+```
+
+---
+
+## 🧠 3) Coaching Insights (Action Layer)
+
+```json
+{
+  "top_3_priorities": [
+    {
+      "issue": "Weak results across all answers",
+      "why_it_matters": "Interviewers judge impact, not effort",
+      "fix": "End every answer with a measurable or concrete outcome",
+      "example": "Instead of 'engagement improved', say 'increased onboarding completion by 25%'"
+    },
+    {
+      "issue": "Actions too vague",
+      "why_it_matters": "You don’t stand out without specific actions",
+      "fix": "Add 2–3 concrete steps you personally took",
+      "example": "Instead of 'I communicated with stakeholders', say 'I held 2 alignment meetings and created a shared roadmap doc'"
+    },
+    {
+      "issue": "Weak ownership in Task section",
+      "why_it_matters": "Interviewers need to understand your responsibility",
+      "fix": "Clearly state your role in one sentence",
+      "example": "'My responsibility was to prioritize resources and align both stakeholders'"
+    }
+  ],
+
+  "quick_wins": [
+    "Add at least one number to every answer",
+    "Replace vague phrases with specifics",
+    "Practice ending answers with a strong result sentence"
+  ],
+
+  "practice_plan": {
+    "next_session_focus": "Results + specificity",
+    "recommended_agent": "Story Architect",
+    "drill": "Answer 5 questions with forced metrics in every result"
+  }
+}
+```
+
+---
+
+# 🎯 PART 2: Universal Scoring Rubric System
+
+This is what keeps **all agents consistent**.
+
+---
+
+## 🧩 1) Core Scoring Dimensions (1–10 scale)
+
+### **A. STAR Framework (Primary)**
+
+| Dimension | What “10” Looks Like                   |
+| --------- | -------------------------------------- |
+| Situation | Clear, concise, relevant context       |
+| Task      | Explicit ownership and goal            |
+| Action    | Specific, structured, decision-driven  |
+| Result    | Quantified, outcome-focused, impactful |
+
+---
+
+### **B. Communication Quality**
+
+| Dimension   | What “10” Looks Like            |
+| ----------- | ------------------------------- |
+| Clarity     | Easy to follow, no confusion    |
+| Conciseness | No fluff, tight delivery        |
+| Structure   | Logical flow, clear transitions |
+| Confidence  | Assertive, no hedging           |
+
+---
+
+### **C. Behavioral Signals**
+
+| Dimension       | What “10” Looks Like             |
+| --------------- | -------------------------------- |
+| Ownership       | Takes clear responsibility       |
+| Problem-Solving | Shows reasoning and trade-offs   |
+| Impact          | Demonstrates business/user value |
+| Self-Awareness  | Reflects and learns clearly      |
+
+---
+
+## 🧮 2) Weighted Scoring Model
+
+```json
+{
+  "weights": {
+    "star": 0.5,
+    "communication": 0.3,
+    "behavioral": 0.2
+  }
+}
+```
+
+---
+
+## 📏 3) Rating Scale Definition (Standardized)
+
+| Score | Meaning                  |
+| ----- | ------------------------ |
+| 9–10  | Strong hire signal       |
+| 7–8   | Solid, minor gaps        |
+| 5–6   | Mixed, needs improvement |
+| 3–4   | Weak, below bar          |
+| 1–2   | Major issues             |
+
+---
+
+## 🔁 4) Agent Adaptation Rules
+
+All agents use the **same rubric**, but differ in emphasis:
+
+* **High-Pressure Panelist** → weights Action + Result more heavily
+* **Supportive Coach** → emphasizes Structure + Clarity
+* **Drill Sergeant** → focuses on Conciseness + Coverage
+* **Story Architect** → deep evaluation of STAR completeness
+
+---
+
+## 🧠 5) Pattern Detection Layer (Critical)
+
+System automatically flags:
+
+* Missing metrics → “weak result pattern”
+* Long answers → “conciseness issue”
+* Vague actions → “low differentiation”
+* Weak ownership → “task clarity issue”
+
+---
+
+# 🔑 Final Takeaway
+
+A strong system is:
+
+* **Structured (JSON transcript)**
+* **Analytical (pattern detection)**
+* **Actionable (clear coaching priorities)**
+
+👉 The magic is not in asking questions
+👉 It’s in turning answers into **repeatable improvement**
+
+---
+

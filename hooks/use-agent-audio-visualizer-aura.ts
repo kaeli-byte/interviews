@@ -5,6 +5,7 @@ import {
   useMotionValue,
   useMotionValueEvent,
 } from 'framer-motion';
+import { useAudioAnalyser, type AudioAnalysisData } from './use-audio-analyser';
 
 // Agent state type (local definition, not from LiveKit)
 export type AgentState =
@@ -47,7 +48,10 @@ function useAnimatedValue<T>(initialValue: T) {
   return { value, motionValue, controls: controlsRef, animate: animateFn };
 }
 
-export function useAgentAudioVisualizerAura(state: AgentState | undefined) {
+export function useAgentAudioVisualizerAura(
+  state: AgentState | undefined,
+  analyser?: AnalyserNode | null
+) {
   const [speed, setSpeed] = useState(DEFAULT_SPEED);
   const {
     value: scale,
@@ -57,6 +61,13 @@ export function useAgentAudioVisualizerAura(state: AgentState | undefined) {
   const { value: amplitude, animate: animateAmplitude } = useAnimatedValue(DEFAULT_AMPLITUDE);
   const { value: frequency, animate: animateFrequency } = useAnimatedValue(DEFAULT_FREQUENCY);
   const { value: brightness, animate: animateBrightness } = useAnimatedValue(DEFAULT_BRIGHTNESS);
+
+  // Audio analysis - reactive when speaking or listening
+  const isAudioReactive = state === 'speaking' || state === 'listening';
+  const audioData = useAudioAnalyser({
+    analyser,
+    enabled: isAudioReactive
+  });
 
   useEffect(() => {
     switch (state) {
@@ -96,14 +107,29 @@ export function useAgentAudioVisualizerAura(state: AgentState | undefined) {
     }
   }, [state, animateScale, animateAmplitude, animateFrequency, animateBrightness]);
 
-  // Optional: add volume-based scale animation when speaking
-  // For now, we keep a static scale since we don't have audio volume data
+  // Audio-reactive animations - modulate parameters based on audio levels
   useEffect(() => {
-    if (state === 'speaking' && !scaleMotionValue.isAnimating()) {
-      // Subtle pulse when speaking
-      animateScale([0.25, 0.35], { duration: 0.3, repeat: Infinity, repeatType: 'mirror' });
+    if (!isAudioReactive || !audioData.volume) return;
+
+    // Map audio volume to visual parameters
+    const volumeScale = 0.25 + audioData.volume * 0.2; // 0.25-0.45
+    const bassAmplitude = 0.5 + audioData.bass * 0.5; // 0.5-1.0
+    const trebleFrequency = 0.8 + audioData.treble * 0.5; // 0.8-1.3
+    const volumeBrightness = 1.0 + audioData.volume * 1.0; // 1.0-2.0
+
+    // Smoothly animate to audio-driven values
+    if (state === 'speaking') {
+      // More reactive during speaking
+      animateScale(volumeScale, { duration: 0.1 });
+      animateAmplitude(bassAmplitude, { duration: 0.1 });
+      animateFrequency(trebleFrequency, { duration: 0.1 });
+      animateBrightness(volumeBrightness, { duration: 0.1 });
+    } else if (state === 'listening') {
+      // Subtle reaction during listening (user is speaking)
+      animateScale(0.3 + audioData.volume * 0.1, { duration: 0.15 });
+      animateBrightness(1.5 + audioData.volume * 0.5, { duration: 0.15 });
     }
-  }, [state, scaleMotionValue, animateScale]);
+  }, [audioData, isAudioReactive, state, animateScale, animateAmplitude, animateFrequency, animateBrightness]);
 
   return {
     speed,
@@ -111,5 +137,6 @@ export function useAgentAudioVisualizerAura(state: AgentState | undefined) {
     amplitude,
     frequency,
     brightness,
+    audioData: isAudioReactive ? audioData : undefined,
   };
 }

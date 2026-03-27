@@ -5,6 +5,7 @@ import SetupScreen from '@/components/SetupScreen';
 import InterviewScreen from '@/components/InterviewScreen';
 import DebriefScreen from '@/components/DebriefScreen';
 import PersonaScreen from '@/components/PersonaScreen';
+import SimulationScreen from '@/components/SimulationScreen';
 import { AppLayout } from '@/components/AppLayout';
 import { TranscriptEntry, DebriefReport, AgentId, CandidatePersona } from '@/lib/types';
 import { DEFAULT_AGENT_ID } from '@/lib/agents';
@@ -214,15 +215,23 @@ export default function MyCareerApp() {
           />
         )}
         {step === 'interview' && (
-          <InterviewScreen
-            duration={interviewData.duration}
-            onFinish={handleFinishInterview}
-            resume={interviewData.resume}
-            jobDescription={interviewData.jobDescription}
-            selectedAgent={interviewData.selectedAgent}
-            simulationMode={simulationMode}
-            candidatePersona={interviewData.candidatePersona || undefined}
-          />
+          simulationMode ? (
+            <SimulationScreen
+              candidatePersona={interviewData.candidatePersona!}
+              selectedAgent={interviewData.selectedAgent}
+              resume={interviewData.resume}
+              jobDescription={interviewData.jobDescription}
+              onFinish={handleFinishInterview}
+            />
+          ) : (
+            <InterviewScreen
+              duration={interviewData.duration}
+              onFinish={handleFinishInterview}
+              resume={interviewData.resume}
+              jobDescription={interviewData.jobDescription}
+              selectedAgent={interviewData.selectedAgent}
+            />
+          )
         )}
         {step === 'debrief' && (
           <DebriefScreen

@@ -374,6 +374,12 @@ export interface AgentAudioVisualizerAuraProps {
    * @defaultValue 'dark'
    */
   themeMode?: 'dark' | 'light';
+  /**
+   * Optional AnalyserNode for audio-reactive animations.
+   * When provided and state is 'speaking' or 'listening', the visualizer
+   * will react to audio levels in real-time.
+   */
+  analyser?: AnalyserNode | null;
 }
 
 /**
@@ -396,13 +402,14 @@ export function AgentAudioVisualizerAura({
   color = DEFAULT_COLOR,
   colorShift = 0.05,
   themeMode,
+  analyser,
   className,
   ref,
   ...props
 }: AgentAudioVisualizerAuraProps &
   ComponentProps<'div'> &
   VariantProps<typeof AgentAudioVisualizerAuraVariants>) {
-  const { speed, scale, amplitude, frequency, brightness } = useAgentAudioVisualizerAura(state);
+  const { speed, scale, amplitude, frequency, brightness } = useAgentAudioVisualizerAura(state, analyser);
 
   return (
     <AuraShader
